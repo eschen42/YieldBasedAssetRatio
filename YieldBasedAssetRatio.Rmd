@@ -47,9 +47,9 @@ Graham weighed the value of stock investments against the alternative of investi
 
  > A reasonably sound central value, or intrinsic value, of the Dow-Jones list can be ascertained by capitalizing the average earnings for the past ten years on a basis equivalent to twice the yield of high-grade bonds.^[Benjamin Graham, 1959. *The Intelligent Investor: a book of practial counsel*, second revised edition. Harper. [https://lccn.loc.gov/59009946](https://lccn.loc.gov/59009946), p. 267.]
 
-Graham generalized this in his "margin of safety" principle [2], stating informally, in 1972:
+Graham generalized this in his "margin of safety" principle^[*Ibid.*, pp. 512--524.], stating informally, in 1972:
 
-> The margin of safety is the difference between percentage rate of the earnings on the stock as the price you pay for it and the rate of interest on bonds, and that margin of safety is the difference which would absorb unsatisfactory developments.^["Benjamin Graham: Thoughts on Security Analysis" [transcript of lecture at the Northeast Missouri State University business school, March, 1972], Financial History, no. 42, March, 1991, pp. 8-10 and 28-29. [https://archive.org/details/friendsoffinanci00rmsm_38/page/8/mode/2up ](https://archive.org/details/friendsoffinanci00rmsm_38/page/8/mode/2up).]
+> The margin of safety is the difference between percentage rate of the earnings on the stock as the price you pay for it and the rate of interest on bonds, and that margin of safety is the difference which would absorb unsatisfactory developments.^["Benjamin Graham: Thoughts on Security Analysis" [transcript of lecture at the Northeast Missouri State University business school, March, 1972], Financial History, no. 42, March, 1991, pp. 8--10 and 28--29. [https://archive.org/details/friendsoffinanci00rmsm_38/page/8/mode/2up ](https://archive.org/details/friendsoffinanci00rmsm_38/page/8/mode/2up).]
 
 Graham did not insist that the ratio of stocks to bonds in a portfolio be invariant under all circumstances:
 
