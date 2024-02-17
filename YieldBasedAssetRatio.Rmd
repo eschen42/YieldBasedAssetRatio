@@ -156,9 +156,9 @@ $$
   - \(\textbf{T}\) = 4.14%, the average current nominal yield for GS10 since 1911.^[The formula is not sensitive to this parameter; increasing \(\textbf{T}\) to 6.5% has little impact on the formula's performance.]
   - \(\textbf{X}\) = the "expected P/E10",^[John Tukey's "median-median line" (https://en.wikipedia.org/wiki/Median#Median%E2%80%93median_line) was used to estimate expected P/E10 rather than a least squares line because distribution of the P/E10 deviates considerably from normality. This is shown in Figure 12 in the Appendix.] computed as:
 $$
-  \boxed{ \textbf{X} = (\text{date in years}) \times 0.0578777 - 95.694931 }
+  \boxed{ \textbf{X} = (\text{date in years}) \times 0.058784736 - 97.431912 }
 $$
-    - e.g., \( \textbf{X} = 21.45 \) for January 2024.
+    - e.g., \( \textbf{X} = 21.54 \) for January 2024.
 
 ```{r echo=FALSE, results='asis'}
 cat("\n\\newpage\n")
