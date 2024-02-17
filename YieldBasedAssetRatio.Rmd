@@ -1,6 +1,6 @@
 ---
 title: "A Yield-Based Asset Ratio to Boost Minimum Investment Returns"
-author: "Arthur C. Eschenlauer"
+author: "Arthur C. Eschenlauer (https://orcid.org/0000-0002-2882-0508)"
 date: "`r Sys.Date()`"
 output:
   pdf_document:
@@ -298,13 +298,17 @@ Figure 8 on the next page shows that the YBAR would be beneficial for intervals 
 knitr::include_graphics("img/fig5b_min_by_year_margin.pdf")
 ```
 
+```{r echo=FALSE, results='asis'}
+cat("\n\\newpage\n")
+```
+
 # Discussion
 
 This analysis demonstrates that, when yields are low, a fixed-percentage allocation does not buffer market declines as effectively as the yield-based asset ratio and produces less total return over the medium term (20 years or more).  This implies that it is more sensible to consider what yields the market is offering in the present moment than to speculate, with no rational basis, that stocks will consistently outperform bonds within any given time frame.
 
 This analysis further demonstrates that the YBAR is no panacea.  Although the YBAR produces minimum returns greater than fixed-percentage allocations for intervals greater than ten years, returns are meager (CAGR < 2%) for intervals of less than 20 years.  A funding shortfall (or reduced budget) is a very real possibility unless nearer term expenses are funded by less volatile assets, insurance products, or buffer assets.
 
-The formula presented is in fact somewhat of a template.  The criteria and parameter values chosen here for demonstration purposes were selected on the basis of many trials to give satisfactory performance (data not shown), but each investor may see their own basis for estimating intrinsic value and may choose different parameters.  The inverse of the P/E ratio can be substituted as the definition of earnings yield with only a modest decrease in performance (data not shown).  Whatever one chooses, it would be best test any variant of the formula against the historical record.
+The formula presented is in fact somewhat of a template.  The criteria and parameter values chosen here for demonstration purposes were selected on the basis of many trials to give satisfactory performance (data not shown^[These are explored at [https://eschenlauer.com/investing/risk_based_allocation/YBAR_intro.html](https://eschenlauer.com/investing/risk_based_allocation/YBAR_intro.html).]), but each investor may see their own basis for estimating intrinsic value and may choose different parameters.  The inverse of the P/E ratio can be substituted as the definition of earnings yield with only a modest decrease in performance (data not shown^[*Ibid.*]).  Whatever criteria and parameters one chooses, it would be best test any variant of the formula against the historical record.
   
 ## Limitations of the analysis
 
@@ -354,6 +358,14 @@ cat("\n\\newpage\n")
 
 # Appendix
 
+## Calculator
+
+A calculator to compute minimum and maximum stock percentage from P/E10 and GS10 is available at:
+
+> https://eschenlauer.com/investing/risk_based_allocation/ComputeMOSStockPercentage.html
+
+## Supplementary figures
+
 ```{r echo=FALSE, out.width=400, fig.align='center', fig.cap='Bond current yield is modestly predictive of ten-year real return.'}
 knitr::include_graphics("img/fig6_bond_yield_return_corr.pdf")
 ```
@@ -362,7 +374,8 @@ knitr::include_graphics("img/fig6_bond_yield_return_corr.pdf")
 knitr::include_graphics("img/fig7_E10P_yield_return_corr.pdf")
 ```
 
-```{r echo=FALSE, out.width=325, fig.align='center', fig.cap="Chart from Tomlinson, 1953,  illustrating how gradually adjusting stock allocation between a minimum and a maximum in response to Graham's \"central value\" can (hypothetically) enhance results under some circumstances (notably matching stock performance but with less volatility at times when interest rates were competitive with stock earnings yields)."}
+```{r echo=FALSE, out.width=325, fig.align='center', fig.cap="Chart from Tomlinson, 1953,  illustrating how gradually adjusting stock allocation between a minimum and a maximum in response to Graham's \"central value\" can (hypothetically) enhance results under some circumstances (notably, matching stock performance but with less volatility) at times when interest rates were competitive with stock earnings yields (as McQuarrie has shown to have been the case over the past two centuries excepting the 1941--1981 period)."}
+
 knitr::include_graphics("fig9_Tomlinson_1953_Chart11.jpg")
 ```
 
@@ -370,3 +383,4 @@ knitr::include_graphics("fig9_Tomlinson_1953_Chart11.jpg")
 ```{r echo=FALSE, out.width=400, fig.align='center', fig.cap='Fitting a Tukey line to P/E10 shows a trend of gradual increase.'}
 knitr::include_graphics("fig10_PE10_trend.pdf")
 ```
+
