@@ -895,7 +895,7 @@ for (my_variant in for_variants) {
       xlim = my_xlim,
       ylim = my_ylim,
       xlab = "", # "date",
-      ylab = "growth relative to July 1961",
+      ylab = "real growth relative to July 1961",
       axes = FALSE, #yaxp = c(.001, 100, 1),
       main = "Relative cumulative value" #, sub = "100% of proceeds reinvested"
       )
