@@ -15,6 +15,8 @@ sqlite3 graham.sqlite < graham_parm.sql
 
 # in R
 source("render_figures.R")
+
+# in RStudio, knit YieldBasedAssetRatio.Rmd
 ```
 
 ### To modify parameters
