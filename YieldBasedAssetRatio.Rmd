@@ -35,7 +35,7 @@ A retirement may last forty years or more; funding it requires a decumulation st
 
 Current conventional wisdom posits that a fixed-percentage stock allocation can provide a fair-to-good balance between returns and risk of loss (depending on the percentage chosen), but how reliable is that balance in the intermediate term, e.g., over 20 years? Historically, during protracted intervals when yields were generally low, fixed-percentage stock allocations neither buffered stock-market price declines dramatically nor provided income efficiently.
 
-For example, total real returns for the Standard & Poor's 500 stock index (SP500) were painfully low over 20-year intervals starting in 1912, 1929, and 1961, and they were barely competitive with bonds over 1988–2008. One may argue that September 1961 started the worst 20-year interval since 1911 because, between 1969 and 1981, real returns from both SP500 and 10-year US Treasury bonds (GS10) were so minimal that SP500 had real growth of only 7% over the entire twenty years starting March of 1962 (compound annual growth rate, CAGR: 0.34%), while GS10 lost 33% of its value (CAGR: –1.98%); fixed-percentage portfolios would have performed between these rates of return.
+For example, total real returns for the Standard & Poor's 500 stock index (SP500) were painfully low over 20-year intervals starting in 1912, 1929, and 1961, and they were barely competitive with bonds over 1988–2008. One may argue that September 1961 started the worst 20-year interval since 1911 because, between 1969 and 1981, real returns from both SP500 and 10-year US Treasury bonds (GS10) were so minimal that SP500 had real growth of only 7% over the entire twenty years starting March of 1962 (compound annual growth rate, CAGR: 0.34%), while GS10 lost 33% of its value (CAGR: –1.98%); portfolios having a fixed-percentage stock allocation would have performed between these rates of return.
 
 ## Historical perspective
 
@@ -237,9 +237,9 @@ The factor $\frac{3 \times \textbf{B}}{\textbf{T}}$ was deduced from performance
 cat("\n\\newpage\n")
 ```
 
-Figure 2 illustrates these maximium and minimum stock percentages when the current earnings yield for GS10 is 4.14% (i.e., $\textbf{T}$).
+Figure 2 illustrates these maximium and minimum stock percentage limits when the current yield for GS10 is 4.14% (i.e., $\textbf{T}$).
 
-```{r echo=FALSE, out.width=400, fig.align='center', fig.cap='Minimum and maximum stock percentage for bond current yield of 4.14%. Solid red line represents minimum stock percentage. Dashed blue line represents maximum stock percentage.  Dotted red line represents deviation beyond minimum stock percentage that triggers stock purchase; dotted blue line, maximum stock percentage that triggers stock sale.'}
+```{r echo=FALSE, out.width=400, fig.align='center', fig.cap='Minimum and maximum stock percentage for bond current yield of 4.14%. Solid red line represents minimum stock percentage. Dashed blue line represents maximum stock percentage.  Dotted red line represents the deviation beyond the minimum stock percentage that triggers stock purchase. Dotted blue line represents the deviation beyond the maximum stock percentage that triggers stock sale.'}
 knitr::include_graphics("img/fig2_boundaries_mos.pdf")
 ```
 
@@ -275,7 +275,7 @@ The next two figures illustrate the cumulative effect of the YBAR, a 6% stock al
 cat("\n\\newpage\n")
 ```
 
-Figure 5 shows the hypothetical results for 1911--2022; the YBAR produced returns roughly as well as the 85% stock allocation did since 1961.
+The top panel of Figure 5 shows the hypothetical results for 1911--2022; the YBAR produced returns roughly as well as the 85% stock allocation did since 1961.
 The red solid portions of the curve in the middle panel indicate the (comparatively few) times that sales or purchases of stock were required because of deviation of the percentage stock allocation more than 6% beyond the threshold.  The bottom panel illustrates the yield premium (or shortfall) for SP500 relative to GS10.
 
 ```{r echo=FALSE, out.width=380, fig.align='center', fig.cap='Top panel, comparative cumulative performance of four allocations since 1911: YBAR, 6% stock, 60% stock, and 85% stock, relative to September, 1961. Middle panel, resulting percent stock allocation for the YBAR; red portions of the curve reflect trading driven by the maximum and minimum allocations specified by the formula.  Bottom panel, the yield premium (or shortfall) for SP500 relative to GS10'}
@@ -286,7 +286,7 @@ knitr::include_graphics("img/fig4_cumulative_all.pdf")
 cat("\n\\newpage\n")
 ```
 
-Figure 6 presents the same data as Figure 5, but restricted to 1962--1985; the YBAR recovered much better from the hiccup at the end of 1975 than did any of the fixed-percentage stock allocations.
+Figure 6 presents the same data as Figure 5, but restricted to 1962--1985; the YBAR recovered much better from the hiccups in 1975 and 1980 than did any of the fixed-percentage stock allocations. The advantage of the 6% stock portfolio in 1962 and 1974 proved to be short lived.
 
 ```{r echo=FALSE, out.width=380, fig.align='center', fig.cap='Top panel, comparative cumulative performance of four allocations for 1962--1985: YBAR, 6% stock, 60% stock, and 85% stock, relative to September, 1961. Middle panel, resulting percent stock allocation for the YBAR; red portions of the curve reflect trading driven by the maximum and minimum allocations specified by the formula.  Bottom panel, the yield premium (or shortfall) for SP500 relative to GS10'}
 knitr::include_graphics("img/fig5_cumulative_detail.pdf")
@@ -312,7 +312,7 @@ cat("\n\\newpage\n")
 ```
 ### The YBAR increased minimum returns over intervals greater than ten years
 
-Figure 8 shows that the YBAR would be beneficial for intervals of length greater than ten years.  Notably, the minimum return for the YBAR only exceeds 1% compound annual growth rate for intervals of seventeen years and beyond, reinforcing the point that shorter term expenses might better be funded with less volatile assets.
+Figure 8 shows that the YBAR would be beneficial for intervals of length greater than ten years.  Notably, the minimum return for the YBAR only exceeds 1% compound annual growth rate for intervals of seventeen years and beyond, reinforcing the point that shorter term expenses would better be funded with less volatile assets.
 
 ```{r echo=FALSE, out.width=400, fig.align='center', fig.cap='Minimum returns of four allocations versus starting date over varying interval lengths for YBAR, 6% stock, 60% stock, and 85% stock.'}
 knitr::include_graphics("img/fig5b_min_by_year_margin.pdf")
@@ -322,9 +322,9 @@ knitr::include_graphics("img/fig5b_min_by_year_margin.pdf")
 
 This analysis demonstrates that, when yields are low, a fixed-percentage stock allocation does not buffer market declines as effectively as the yield-based asset ratio and produces less total return over the medium term (20 years or more).  This implies that it is wiser to consider what yields the market is offering in the present moment than to speculate (with no rational basis) that stocks will consistently outperform bonds within any given time frame.
 
-This analysis further demonstrates that the YBAR is no panacea.  Although the YBAR produces minimum returns greater than fixed-percentage stock allocations for intervals greater than ten years, returns are meager (CAGR < 2%) for intervals of less than 20 years.  A funding shortfall (or reduced budget) is a very real possibility unless nearer-term expenses are funded by less volatile assets, insurance products, or buffer assets.
+This analysis further demonstrates that the YBAR is no panacea.  Although the YBAR produces minimum returns greater than fixed-percentage stock allocations for intervals greater than ten years, minimum returns are meager (CAGR < 2%) for intervals of less than 20 years.  A funding shortfall (or reduced budget) is a very real possibility unless nearer-term expenses are funded by less volatile assets, insurance products, or buffer assets.
 
-To some degree, the formula presented here may be considered a template.  The criteria and parameter values chosen here for demonstration purposes were selected on the basis of many trials to give satisfactory performance (data not shown^[These are explored at [https://eschenlauer.com/investing/risk_based_allocation/YBAR_intro.html](https://eschenlauer.com/investing/risk_based_allocation/YBAR_intro.html).]), but each investor may see their own basis for estimating intrinsic value and may choose different parameters.  For example, the inverse of the P/E ratio may be substituted as the definition of earnings yield with only a modest decrease in performance (data not shown^[*Ibid.*]).  Whatever criteria and parameters one chooses, it would be better to test any variant of the formula against the historical record.
+The formula presented here may be considered a template.  The criteria and parameter values chosen here for demonstration purposes were selected on the basis of many trials to give satisfactory performance (data not shown^[These are explored at [https://eschenlauer.com/investing/risk_based_allocation/YBAR_intro.html](https://eschenlauer.com/investing/risk_based_allocation/YBAR_intro.html).]), but each investor may see their own basis for estimating intrinsic value and may choose different parameters.  For example, the inverse of the P/E ratio may be substituted as the definition of earnings yield with only a modest decrease in performance (data not shown^[*Ibid.*]).  Whatever criteria and parameters one chooses, it would be better to test any variant of the formula against the historical record.
 
 ```{r echo=FALSE, results='asis'}
 cat("\n\\newpage\n")
@@ -343,7 +343,7 @@ There are several important limitations to consider when interpreting these resu
 - Neither survivorship bias in the S&P 500 index nor bond default rates are part of this analysis.
 - This analysis implicitly assumes that intermediate-to-long term investments are held in a tax-deferred or tax-exempt account.  No attempt is made here to compare the after-tax returns of a constant percentage allocation with those of a YBAR allocation.
 - This analysis assumes the use of index funds so that expenses and commissions may be neglected.
-- No attempt was made to incorporate into the formula money market funds as an alternative to investing in bonds.
+- No attempt was made to incorporate money market funds into the formula as an alternative to investing in bonds.
 
 ## "Is this risk management, or is it speculation?"
 
@@ -353,11 +353,11 @@ One does well to be mindful of both the price paid and the security of the princ
 An uncritical assessment might mistake this formula for so-called "market timing", a term chosen to imply a speculative operation that makes guesses about the future, i.e., when stock prices have reached a maximum or minimum.
 Rather than seeking to mitigate any anticipated "turn of the tide", this approach responds incrementally and proportionately to *present* yields, without guessing how they might change.
 
-Fixed-percentage stock allocation has as its basis the speculative assumption that, regardless of the prices paid, stock prices will ultimately rise so quickly that capital appreciation of stocks will make up for any excessive cost by the time that the investor needs money. Graham discourages such wishful thinking.^[Graham, 2003. *Op. cit.*, p. 18.: "An investment operation is one which, upon thorough analysis, promises safety of principal and an adequate return. Operations not meeting these requirements are speculative."]  It seems defensible to heed the advice of Benjamin Graham and to rely upon substantiated, objective, and analytical reason^[Graham, 2003. *Op. cit.*, p. 524.: "If you have formed a conclusion from the facts and if you know your judgment is sound, act on it – even though others may hesitate or differ. (You are neither right nor wrong because the crowd disagrees with you. You are right because your data and reasoning are right.) "], without regard to whether others choose to label such activity as "market timing".
+Fixed-percentage stock allocation has as its basis the speculative assumption that, regardless of the prices paid, stock prices will ultimately rise so quickly that capital appreciation of stocks will make up for any excessive cost by the time that the investor needs money. Benjamin Graham discourages such wishful thinking.^[Graham, 2003. *Op. cit.*, p. 18.: "An investment operation is one which, upon thorough analysis, promises safety of principal and an adequate return. Operations not meeting these requirements are speculative."]  It seems defensible to heed the advice of Graham and to rely upon substantiated, objective, and analytical reason^[Graham, 2003. *Op. cit.*, p. 524.: "If you have formed a conclusion from the facts and if you know your judgment is sound, act on it – even though others may hesitate or differ. (You are neither right nor wrong because the crowd disagrees with you. You are right because your data and reasoning are right.) "], without regard to whether others choose to label such activity as "market timing".
 
 ## Previous work
 
-In 1953, Lucile Tomlinson^[Tomlinson, 1953. *Op. cit.*, pp. 232-238.] described one endowment fund's "compromise solution" that augmented capital appreciation by staggering the "buy" and "sell" thresholds of a variable allocation ratio. On the basis of Graham's "central value", that investment formula provided a modestly large number of incremental steps when varying percentage of stock. However, for 1961--1981, that formula's resistance to stock-price declines and its potential for capital appreciation would have been respectively hampered by its generous 40% minimum stock allocation and its limited 60% maximum percentage of stock (data not shown). Even so, its hypothetical annualized performance would have exceeded (by 115 basis points) that of a 50% stock portfolio for 1924--1952.^[*Ibid.*]
+In 1953, Lucile Tomlinson^[Tomlinson, 1953. *Op. cit.*, pp. 232-238.] described one endowment fund's "compromise solution" that augmented capital appreciation by staggering the "buy" and "sell" thresholds of a variable stock-percentage allocation. On the basis of Graham's "central value", that investment formula provided a modestly large number of incremental steps when varying percentage of stock. However, for 1961--1981, that formula's resistance to stock-price declines and its potential for capital appreciation would have been respectively hampered by its generous 40% minimum stock allocation and its limited 60% maximum percentage of stock (data not shown). Even so, its hypothetical annualized performance would have exceeded (by 115 basis points) that of a 50% stock portfolio for 1924--1952.^[*Ibid.*]
 
 Wade Pfau published two papers showing that "Valuation-Based Asset Allocation" can offer a higher theoretical "safe withdrawal rate" in retirement^[Pfau, Wade D., Long-Term Investors and Valuation-Based Asset Allocation (2011). Available at SSRN: https://dx.doi.org/10.2139/ssrn.2544636; and Pfau, Wade D., Withdrawal Rates, Savings Rates, and Valuation-Based Asset Allocation (2011). Available at SSRN: https://dx.doi.org/10.2139/ssrn.2544635.].  Those works explored step-wise allocations among two or three coarsely grained stock percentage levels (in contrast to the increments of 6% taken in this paper), and determination of the stock percentage did not consider the current yield of bonds.
 Although Pfau focused on 30-year returns (which may be fewer years than one might expect their retirement to last but which may be longer than one can wait before needing access to some of the invested principal), Pfau also addressed this by comparing intervals from 1--60 years.
@@ -367,7 +367,7 @@ Although Pfau focused on 30-year returns (which may be fewer years than one migh
 Because of its high minimum intermediate-term return over the course of the historical record, the YBAR addresses what may be the retiree's greatest concern, i.e., maintaining the principal value of capital while seeking its growth.
 Fixed-percentage stock allocations would have outperformed the YBAR when yields were high, but those high yields would address any concern that the principal value might decline.
 The YBAR does not generally sacrifice much of the upside of an aggressive fixed allocation.
-The volatile stock percentage specified by the YBAR seems preferable to the greater downward volatility that depresses the minimum intermediate-term returns seen for fixed-percentage stock allocations.
+The volatile stock percentage specified by the YBAR seems preferable to occasional greater downward volatility of stock prices that can substantially depress the minimum intermediate-term returns seen for fixed-percentage stock allocations.
 Near-term expenses (within 20 years) cannot dependably be funded by volatile assets, regardless of whether one uses the YBAR or a fixed-percentage stock allocation.
 
 # Software availability
