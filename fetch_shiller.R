@@ -83,7 +83,7 @@ if (!file.exists(local_db)) {
         )
       }
     )
-  expected_pe <-
+  expected_pe_df <-
     data.frame(
       trend = "P/E10",
       intercept = signif(Xpe10$coefficients[1], 8),
@@ -123,9 +123,9 @@ if (!file.exists(local_db)) {
         )
       }
     )
-  expected_pe <-
+  expected_pe_df <-
     rbind(
-      expected_pe,
+      expected_pe_df,
       data.frame(
         trend = "P/E",
         intercept = signif(Xpe$coefficients[1], 8),
@@ -135,7 +135,7 @@ if (!file.exists(local_db)) {
   
   con <- RSQLite::dbConnect(RSQLite::SQLite(), "graham.sqlite")
   RSQLite::dbWriteTable(con, "shiller_data", shiller_data, overwrite = TRUE)
-  RSQLite::dbWriteTable(con, "expected_pe", expected_pe, overwrite = TRUE)
+  RSQLite::dbWriteTable(con, "expected_pe", expected_pe_df, overwrite = TRUE)
   
   RSQLite::dbDisconnect(con)
   rm(con)

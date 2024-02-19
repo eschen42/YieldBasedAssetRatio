@@ -11,7 +11,7 @@ This software generates results consumed by the `YieldBasedAssetRatio.Rmd` scrip
 source("fetch_shiller.R")
 
 # in bash
-sqlite3 < graham_parm.sql
+sqlite3 graham.sqlite < graham_parm.sql
 
 # in R
 source("render_figures.R")

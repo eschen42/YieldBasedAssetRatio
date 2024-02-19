@@ -1,19 +1,13 @@
-if (FALSE) {
-  img_ext <- function(s) paste0(s, ".svg")
-  img <- svg
-} else {
-  img_ext <- function(s) paste0(s, ".pdf")
-  img <- pdf
-}
 my_variants <-
   c(
     "e10p",         # 1
-    "ep",           # 3
-    "ep_margin",    # 4
-    "old_paper",    # 5
-    "e10p_margin"   # 2
+    "ep",           # 2
+    "ep_margin",    # 3
+    "e10p_margin",  # 4
+    "old_paper"     # 5
     )
-my_variant <- my_variants[1]
+# note: "old_paper" generates images for
+#  https://eschenlauer.com/investing/risk_based_allocation/YBAR_intro.html
 
 if (!dir.exists("img")) { dir.create("img")}
 cp_img <-
@@ -23,6 +17,8 @@ cp_img <-
       }
     }
 
+# images for
+#  https://eschenlauer.com/investing/risk_based_allocation/YBAR_intro.html
 if (!dir.exists("ybar_img_old")) { dir.create("ybar_img_old")}
 cp_old <-
   function(src, dst) {
@@ -32,9 +28,17 @@ cp_old <-
       }
     }
 
-#ACE for_variants <- my_variants[3]
 for_variants <- my_variants
+#ACE for_variants <- my_variants[4]
 for (my_variant in for_variants) {
+  OLD_PAPER <- (my_variant == "old_paper")
+  if (OLD_PAPER) {
+    img_ext <- function(s) paste0(s, ".svg")
+    img <- svg
+  } else {
+    img_ext <- function(s) paste0(s, ".pdf")
+    img <- pdf
+  }
   update_sql <-
     switch (
       my_variant,
@@ -156,8 +160,6 @@ for (my_variant in for_variants) {
         ")
     )
 
-  OLD_PAPER <- (my_variant == "old_paper")
-
   if (OLD_PAPER) {
     my_dbname <- "graham.sqlite"
     my_parm_f <-
@@ -175,7 +177,6 @@ for (my_variant in for_variants) {
       RSQLite::dbExecute(my_conn, update_sql)
     }
   }
-
 
   my_dbname |> my_parm_f()
 
@@ -300,7 +301,7 @@ for (my_variant in for_variants) {
       sprintf("T = %0.4f; H = %0.2f", parm_df$T, parm_df$H),
       sprintf("H = %0.2f", parm_df$H)
       )
-  parm_coda <-  sprintf("H = %0.2f", parm_df$H)
+  #parm_coda <-  sprintf("H = %0.2f", parm_df$H)
 
   my_lwd <- c(3, 1.5, 3, 1.5)
   my_lty <- c("solid",      "dotdash",    "twodash",         "dashed")
@@ -650,6 +651,11 @@ for (my_variant in for_variants) {
     }
     )
 
+    if (!OLD_PAPER) {
+      my_sub = sprintf("D = %0.2f", parm_df$trgr)
+    } else {
+      my_sub = ""
+    }
     my_xlim <- c(0.02, 0.1)
     tryCatch({
       img(img_ext("min_max_stock_at_4pt14pct"), width = 650/72, height = 650/72)
@@ -659,6 +665,7 @@ for (my_variant in for_variants) {
         col = "red",
         lty = "solid",
         main = "Minimum and maximum stock proportion vs. earnings yield",
+        sub = my_sub,
         xlab = "stock earnings yield",
         ylab = "stock proportion, when nominal bond current yield = 4.14%",
         xaxp = c(0, .1, 10),
@@ -681,60 +688,113 @@ for (my_variant in for_variants) {
         ylim = c(0, 1)
         )
       par(new=TRUE)
-      plot(
-        #function(x)  1.8 * f_margin_of_safety(x, parm_df$T),
-        function(x)  2.0 * f_margin_of_safety(x, parm_df$T),
-        col = "red",
-        lty = "dotted",
-        lwd = 1,
-        axes = FALSE,
-        xlab = "",
-        ylab = "",
-        xlim = my_xlim,
-        ylim = c(0, 1)
-        )
-      par(new=TRUE)
-      plot(
-        function(x)  1 - 3 * f_margin_of_folly(x, parm_df$T),
-        col = "blue",
-        lty = "dotted",
-        lwd = 1,
-        axes = FALSE,
-        xlab = "",
-        ylab = "",
-        xlim = my_xlim,
-        ylim = c(0, 1)
-        )
-      par(new=TRUE)
-      my_pctile_x <- sort(1 / graham_base_df$pe10)
-      my_pctile_y <- 1 - rank(my_pctile_x) / length(my_pctile_x)
-      plot(
-        x = my_pctile_x,
-        y = my_pctile_y,
-        col = "purple",
-        type = "l",
-        pch = ".",
-        lty = "dotdash",
-        lwd = 1,
-        axes = FALSE,
-        xlab = "",
-        ylab = "",
-        xlim = my_xlim,
-        ylim = c(0, 1)
-        )
-      legend(
-        x = "right",
-        legend = c(
-          "minimum stock proportion",
-          "maximum stock proportion",
-          #latex2exp::TeX("1.8 $\\times$ margin of safety"),
-          latex2exp::TeX("2 $\\times$ margin of safety"),
-          latex2exp::TeX("1 - 3 $\\times$ margin of folly"),
-          "relative E10/P rank"
-          ),
-        lty = c("solid", "dashed", "dotted", "dotdash"),
-        col = c("red", "blue", "red", "blue","purple" )
-        )
+      if (!OLD_PAPER) {
+        plot(
+          function(x)  f_min_stock_proportion(x, parm_df$T) - parm_df$trgr,
+          col = "red",
+          lty = "dotted",
+          lwd = 1,
+          axes = FALSE,
+          xlab = "",
+          ylab = "",
+          xlim = my_xlim,
+          ylim = c(0, 1)
+          )
+        par(new=TRUE)
+        plot(
+          function(x)  f_max_stock_proportion(x, parm_df$T) + parm_df$trgr,
+          col = "blue",
+          lty = "dotted",
+          lwd = 1,
+          axes = FALSE,
+          xlab = "",
+          ylab = "",
+          xlim = my_xlim,
+          ylim = c(0, 1)
+          )
+        legend(
+          x = "bottomright",
+          legend = c(
+            "minimum stock proportion",
+            latex2exp::TeX("(minimum stock proportion) - D"),
+            "maximum stock proportion",
+            latex2exp::TeX("(maximum stock proportion) + D")
+            #, "relative reversed rank of E10/P"
+            ),
+          lty = c("solid", "dotted", "dashed", "dotted", "dotdash"),
+          col = c("red", "red", "blue", "blue","purple" )
+          )
+        text(
+          x = 0.0275,
+          y = 0.75,
+          labels = "region of folly"
+          )
+        text(
+          x = 0.0435,
+          y = c(0.55, 0.52, 0.49),
+          labels = c("region of", "capital", "appreciation")
+          )
+        text(
+          x = 0.06,
+          y = 0.3,
+          labels = "region of safety"
+          )
+      } else { # my_variant == "old_paper"
+        plot(
+          #function(x)  1.8 * f_margin_of_safety(x, parm_df$T),
+          function(x)  2.0 * f_margin_of_safety(x, parm_df$T),
+          col = "red",
+          lty = "dotted",
+          lwd = 1,
+          axes = FALSE,
+          xlab = "",
+          ylab = "",
+          xlim = my_xlim,
+          ylim = c(0, 1)
+          )
+        par(new=TRUE)
+        plot(
+          function(x)  1 - 3 * f_margin_of_folly(x, parm_df$T),
+          col = "blue",
+          lty = "dotted",
+          lwd = 1,
+          axes = FALSE,
+          xlab = "",
+          ylab = "",
+          xlim = my_xlim,
+          ylim = c(0, 1)
+          )
+        legend(
+          x = "right",
+          legend = c(
+            "minimum stock proportion",
+            "maximum stock proportion",
+            #latex2exp::TeX("1.8 $\\times$ margin of safety"),
+            latex2exp::TeX("2 $\\times$ margin of safety"),
+            latex2exp::TeX("1 - 3 $\\times$ margin of folly")
+            , "relative reversed rank of E10/P"
+            ),
+          lty = c("solid", "dashed", "dotted", "dotted", "dotdash"),
+          col = c("red", "blue", "red", "blue","purple" )
+          )
+        par(new=TRUE)
+        my_pctile_x <- sort(1 / graham_base_df$pe10)
+        my_pctile_y <- 1 - rank(my_pctile_x) / length(my_pctile_x)
+        plot(
+          x = my_pctile_x,
+          y = my_pctile_y,
+          col = "purple",
+          type = "l",
+          pch = ".",
+          lty = "dotdash",
+          lwd = 1,
+          axes = FALSE,
+          xlab = "",
+          ylab = "",
+          xlim = my_xlim,
+          ylim = c(0, 1)
+          )
+      }
     }, finally = {
       dev.off()
       par(op)
@@ -760,8 +820,8 @@ for (my_variant in for_variants) {
       method = c("simple", "edge", "flattest")[3],
       main = "Minimum proportion of stocks",
       sub = parm_coda,
-      xlab = "S&P 500 earnings yield (e.g., E10/P)",
-      ylab = "Ten-year US Treasury bonds current yield / 100%",
+      xlab = "S (S&P 500 earnings yield, i.e., E10/P)",
+      ylab = "B (Ten-year US Treasury bonds current yield / 100%)",
       xlim = c(0, max_x), ylim = c(0, max_x),
       xaxp = c(0, .09, 9),
       yaxp = c(0, .09, 9),
@@ -796,13 +856,14 @@ for (my_variant in for_variants) {
       #levels = c(0, 0.25 * (1:3), parm_df$Ma),
       main = "Maximum proportion of stocks",
       sub = parm_coda,
-      xlab = "S&P 500 earnings yield (e.g., E10/P)",
-      ylab = "Ten-year US Treasury bonds current yield / 100%",
+      xlab = "S (S&P 500 earnings yield, i.e., E10/P)",
+      ylab = "B (Ten-year US Treasury bonds current yield / 100%)",
       xlim = c(0, max_x), ylim = c(0, max_x),
       xaxp = c(0, .09, 9),
       yaxp = c(0, .09, 9),
       las = 2,
       labcex = 1.0,
+      lty = "dashed",
       col = "blue"
       )
     
@@ -1028,139 +1089,113 @@ for (my_variant in for_variants) {
     par(old_mar)
     par(old_cex)
     dev.off()
-    
-    if (my_variant == "e10p_margin") {
-      cor_df <-
-        sqldf::sqldf(
-          "
-          SELECT date_from, S, grow_stock, B, grow_bond
-          FROM growth_df
-          WHERE years = 10
-          ORDER BY date_from
-          ")
-      cor_df$S <- with(cor_df, S / max(S))
-      cor_df$B <- with(cor_df, B / max(B))
-      cor_df$grow_stock <- with(cor_df, grow_stock / max(grow_stock))
-      cor_df$grow_bond <- with(cor_df, grow_bond / max(grow_bond))
-      
-      cor_stock <-
-        sprintf("Pearson correlation = %0.2f", with(cor_df, cor(S, grow_stock)))
-      svg_path <- img_ext("fig7_E10P_yield_return_corr")
-      img(svg_path, width = 800/72, height = 400/72)
-      matplot(
-        type = "l",
-        x = cor_df$date_from,
-        y = cor_df[, c("S", "grow_stock")],
-        ylab = "relative earnings yield or return",
-        main = "Stock earnings yield and subsequent ten-year return",
-        xlab = cor_stock
-        )
-      legend(
-        x = "topright",
-        legend = c("stock earnings yield", "real 10-year total return"),
-        lty = 1:2,
-        col = c("black", "red")
-      )
-      dev.off()
-      
-      cor_bond <-
-        sprintf("Pearson correlation = %0.2f", with(cor_df, cor(B, grow_bond)))
-      svg_path <- img_ext("fig6_bond_yield_return_corr")
-      img(svg_path, width = 800/72, height = 400/72)
-      matplot(
-        type = "l",
-        x = cor_df$date_from,
-        y = cor_df[, c("B", "grow_bond")],
-        ylab = "relative current yield or return",
-        main = "Bond current yield and subsequent ten-year return",
-        xlab = cor_bond,
-        col = c("black", "blue")
-        )
-      legend(
-        x = "topleft",
-        legend = c("bond current yield", "real 10-year total return"),
-        lty = 1:2,
-        col = c("black", "blue")
-      )
-      dev.off()
-    }
-    
-
-    switch(
-      my_variant,
-      old_paper = {
-        # "fig3_ybar_history.svg"
-        # "fig6_bond_yield_return_corr.svg"
-        # "fig7_E10P_yield_return_corr.svg"
-        # "fig8_EP_yield_return_corr.svg"
-        cp_old("fig10_PE10_trend.svg", "fig10_PE10_trend.svg")
-        cp_old("fig1_cf16yr.svg", "fig1_cf16yr.svg")
-        cp_old("fig1_cf20yr.svg", "fig1_cf20yr.svg")
-        cp_old("fig1_cf26yr.svg", "fig1_cf26yr.svg")
-        cp_old("fig1_cf31yr.svg", "fig1_cf31yr.svg")
-        cp_old("fig1_cf37yr.svg", "fig1_cf37yr.svg")
-        cp_old("min_max_stock_at_4pt14pct.svg", "fig2_boundaries.svg")
-        cp_old("value_alloc_yields_1911_2022.svg", "fig4_cumulative_all.svg")
-        cp_old("value_alloc_yields_1961_1981.svg", "fig5_cumulative_detail.svg")
-        cp_old("min_by_year.svg", "fig5b_min_by_year.svg")
-        cp_old("fig10_PE10_trend.pdf", "fig10_PE10_trend.pdf")
-        cp_old("fig1_cf16yr.pdf", "fig1_cf16yr.pdf")
-        cp_old("fig1_cf20yr.pdf", "fig1_cf20yr.pdf")
-        cp_old("fig1_cf26yr.pdf", "fig1_cf26yr.pdf")
-        cp_old("fig1_cf31yr.pdf", "fig1_cf31yr.pdf")
-        cp_old("fig1_cf37yr.pdf", "fig1_cf37yr.pdf")
-        cp_old("min_max_stock_at_4pt14pct.pdf", "fig2_boundaries.pdf")
-        cp_old("value_alloc_yields_1911_2022.pdf", "fig4_cumulative_all.pdf")
-        cp_old("value_alloc_yields_1961_1981.pdf", "fig5_cumulative_detail.pdf")
-        cp_old("min_by_year.pdf", "fig5b_min_by_year.pdf")
-        },
-      e10p = {
-        cp_img("fig1_cf16yr.svg", "fig1_cf16yr.svg")
-        cp_img("fig1_cf20yr.svg", "fig1_cf20yr.svg")
-        cp_img("fig1_cf26yr.svg", "fig1_cf26yr.svg")
-        cp_img("fig1_cf31yr.svg", "fig1_cf31yr.svg")
-        cp_img("fig1_cf37yr.svg", "fig1_cf37yr.svg")
-        cp_img("min_max_stock_at_4pt14pct.svg", "fig2_boundaries.svg")
-        cp_img("value_alloc_yields_1911_2022.svg", "fig4_cumulative_all.svg")
-        cp_img("value_alloc_yields_1961_1981.svg", "fig5_cumulative_detail.svg")
-        cp_img("min_by_year.svg", "fig5b_min_by_year.svg")
-        cp_img("fig10_PE10_trend.svg", "fig10_PE10_trend.svg")
-        cp_img("fig1_cf16yr.pdf", "fig1_cf16yr.pdf")
-        cp_img("fig1_cf20yr.pdf", "fig1_cf20yr.pdf")
-        cp_img("fig1_cf26yr.pdf", "fig1_cf26yr.pdf")
-        cp_img("fig1_cf31yr.pdf", "fig1_cf31yr.pdf")
-        cp_img("fig1_cf37yr.pdf", "fig1_cf37yr.pdf")
-        cp_img("min_max_stock_at_4pt14pct.pdf", "fig2_boundaries.pdf")
-        cp_img("value_alloc_yields_1911_2022.pdf", "fig4_cumulative_all.pdf")
-        cp_img("value_alloc_yields_1961_1981.pdf", "fig5_cumulative_detail.pdf")
-        cp_img("min_by_year.pdf", "fig5b_min_by_year.pdf")
-        cp_img("fig10_PE10_trend.pdf", "fig10_PE10_trend.pdf")
-        },
-      ep = {
-        cp_img("fig1_cf20yr.svg", "fig1_cf20yr_ep.svg")
-        cp_old("fig1_cf20yr.svg", "fig1_cf20yr_ep.svg")
-        cp_img("min_by_year.svg", "fig5c_min_by_year_pe.svg")
-        cp_old("min_by_year.svg", "fig5c_min_by_year_pe.svg")
-        cp_img("fig1_cf20yr.pdf", "fig1_cf20yr_ep.pdf")
-        cp_old("fig1_cf20yr.pdf", "fig1_cf20yr_ep.pdf")
-        cp_img("min_by_year.pdf", "fig5c_min_by_year_pe.pdf")
-        cp_old("min_by_year.pdf", "fig5c_min_by_year_pe.pdf")
-        },
-      e10p_margin = {
-        cp_img("fig1_cf20yr.svg", "fig1_cf20yr_mos.svg")
-        cp_img("min_max_stock_at_4pt14pct.svg", "fig2_boundaries_mos.svg")
-        cp_old("fig1_cf20yr.svg", "fig1_cf20yr_mos.svg")
-        cp_img("fig1_cf20yr.pdf", "fig1_cf20yr_mos.pdf")
-        cp_img("min_max_stock_at_4pt14pct.pdf", "fig2_boundaries_mos.pdf")
-        cp_img("margins_of_safety_and_folly.pdf", "margins_of_safety_and_folly.pdf")
-        cp_old("fig1_cf20yr.pdf", "fig1_cf20yr_mos.pdf")
-        cp_img("min_stock_proportion.pdf", "min_stock_proportion_mos.pdf")
-        cp_img("max_stock_proportion.pdf", "max_stock_proportion_mos.pdf")
-        cp_img("min_by_year.pdf", "fig5b_min_by_year_margin.pdf")
-        cp_img("fig6_bond_yield_return_corr.pdf", "fig6_bond_yield_return_corr.pdf")
-        cp_img("fig7_E10P_yield_return_corr.pdf", "fig7_E10P_yield_return_corr.pdf")
-        },
-      ep_margin = {}
-      )
   }
+    
+  if (my_variant == "e10p_margin") {
+    cor_df <-
+      sqldf::sqldf(
+        "
+        SELECT date_from, S, grow_stock, B, grow_bond
+        FROM growth_df
+        WHERE years = 10
+        ORDER BY date_from
+        ")
+    cor_df$S <- with(cor_df, S / max(S))
+    cor_df$B <- with(cor_df, B / max(B))
+    cor_df$grow_stock <- with(cor_df, grow_stock / max(grow_stock))
+    cor_df$grow_bond <- with(cor_df, grow_bond / max(grow_bond))
+    
+    cor_stock <-
+      sprintf("Pearson correlation = %0.2f", with(cor_df, cor(S, grow_stock)))
+    svg_path <- img_ext("fig7_E10P_yield_return_corr")
+    img(svg_path, width = 800/72, height = 400/72)
+    matplot(
+      type = "l",
+      x = cor_df$date_from,
+      y = cor_df[, c("S", "grow_stock")],
+      ylab = "relative earnings yield or return",
+      main = "Stock earnings yield and subsequent ten-year return",
+      xlab = cor_stock
+      )
+    legend(
+      x = "topright",
+      legend = c("stock earnings yield", "real 10-year total return"),
+      lty = 1:2,
+      col = c("black", "red")
+    )
+    dev.off()
+    
+    cor_bond <-
+      sprintf("Pearson correlation = %0.2f", with(cor_df, cor(B, grow_bond)))
+    svg_path <- img_ext("fig6_bond_yield_return_corr")
+    img(svg_path, width = 800/72, height = 400/72)
+    matplot(
+      type = "l",
+      x = cor_df$date_from,
+      y = cor_df[, c("B", "grow_bond")],
+      ylab = "relative current yield or return",
+      main = "Bond current yield and subsequent ten-year return",
+      xlab = cor_bond,
+      col = c("black", "blue")
+      )
+    legend(
+      x = "topleft",
+      legend = c("bond current yield", "real 10-year total return"),
+      lty = 1:2,
+      col = c("black", "blue")
+    )
+    dev.off()
+  }
+  
+
+  switch(
+    my_variant,
+    old_paper = {
+      # "fig3_ybar_history.svg"
+      # "fig6_bond_yield_return_corr.svg"
+      # "fig7_E10P_yield_return_corr.svg"
+      # "fig8_EP_yield_return_corr.svg"
+      cp_old("fig10_PE10_trend.svg", "fig10_PE10_trend.svg")
+      cp_old("fig1_cf16yr.svg", "fig1_cf16yr.svg")
+      cp_old("fig1_cf20yr.svg", "fig1_cf20yr.svg")
+      cp_old("fig1_cf26yr.svg", "fig1_cf26yr.svg")
+      cp_old("fig1_cf31yr.svg", "fig1_cf31yr.svg")
+      cp_old("fig1_cf37yr.svg", "fig1_cf37yr.svg")
+      cp_old("min_max_stock_at_4pt14pct.svg", "fig2_boundaries.svg")
+      cp_old("value_alloc_yields_1911_2022.svg", "fig4_cumulative_all.svg")
+      cp_old("value_alloc_yields_1961_1981.svg", "fig5_cumulative_detail.svg")
+      cp_old("min_by_year.svg", "fig5b_min_by_year.svg")
+      cp_old("fig6_bond_yield_return_corr.svg", "fig6_bond_yield_return_corr.svg")
+      cp_old("fig7_E10P_yield_return_corr.svg", "fig7_E10P_yield_return_corr.svg")
+      },
+    e10p = {
+      cp_img("fig1_cf16yr.pdf", "fig1_cf16yr.pdf")
+      cp_img("fig1_cf20yr.pdf", "fig1_cf20yr.pdf")
+      cp_img("fig1_cf26yr.pdf", "fig1_cf26yr.pdf")
+      cp_img("fig1_cf31yr.pdf", "fig1_cf31yr.pdf")
+      cp_img("fig1_cf37yr.pdf", "fig1_cf37yr.pdf")
+      cp_img("min_max_stock_at_4pt14pct.pdf", "fig2_boundaries.pdf")
+      cp_img("min_by_year.pdf", "fig5b_min_by_year.pdf")
+      cp_img("fig10_PE10_trend.pdf", "fig10_PE10_trend.pdf")
+      },
+    ep = {
+      cp_old("fig1_cf20yr.svg", "fig1_cf20yr_ep.svg")
+      cp_old("min_by_year.svg", "fig5c_min_by_year_pe.svg")
+      cp_img("fig1_cf20yr.pdf", "fig1_cf20yr_ep.pdf")
+      cp_img("min_by_year.pdf", "fig5c_min_by_year_pe.pdf")
+      },
+    e10p_margin = {
+      cp_img("fig1_cf20yr.pdf", "fig1_cf20yr_mos.pdf")
+      cp_img("min_max_stock_at_4pt14pct.pdf", "fig2_boundaries_mos.pdf")
+      cp_img("margins_of_safety_and_folly.pdf", "margins_of_safety_and_folly.pdf")
+      cp_img("min_stock_proportion.pdf", "min_stock_proportion_mos.pdf")
+      cp_img("max_stock_proportion.pdf", "max_stock_proportion_mos.pdf")
+      cp_img("min_by_year.pdf", "fig5b_min_by_year_margin.pdf")
+      cp_img("fig6_bond_yield_return_corr.pdf", "fig6_bond_yield_return_corr.pdf")
+      cp_img("fig7_E10P_yield_return_corr.pdf", "fig7_E10P_yield_return_corr.pdf")
+      cp_img("value_alloc_yields_1911_2022.pdf", "fig4_cumulative_all.pdf")
+      cp_img("value_alloc_yields_1961_1981.pdf", "fig5_cumulative_detail.pdf")
+      },
+    ep_margin = {}
+    )
 }
