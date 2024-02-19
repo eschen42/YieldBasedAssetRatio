@@ -21,7 +21,7 @@ source("render_figures.R")
 
 ### To modify parameters
 
-Edit the `e10p_margin` case on line 41 of `render_figures.R`.
+Edit the `e10p_margin` case on line 45 of `render_figures.R`.
 
 # Disclaimer
 
