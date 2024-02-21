@@ -44,7 +44,7 @@ Edward McQuarrie writes:
 
 > US investors must accept that stocks will not always beat bonds, no matter [the length of] the holding period. ... Two centuries [of data] are sufficient to undermine the idea that an advantage of stocks over bonds, of +2% to +4% annualized,  represents any kind of lawful regularity or any range to which values must quickly revert."^[McQuarrie, Edward F., 2023. *Stocks for the Long Run? Sometimes Yes, Sometimes No.* Financial Analysts Journal, [DOI: 10.1080/0015198X.2023.2268556](https://dx.doi.org/10.1080/0015198X.2023.2268556).]
 
-Benjamin Graham urged investors to avoid paying too much for stocks (lest the cost basis erode the gains substantially), suggesting (based the historical record available to him) that investors set "an upper limit of purchase price at 25 times average earnings of the past seven years"^[Benjamin Graham, 2003. *The Intelligent Investor -- Revised edition, updated with new commentary by Jason Zweig.* Harper Collins. [https://lccn.loc.gov/2003047894](https://lccn.loc.gov/2003047894), p. 159.]; at this limit, the "earnings yield" (annual earnings divided by price) would be 4%.
+Benjamin Graham urged investors to avoid paying too much for stocks (lest the cost basis erode the gains substantially), suggesting that investors set "an upper limit of purchase price at 25 times average earnings of the past seven years"^[Benjamin Graham, 2003. *The Intelligent Investor -- Revised edition, updated with new commentary by Jason Zweig.* Harper Collins. [https://lccn.loc.gov/2003047894](https://lccn.loc.gov/2003047894), p. 159.]; at this limit, the "earnings yield" (annual earnings divided by price) would be 4%.
 Robert Shiller related "price bubbles" in the S&P 500 stock index to an analogous "Cyclically Adjusted Price to Earnings Ratio" (CAPE), wherein earnings are averaged over the previous ten years.^[Robert J. Shiller, 2016. *Irrational Exuberance.* Princeton University Press. [https://lccn.loc.gov/2014036705](https://lccn.loc.gov/2014036705).] The CAPE is also commonly known as the "P/E10 ratio" or "the Shiller PE ratio".  William Bernstein noted (and interpreted) a gradually increasing trend in the P/E10,^[Bernstein, William J., 2013. The Paradox of Wealth and the End of History Illusion. Efficient Frontier Advisors.
 [https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=2bb45f3324df5b05c4764f135cfea7ad37f78b33](https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=2bb45f3324df5b05c4764f135cfea7ad37f78b33).  His interpretation: "Both theory and long-run empirical data support the notion that economic growth lowers security returns."] as illustrated in Figure 12 in the Appendix.
 
@@ -96,11 +96,11 @@ cat("\n\\newpage\n")
 
 What follows is a template for an investment formula (i.e., a set of decision rules) utilizing a YBAR to allocate between the S&P 500 index and ten-year US Treasury bonds:
 
-- Initially, establish minimum and maximum stock percentages that vary with SP5000 earnings yield and nominal GS10 current yield.
-- Do not trade stock when percentage of stock in the portfolio lies between the minimum and maximum stock percentages.
-- Buy stock incrementally as the stock percentage falls below the minimum -- 6%; this is a practical utilization of Graham's "margin of safety".
-- Sell stock incrementally as the stock percentage exceeds the maximum + 6%; this reflects the "margin of folly", defined below.
+- Initially, establish minimum and maximum stock percentages that vary with SP500 earnings yield and nominal GS10 current yield.
+- Buy stock incrementally (to reach minimum percentage) as the stock percentage falls below the minimum -- 6%; this is a practical utilization of Graham's "margin of safety".
+- Sell stock incrementally (to reach maximum percentage) as the stock percentage exceeds the maximum + 6%; this reflects the "margin of folly", defined below.
 - When stock prices are very high, apply a cap to the stock percentage; this respects the "margin of reversion", defined below.
+- Do not trade stock otherwise.
 
 ## Margin of Safety
 
@@ -240,7 +240,7 @@ The factor $\frac{3 \times \textbf{B}}{\textbf{T}}$ was deduced from performance
 cat("\n\\newpage\n")
 ```
 
-Figure 2 illustrates these maximium and minimum stock percentage limits when the current yield for GS10 is 4.14% (i.e., $\textbf{T}$).
+Figure 2 illustrates these maximium and minimum stock percentage limits when the current yield for GS10 ($\textbf{S}$) is 4.14% (i.e., $\textbf{T}$).
 
 ```{r echo=FALSE, out.width=400, fig.align='center', fig.cap='Minimum and maximum stock percentage for bond current yield of 4.14%. Solid red line represents minimum stock percentage. Dashed blue line represents maximum stock percentage.  Dotted red line represents the deviation beyond the minimum stock percentage that triggers stock purchase. Dotted blue line represents the deviation beyond the maximum stock percentage that triggers stock sale.'}
 knitr::include_graphics("img/fig2_boundaries_mos.pdf")
@@ -283,7 +283,7 @@ cat("\n\\newpage\n")
 The top panel of Figure 5 shows the hypothetical results for 1911--2022; the YBAR produced returns roughly as well as the 85% stock allocation did since 1961.
 The red solid portions of the curve in the middle panel indicate the (comparatively few) times that sales or purchases of stock were required because of deviation of the percentage stock allocation more than 6% beyond the threshold.  The bottom panel illustrates the yield premium (or shortfall) for SP500 relative to GS10.
 
-```{r echo=FALSE, out.width=380, fig.align='center', fig.cap='Top panel, comparative cumulative performance of four allocations since 1911: YBAR, 6% stock, 60% stock, and 85% stock, relative to September, 1961. Middle panel, resulting percent stock allocation for the YBAR; red portions of the curve reflect trading driven by the maximum and minimum allocations specified by the formula.  Bottom panel, the yield premium (or shortfall) for SP500 relative to GS10'}
+```{r echo=FALSE, out.width=380, fig.align='center', fig.cap='Top panel, comparative cumulative performance of four allocations since 1911: YBAR, 6% stock, 60% stock, and 85% stock, relative to September, 1961. Middle panel, resulting percent stock allocation for the YBAR; red portions of the curve reflect trading driven by the maximum and minimum allocations specified by the formula.  Bottom panel, the yield premium (or shortfall) for SP500 relative to GS10.'}
 knitr::include_graphics("img/fig4_cumulative_all.pdf")
 ```
 
@@ -291,9 +291,9 @@ knitr::include_graphics("img/fig4_cumulative_all.pdf")
 cat("\n\\newpage\n")
 ```
 
-Figure 6 presents the same data as Figure 5, but restricted to 1962--1985; the YBAR recovered much better from the hiccups in 1975 and 1980 than did any of the fixed-percentage stock allocations. The advantage of the 6% stock portfolio in 1962 and 1974 proved to be short lived.
+Figure 6 presents the same data as Figure 5, but restricted to 1962--1985; the YBAR recovered much better from the hiccups in 1975 and 1980 than did any of the fixed-percentage stock allocations. The advantage of the 6% stock portfolio in 1962 proved to be short lived.
 
-```{r echo=FALSE, out.width=380, fig.align='center', fig.cap='Top panel, comparative cumulative performance of four allocations for 1962--1985: YBAR, 6% stock, 60% stock, and 85% stock, relative to September, 1961. Middle panel, resulting percent stock allocation for the YBAR; red portions of the curve reflect trading driven by the maximum and minimum allocations specified by the formula.  Bottom panel, the yield premium (or shortfall) for SP500 relative to GS10'}
+```{r echo=FALSE, out.width=380, fig.align='center', fig.cap='Top panel, comparative cumulative performance of four allocations for 1962--1985: YBAR, 6% stock, 60% stock, and 85% stock, relative to September, 1961. Middle panel, resulting percent stock allocation for the YBAR; red portions of the curve reflect trading driven by the maximum and minimum allocations specified by the formula.  Bottom panel, the yield premium (or shortfall) for SP500 relative to GS10.'}
 knitr::include_graphics("img/fig5_cumulative_detail.pdf")
 ```
 
@@ -329,7 +329,7 @@ This analysis demonstrates that, when yields are low, a fixed-percentage stock a
 
 This analysis further demonstrates that the YBAR is no panacea.  Although the YBAR produces minimum returns greater than fixed-percentage stock allocations for intervals greater than ten years, minimum returns are meager (CAGR < 2%) for intervals of less than 20 years.  A funding shortfall (or reduced budget) is a very real possibility unless nearer-term expenses are funded by less volatile assets, insurance products, or buffer assets.
 
-The formula presented here may be considered a template.  The criteria and parameter values chosen here for demonstration purposes were selected on the basis of many trials to give satisfactory performance (data not shown^[These are explored at [https://eschenlauer.com/investing/risk_based_allocation/YBAR_intro.html](https://eschenlauer.com/investing/risk_based_allocation/YBAR_intro.html).]), but each investor may see their own basis for estimating intrinsic value and may choose different parameters.  For example, the inverse of the P/E ratio may be substituted as the definition of earnings yield with only a modest decrease in performance (data not shown^[*Ibid.*]).  Whatever criteria and parameters one chooses, it would be better to test any variant of the formula against the historical record.
+The formula presented here may be considered a template.  The criteria and parameter values chosen here for demonstration purposes were selected on the basis of many trials to give satisfactory performance (data not shown^[These are explored at [https://eschenlauer.com/investing/risk_based_allocation/YBAR_intro.html](https://eschenlauer.com/investing/risk_based_allocation/YBAR_intro.html).]), but each investor may see their own basis for estimating intrinsic value and may choose different criteria or parameters.  For example, the reciprocal of the P/E ratio may be substituted as the definition of earnings yield with only a modest decrease in performance (data not shown^[*Ibid.*]).  Whatever criteria and parameters one chooses, it would be better to test any variant of the formula against the historical record.
 
 ```{r echo=FALSE, results='asis'}
 cat("\n\\newpage\n")
@@ -342,12 +342,12 @@ There are several important limitations to consider when interpreting these resu
 - This analysis implicitly assumes that a separate strategy exists to manage shorter-term expenses.
 - Over holding periods of less than 20 years, there is substantial risk of realizing a loss on investments in such volatile assets as stocks or longer-term bonds.
   - Notably, for 18 or fewer years after 1962, even the YBAR had CAGR < 2%.
-- For this data set, there are only about five times that the YBAR can be subjected to performance tests under observed conditions where relatively reduced stock yield adversely affected stocks' intermediate return (1912, 1929, 1961, 1988, and 1998).
+- For this data set, there are only about five times that the YBAR can be subjected to performance tests under observed conditions where relatively reduced stock yield adversely affected stocks' intermediate return (1912, 1929, 1961--1963, 1988, and 1998).
   - One cannot say what the future will hold, and the lessons offered by the past are limited, so it is up to the reader to decide whether the analysis presented here is sufficiently thorough.
   - No attempt was made to model any future that differs in either sequence or amount of investment returns. No attempt was made to test the formula with Monte Carlo simulation because the nature of the latter is inherently speculative (yet there is no reason *a priori* to expect very different results).
 - Neither survivorship bias in the S&P 500 index nor bond default rates are part of this analysis.
 - This analysis implicitly assumes that intermediate-to-long term investments are held in a tax-deferred or tax-exempt account.  No attempt is made here to compare the after-tax returns of a constant percentage allocation with those of a YBAR allocation.
-- This analysis assumes the use of index funds so that expenses and commissions may be neglected.
+- This analysis assumes the use of index funds; thus, expenses and commissions are neglected.
 - No attempt was made to incorporate money market funds into the formula as an alternative to investing in bonds.
 
 ## "Is this risk management, or is it speculation?"
@@ -362,7 +362,7 @@ Fixed-percentage stock allocation has as its basis the speculative assumption th
 
 ## Previous work
 
-In 1953, Lucile Tomlinson described one endowment fund's "compromise solution" that augmented capital appreciation by staggering the "buy" and "sell" thresholds of a variable stock-percentage allocation.^[Tomlinson, 1953. *Op. cit.*, pp. 232-238.] On the basis of Graham's "central value", that investment formula provided a modestly large number of incremental steps when varying percentage of stock. In her test, its hypothetical annualized performance would have exceeded (by 115 basis points) that of a 50% stock portfolio for 1924--1952. However, for 1961--1981, that formula's resistance to stock-price declines and its potential for capital appreciation is hampered by its generous 40% minimum stock allocation and its limited 60% maximum percentage of stock (data not shown).
+In 1953, Lucile Tomlinson described one endowment fund's "compromise solution" that augmented capital appreciation by staggering the "buy" and "sell" thresholds of a variable stock-percentage allocation.^[Tomlinson, 1953. *Op. cit.*, pp. 232-238.] On the basis of Graham's "central value", that investment formula provided a modestly large number of incremental steps when varying percentage of stock. In her test, the formula's hypothetical annualized performance would have exceeded (by 115 basis points) that of a 50% stock portfolio for 1924--1952. However, for 1961--1981, the formula's resistance to stock-price declines and its potential for capital appreciation is hampered by its generous 40% minimum stock allocation and its limited 60% maximum percentage of stock (data not shown).
 
 Wade Pfau published two papers showing that "Valuation-Based Asset Allocation" can offer a higher theoretical "safe withdrawal rate" in retirement^[Pfau, Wade D., Long-Term Investors and Valuation-Based Asset Allocation (2011). Available at SSRN: https://dx.doi.org/10.2139/ssrn.2544636; and Pfau, Wade D., Withdrawal Rates, Savings Rates, and Valuation-Based Asset Allocation (2011). Available at SSRN: https://dx.doi.org/10.2139/ssrn.2544635.].  Those works explored step-wise allocations among two or three coarsely grained stock percentage levels (in contrast to the increments of 6% taken in this paper), and determination of the stock percentage did not consider the current yield of bonds.
 Although Pfau focused on 30-year returns (which may be fewer years than one might expect their retirement to last but which may be longer than one can wait before needing access to some of the invested principal), Pfau also addressed this by comparing intervals from 1--60 years.
@@ -401,7 +401,7 @@ knitr::include_graphics("img/fig7_E10P_yield_return_corr.pdf")
 knitr::include_graphics("img/fig6_bond_yield_return_corr.pdf")
 ```
 
-```{r echo=FALSE, out.width=325, fig.align='center', fig.cap="Chart from Tomlinson, 1953,  illustrating how gradually adjusting stock allocation between a minimum and a maximum in response to Graham's \"central value\" can (hypothetically) enhance results under some circumstances (notably, matching stock performance but with less volatility) at times when interest rates were competitive with stock earnings yields (as McQuarrie has shown to have been the case over the past two centuries excepting the 1941--1981 period)."}
+```{r echo=FALSE, out.width=325, fig.align='center', fig.cap="Chart from Tomlinson, 1953,  illustrating how gradually adjusting stock allocation between a minimum and a maximum in response to Graham's \"central value\" can (hypothetically) enhance results under some circumstances (notably, matching stock performance but with less volatility)."}
 
 knitr::include_graphics("fig9_Tomlinson_1953_Chart11.jpg")
 ```
