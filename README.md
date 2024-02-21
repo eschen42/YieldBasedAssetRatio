@@ -31,9 +31,15 @@ mamba create -n graham -c conda-forge r-renv=1.0.3 r-tinytex r-bookdown r-sqldf 
 
 This build depends upon the `sqlite3` command line utility, which is not available (as far as I know) from the conda-forge conda channel.  This utility is documented at [https://sqlite.org/cli.html](https://sqlite.org/cli.html) and may be obtained by downloading the `sqlite-tools-...` bundles from [https://sqlite.org/download.html](https://sqlite.org/download.html) if `sqlite3` is not already installed on your system.  Make sure that it is on your path when performing the following steps.
 
-### Steps performed by `make -f Makefile`
+### Steps directed by `Makefile`
 
-### Fetch the Shiller dataset for the S&P 500 stock index and ten-year US treasury bonds
+At this point, 
+```bash
+make -f Makefile
+```
+should build `YieldBasedAssetRatio.pdf`
+
+Conceptually, the `Makefile` directs `make` to perform the following:
 
 ```bash
 # fetch Shiller dataset and extract initial graham.sqlite database
