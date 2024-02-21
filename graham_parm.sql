@@ -241,7 +241,9 @@ CREATE VIEW IF NOT EXISTS
   AS
   SELECT
     a.*,
-    H / max(H, 1.0 / (S * X) - 1) AS C
+    -- S * X == relative_pe10
+    -- H / max(H, 1.0 / (S * X) - 1.0) AS C
+    S * X * H / max(S * X * H, 1.0 - S * X) AS C
   FROM (
     SELECT
       DateFraction,

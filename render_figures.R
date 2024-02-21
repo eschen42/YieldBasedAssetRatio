@@ -28,8 +28,8 @@ cp_old <-
       }
     }
 
-for_variants <- my_variants
-#ACE for_variants <- my_variants[4]
+#ACE for_variants <- my_variants
+for_variants <- my_variants[4]
 for (my_variant in for_variants) {
   OLD_PAPER <- (my_variant == "old_paper")
   if (OLD_PAPER) {

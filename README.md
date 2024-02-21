@@ -10,24 +10,41 @@ This software generates results consumed by the `YieldBasedAssetRatio.Rmd` scrip
 >
 > For 20-year intervals since 1911, when allocating between 10-year US Treasury bonds and the S&P 500 index, a simple formula implementing such a "Yield-Based Asset Ratio" hypothetically would have had a *minimum* compound annual growth rate (CAGR) of 1.92%, considerably higher than would have been observed for 6%, 60%, and 85% stock allocations (CAGR -2.33%, -0.41%, and 0.09%, respectively). Results suggest that a fixed-percentage stock allocation may not offer the best protection of retirement income for interval lengths of 11 or more years.
 
-## How to generate inputs for YieldBasedAssetRatio.Rmd
+## How to generate YieldBasedAssetRatio.Rmd
 
+To build from the command line (rather than RStudio), first set up the conda enviroment to support `rmarkdown`.  (To bootstrap conda, I install and use "MiniForge" as described at [https://github.com/conda-forge/miniforge](https://github.com/conda-forge/miniforge).)
+
+### Build an environment that can generate the PDF
+```bash
+. ~/conda/bin/activate
+mamba create -n graham -c conda-forge r-renv=1.0.3 r-tinytex r-bookdown r-sqldf \
+                                      r-latex2exp r-readxl \
+                                      make ca-certificates openssl
 ```
-# in R
-source("fetch_shiller.R")
 
-# in bash
+### Activate the environment that can generate the PDF
+```bash
+. ~/conda/bin/activate graham
+```
+
+### Steps performed by `make -f Makefile`
+
+### Fetch the Shiller dataset for the S&P 500 stock index and ten-year US treasury bonds
+
+```bash
+# fetch Shiller dataset and extract initial graham.sqlite database
+R --vanilla --no-echo -f fetch_shiller.R
+# run DDL to create needed views
 sqlite3 graham.sqlite < graham_parm.sql
-
-# in R
-source("render_figures.R")
-
-# in RStudio, knit YieldBasedAssetRatio.Rmd
+# create the figures for the PDF
+R --vanilla --no-echo -f render_figures.R
+# create the PDF
+R --vanilla --no-echo -f build.R
 ```
 
 ### To modify parameters
 
-Edit the `e10p_margin` case on line 45 of `render_figures.R`.
+Edit the `e10p_margin` case on line 45 of `render_figures.R` and `make`.
 
 # Disclaimer
 
