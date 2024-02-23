@@ -21,9 +21,9 @@ knitr::opts_chunk$set(echo = TRUE)
 > Considering his "Margin of Safety" principle for stock purchases and its complement for stock sales, one might adjust the stock percentage of the portfolio based on both the stock earnings yield and the current yield for bonds, facilitating capital appreciation by avoiding trading until the present yield of the purchased security is substantially greater than that of the sold security.
 > It may be wise to add a hedge against stock prices in excess of historically sustainable levels.
 >
-> For 20-year intervals since 1911, when allocating between 10-year US Treasury bonds and the S&P 500 index, a simple formula implementing such a "Yield-Based Asset Ratio" hypothetically would have had a *minimum* compound annual growth rate (CAGR) of 1.92%, considerably higher than would have been observed for 6%, 60%, and 85% stock allocations (CAGR -2.33%, -0.41%, and 0.09%, respectively). Results suggest that a fixed-percentage stock allocation may not offer the best protection of retirement income for interval lengths of 11 or more years.
+> For 20-year intervals since 1911, when allocating between 10-year US Treasury bonds and the S&P 500 index, a simple formula implementing such a "Yield-Based Asset Ratio" hypothetically would have had a *minimum* real compound annual growth rate (CAGR) of 1.92%, considerably higher than would have been observed for 6%, 60%, and 85% stock allocations (CAGR -2.33%, -0.41%, and 0.09%, respectively). Results suggest that a fixed-percentage stock allocation may not offer the best protection of investment returns and principal for interval lengths of 11 or more years.
 
-**Abbreviations and symbols**
+**Abbreviations**
 
 - *CAGR*: compound annual growth rate
 - *CAPE*: cyclically-adjusted price-to-earnings ratio; synonym for P/E10
@@ -82,10 +82,10 @@ This paper presents a Yield-Based Asset Ratio (YBAR) investment formula:
 
 - The YBAR sets dynamic minimum and maximum limits on the percentage of stock in a portfolio.
   - These limits vary both with the present nominal yield of ten-year US Treasury bonds and with the earnings yield of the S&P 500 stock index.
-- This formula would have had a 1.92% CAGR for the 20 years beginning in September of 1961.
+- This formula would have had a (real) 1.92% CAGR for the 20 years beginning in September of 1961.
 - For all 20-year periods since 1911, this formula's gain would have had a minimum that was substantially higher than minima for a 6% stock, 60% stock, or 85% stock portfolio.
 - With respect to minimum returns over an investment period of 20 years or longer, the performance of this formula compares favorably (in hypothetical tests) to allocation methods specifying a fixed percentage of stock in a portfolio.
-- This formula and its parameters were developed and tested using the historical record since 1911, which is both a short interval from a statistical sampling perspective and a long interval with respect to what might be considered to be "the modern era".
+- This formula and its parameters were developed and tested using the historical record (i.e., Shiller's data) since 1911, which is both a short interval from a statistical sampling perspective and a long interval with respect to what might be considered to be "the modern era".
 
 This formula is rooted in 50 year old theory and is conjectural at best, yet, in Graham's words:
 
@@ -97,7 +97,7 @@ cat("\n\\newpage\n")
 
 # Applying a yield-based asset ratio to an investment formula
 
-What follows is a template for an investment formula (i.e., a set of decision rules) utilizing a YBAR to allocate between the S&P 500 index and ten-year US Treasury bonds:
+What follows is a template for an investment formula (i.e., a set of decision rules) utilizing a YBAR to allocate between the S&P 500 index (SP500) and ten-year US Treasury bonds (GS10):
 
 - Initially, establish minimum and maximum stock percentages that vary with SP500 earnings yield and nominal GS10 current yield.
 - Buy stock incrementally (to reach the minimum percentage) as the stock percentage falls below the minimum percentage minus 6%; this is a practical utilization of Graham's "margin of safety".
@@ -128,7 +128,7 @@ Another companion term, "margin of reversion", reflects how stock earnings yield
   $$
   \textbf{margin of reversion} = 100\% \times \frac{(\text{historically expected stock earnings yield}) - (\text{stock earnings yield})}{\text{stock earnings yield}}
   $$
-The retiree may wish to consider this potential "reversion volatility" as they contemplate funding their retirement from whatever remains in their portfolio.
+The retiree may wish to consider the effect that reversion of stock prices to historically expected levels would have on their ability to fund longer term spending from their investment portfolio.
 
 ```{r echo=FALSE, results='asis'}
 cat("\n\\newpage\n")
@@ -253,7 +253,7 @@ knitr::include_graphics("img/fig2_boundaries_mos.pdf")
 cat("\n\\newpage\n")
 ```
 
-Figure 2 presented the limits when current yield of GS10 (i.e., $\textbf{B}$) is 4.14% (i.e., $\textbf{T}$). However, the limits change with variation in $\textbf{B}$ or $\textbf{S}$. The next two figures relate contour lines (along each of which the level of the limit is constant) to both $\textbf{B}$ and $\textbf{S}$.
+Figure 2 presented the limits when current yield of GS10 (i.e., $\textbf{B}$) is 4.14% (i.e., $\textbf{T}$). However, the limits change with variation in $\textbf{B}$ or $\textbf{S}$. The next two figures relate both $\textbf{B}$ and $\textbf{S}$ to the contour lines (separately, for the minimum limit and maximum limit); along each contour line, the level of the limit is unchanging.
 
 The contour lines in Figure 3 illustrate five levels of minimum stock percentage over selected ranges of bond current yields and stock earnings yields.
 Contours become vertical where parameter \(\textbf{H}\) limits the reversion hazard.
@@ -379,7 +379,7 @@ Because of its high minimum intermediate-term return over the course of the hist
 Fixed-percentage stock allocations would have outperformed the YBAR when yields were high, but those high yields would address any concern that the principal value might decline.
 The YBAR does not generally sacrifice much of the upside of an aggressive fixed allocation.
 The volatile stock percentage specified by the YBAR seems preferable to occasional greater downward volatility of stock prices that can substantially depress the minimum intermediate-term returns seen for fixed-percentage stock allocations.
-Regardless of whether one uses the YBAR or a fixed-percentage stock allocation to manage volatile assets, these cannot fund near term expenses (within 20 years) without exposure to the possibility of a considerable loss in their principal value.
+Regardless of whether one uses the YBAR or a fixed-percentage stock allocation to manage volatile assets, these cannot fund near term expenses without undue exposure to the possibility of a considerable loss in their principal value.
 
 # Software availability
 
