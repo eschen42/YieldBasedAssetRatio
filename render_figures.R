@@ -62,7 +62,9 @@ for (my_variant in for_variants) {
               -- first_year = 1901,   -- first year for rolling period calculations
               first_year = 1911,   -- first year for rolling period calculations
               scheme_S = 'e10p', -- 'e10p' use E10/P for stock earnings yield (S)
-              scheme_M = 'margin' -- 'margin' use margins of safety and folly for threshold-setting
+              scheme_M = 'margin', -- 'margin' use margins of safety and folly for threshold-setting
+              min_factor = 2, -- slope-accelerator for min stock percentage (2 works well since 1911)
+              max_factor = 3 -- slope-accelerator for max stock percentage (3 works well since 1911)
               WHERE grp = 1
         "),
       old_paper = 
@@ -87,8 +89,10 @@ for (my_variant in for_variants) {
               -- first_year = 1891,   -- first year for rolling period calculations
               scheme_S = 'e10p', -- 'e10p' use E10/P for stock earnings yield (S)
               -- scheme_S = 'ep', -- 'ep' use E/P for stock earnings yield (S)
-              scheme_M = 'RTWYZ' -- 'RTWYZ' use R, T, W, Y, Z for threshold-setting
-              -- scheme_M = 'margin' -- 'margin' use margins of safety and folly for threshold-setting
+              scheme_M = 'RTWYZ', -- 'RTWYZ' use R, T, W, Y, Z for threshold-setting
+              -- scheme_M = 'margin', -- 'margin' use margins of safety and folly for threshold-setting
+              min_factor = 2, -- slope-accelerator for min stock
+              max_factor = 3 -- slope-accelerator for max stock
               WHERE grp = 1
         "),
       e10p = 
@@ -111,7 +115,9 @@ for (my_variant in for_variants) {
               -- trgr = 0.00,   -- amount beyond limit when is trade triggered
               first_year = 1911,   -- first year for rolling period calculations
               scheme_S = 'e10p', -- 'e10p' use E10/P for stock earnings yield (S)
-              scheme_M = 'RTWYZ' -- 'RTWYZ' use R, T, W, Y, Z for threshold-setting
+              scheme_M = 'RTWYZ', -- 'RTWYZ' use R, T, W, Y, Z for threshold-setting
+              min_factor = 2, -- slope-accelerator for min stock
+              max_factor = 3 -- slope-accelerator for max stock
               WHERE grp = 1
         "),
       ep = 
@@ -133,7 +139,9 @@ for (my_variant in for_variants) {
               trgr = 0.06,   -- amount beyond limit when is trade triggered
               first_year = 1911,   -- first year for rolling period calculations
               scheme_S = 'ep', -- 'ep' use E/P for stock earnings yield (S)
-              scheme_M = 'RTWYZ' -- 'RTWYZ' use R, T, W, Y, Z for threshold-setting
+              scheme_M = 'RTWYZ', -- 'RTWYZ' use R, T, W, Y, Z for threshold-setting
+              min_factor = 2, -- slope-accelerator for min stock
+              max_factor = 3 -- slope-accelerator for max stock
               WHERE grp = 1
         "),
       ep_margin = 
@@ -155,7 +163,9 @@ for (my_variant in for_variants) {
               trgr = 0.06,   -- amount beyond limit when is trade triggered
               first_year = 1911,   -- first year for rolling period calculations
               scheme_S = 'ep', -- 'ep' use E/P for stock earnings yield (S)
-              scheme_M = 'margin' -- 'margin' use margins of safety and folly for threshold-setting
+              scheme_M = 'margin', -- 'margin' use margins of safety and folly for threshold-setting
+              min_factor = 2, -- slope-accelerator for min stock
+              max_factor = 3 -- slope-accelerator for max stock
               WHERE grp = 1
         ")
     )
@@ -514,6 +524,8 @@ for (my_variant in for_variants) {
   # View(with(grow20cagr, grow20cagr[grow_ybar == min(grow_ybar) | grow_min == min(grow_min) | grow_mid == min(grow_mid) | grow_max == min(grow_max),]))
   # grow20 <- ( growth_df[growth_df$years == 20,] |> (function(.) cbind(.[,3,drop = F], .[,5:8]))()); View(grow20)
 
+  min_factor <- parm_df$min_factor
+  max_factor <- parm_df$max_factor
   H <- parm_df$H
   T <- parm_df$T
   X <- 21.46 # TODO compute X from today's date
@@ -541,8 +553,7 @@ for (my_variant in for_variants) {
           parm_df$Ma + PICO,
           pmax(
             -PICO,
-            #(1.8 * b / T) * f_margin_of_safety(s, b)
-            (2.0 * b / T) * f_margin_of_safety(s, b)
+            (min_factor * b / T) * f_margin_of_safety(s, b)
           )
         )
       }
@@ -553,7 +564,7 @@ for (my_variant in for_variants) {
           parm_df$Ma + PICO,
           pmax(
             parm_df$Mi - PICO,
-            1 - (3 * b / T) * f_margin_of_folly(s, b)
+            1 - (max_factor * b / T) * f_margin_of_folly(s, b)
           )
         )
       }

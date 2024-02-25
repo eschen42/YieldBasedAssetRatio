@@ -355,6 +355,7 @@ There are several important limitations to consider when interpreting these resu
 - This analysis assumes the use of index funds; thus, expenses and commissions are neglected.
 - No attempt was made to add money market funds as an alternative to investing in bonds.
 - No attempt was made to model allocation among several stock funds or several bond funds.
+- One aspect of this analysis applies unknowable future data to present decisions: the factor $\frac{2 \times B}{T}$ used in defining the minimum limit and the factor $\frac{3 \times B}{T}$ used in the maximum limit were deduced by inspecting performance during the entire 1911--2022 period.
 
 ## "Is this risk management, or is it speculation?"
 

@@ -94,7 +94,9 @@ CREATE TABLE IF NOT EXISTS
     trgr NUM,
     first_year NUM,
     scheme_S TEXT,
-    scheme_M TEXT
+    scheme_M TEXT,
+    min_factor NUM, -- presented value is 2
+    max_factor NUM  -- presented value is 3
   );
 
 -- seed the first row, which will be filled by the next statement
@@ -119,7 +121,9 @@ UPDATE parms
       scheme_S = 'e10p', -- 'e10p' use E10/P for stock earnings yield (S)
       -- scheme_S = 'ep', -- 'ep' use E/P for stock earnings yield (S)
       -- scheme_M = 'RTWYZ' -- 'RTWYZ' use R, T, W, Y, Z for threshold-setting
-      scheme_M = 'margin' -- 'margin" use margins of safety and folly for threshold-setting
+      scheme_M = 'margin', -- 'margin" use margins of safety and folly for threshold-setting
+      min_factor = 2, -- slope-accelerator for min stock
+      max_factor = 3 -- slope-accelerator for max stock
   WHERE grp = 2
   ;
 
@@ -141,8 +145,10 @@ UPDATE parms
       first_year = 1911,   -- first year for rolling period calculations
       scheme_S = 'e10p', -- 'e10p' use E10/P for stock earnings yield (S)
       -- scheme_S = 'ep', -- 'ep' use E/P for stock earnings yield (S)
-      scheme_M = '' -- '' use R, T, W, X, Y, Z for threshold-setting
+      scheme_M = '', -- '' use R, T, W, X, Y, Z for threshold-setting
       -- scheme_M = 'margin' -- 'margin' use margins of safety and folly for threshold-setting
+      min_factor = 2, -- slope-accelerator for min stock
+      max_factor = 3 -- slope-accelerator for max stock
   WHERE grp = 1
   ;
 
@@ -292,7 +298,7 @@ CREATE VIEW IF NOT EXISTS
         --   min(C, Ma, max(0,  (S - B - 0.0009)/0.0222))
         CASE p.scheme_M
           WHEN 'margin' THEN
-            min(C, Ma, max(0, (2 * B / T) * (S / B - 1)))
+            min(C, Ma, max(0, (min_factor * B / T) * (S / B - 1)))
           ELSE
             min(C, Ma, max(0,  (S - B + T - Z - R) / (W - Z - R)))
           END
@@ -301,7 +307,7 @@ CREATE VIEW IF NOT EXISTS
         --   min(C, Ma, max(Mi, (S - B + 0.0111)/0.0097))
         CASE p.scheme_M
           WHEN 'margin' THEN
-            min(C, Ma, max(Mi, 1 - (3 * B / T) * (B / S - 1)))
+            min(C, Ma, max(Mi, 1 - (max_factor * B / T) * (B / S - 1)))
           ELSE
             min(C, Ma, max(Mi, (S - B + T - Z    ) / (Y - Z    )))
           END
