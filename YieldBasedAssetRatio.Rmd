@@ -52,25 +52,21 @@ Robert Shiller defined an analogous "Cyclically Adjusted Price to Earnings Ratio
 William Bernstein noted (and interpreted) a gradually increasing trend in the P/E10,^[Bernstein, William J., 2013. The Paradox of Wealth and the End of History Illusion. Efficient Frontier Advisors.
 [*https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=2bb45f3324df5b05c4764f135cfea7ad37f78b33*](https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=2bb45f3324df5b05c4764f135cfea7ad37f78b33).  His interpretation: "Both theory and long-run empirical data support the notion that economic growth lowers security returns."] as illustrated in Figure 11 in the Appendix.
 
-Graham weighed the value of stock investments against the alternative of investing in bonds:
-
- > A reasonably sound central value, or intrinsic value, of the Dow-Jones list can be ascertained by capitalizing the average earnings for the past ten years on a basis equivalent to twice the yield of high-grade bonds.^[Benjamin Graham, 1959. *The Intelligent Investor: a book of practical counsel*, second revised edition. Harper. [*https://lccn.loc.gov/59009946*](https://lccn.loc.gov/59009946), p. 267.]
-
+Graham weighed the value of stock investments against the alternative of investing in bonds.
 Graham generalized this in his "margin of safety" principle:
 
 > The function of the margin of safety is, in essence, that of rendering unnecessary an accurate estimate of the future. If the margin is a large one, then it is enough to assume that future earn- ings will not fall far below those of the past in order for an investor to feel sufficiently protected against the vicissitudes of time. ...
-> *In the ordinary common stock ... the margin of safety lies in an expected earning power considerably above the going rate for bonds*.^[Graham, 2003. *Op. cit.*, pp. 512--524. Italics added; e.g., Graham would assign a "25% margin of safety" to a stock with expected earning power of 5% *vs.* a 4% rate for bonds.]
+> *In the ordinary common stock ... the margin of safety lies in an expected earning power considerably above the going rate for bonds.*^[Graham, 2003. *Op. cit.*, pp. 512--524, italics added. For example, Graham would assign a "75% margin of safety" to a stock with expected earning power of 7% at a time when the current yield for bonds is 4%.]
 
 Graham did not insist that the ratio of stocks to bonds in a portfolio be invariant under all circumstances:
 
 > The program I propose with 25 percent of the portfolio in stocks and 25 percent in bonds, allowing the other 50 percent to fluctuate in accordance with the market, could be operated pretty well over the future, whether the business cycle is under better control or not.^["Benjamin Graham: Thoughts on Security Analysis" [transcript of lecture at the Northeast Missouri State University business school, March, 1972], Friends of Financial History, no. 42, March, 1991, pp. 8--10 and 28--29. [*https://archive.org/details/friendsoffinanci00rmsm_38/page/8/mode/2up *](https://archive.org/details/friendsoffinanci00rmsm_38/page/8/mode/2up).]
 
-In 1953, Lucille Tomlinson investigated an "investment formula" based on Graham's "central value" to explore the hypothetical results of varying the percentage of a portfolio invested in stocks from the Dow-Jones index, showing that, for 1924--1952, such a portfolio would have performed comparably to stocks with somewhat less volatility.^[Lucile Tomlinson, 1953. *Practical Formulas for Successful Investing.* Wilfred Funk, Inc.. [*https://lccn.loc.gov/53005696*](https://lccn.loc.gov/53005696), pp. 192--193, 232--238.]
+In 1953, Lucille Tomlinson investigated an "investment formula" implementing the essence of Graham's proposed program to explore the hypothetical results of allowing the percentage of a portfolio invested in stocks (from the Dow-Jones index) to fluctuate, showing that, for 1924--1952, such a portfolio would have performed comparably to a portfolio 100% invested in stocks, with somewhat less volatility.^[Lucile Tomlinson, 1953. *Practical Formulas for Successful Investing.* Wilfred Funk, Inc.. [*https://lccn.loc.gov/53005696*](https://lccn.loc.gov/53005696), pp. 192--193, 232--238.]
 
 Today, it is possible to test hypothetical results with much more data.
 Robert Shiller maintains an historical record, since 1871, of the price, earnings, dividends, and total returns of the spliced equivalent of the S&P 500 index (SP500), the interest rate and total returns of ten-year US Treasury bonds (GS10), and the spliced equivalent of the Consumer Price Index (CPI, which is the basis of inflation reports seen in the press).^[[http://www.econ.yale.edu/~shiller/data/ie_data.xls](http://www.econ.yale.edu/~shiller/data/ie_data.xls), the composition of which is described at [http://www.econ.yale.edu/~shiller/data.htm](http://www.econ.yale.edu/~shiller/data.htm).]
-
-Since 1911, earnings yields for stocks and (nominal) interest for 10-year government bonds have been weak estimators of their respective 10-year real returns:
+Inspection of Shiller's data set reveals that, since 1911, earnings yields for stocks and (nominal) interest for 10-year government bonds have been weak estimators of their respective 10-year real returns:
 
 - There has been a 58% correlation between SP500 earnings yield (estimated as E10/P) and the subsequent ten-year real return.^[See Figure 9 in the Appendix. This relationship was discussed by Bogleheads user Siamond at [*https://www.bogleheads.org/blog/2018/02/28/cape-and-safe-withdrawal-rates/*](https://www.bogleheads.org/blog/2018/02/28/cape-and-safe-withdrawal-rates/).]
 - There has been a 64% correlation between the nominal interest rate yield for GS10 and its subsequent ten-year real return.^[See Figure 10 in the Appendix.]
@@ -369,18 +365,25 @@ Fixed-percentage stock allocation has as its basis the speculative assumption th
 
 ## Previous work
 
-In 1953, Lucile Tomlinson described one endowment fund's "compromise solution" that augmented capital appreciation by staggering the "buy" and "sell" thresholds of a variable stock-percentage allocation.^[Tomlinson, 1953. *Op. cit.*, pp. 232-238.] On the basis of Graham's "central value", that investment formula provided a modestly large number of incremental steps when varying percentage of stock. In her test, the formula's hypothetical annualized performance would have exceeded (by 115 basis points) that of a 50% stock portfolio for 1924--1952. However, for 1961--1981, the formula's resistance to stock-price declines and its potential for capital appreciation is hampered by its generous 40% minimum stock allocation and its limited 60% maximum percentage of stock (data not shown).
+In 1953, Lucile Tomlinson described one endowment fund's "compromise solution" that augmented capital appreciation by staggering the "buy" and "sell" limits of a variable allocation between stocks and cash, incrementally adjusting those limits according to the relationship between the actual and expected prices for the Dow-Jones index.^[Tomlinson, 1953. *Op. cit.*]  These limits on the percentage of stock varied between 40% and 60% in 5% increments. In her test, the formula's hypothetical annualized performance would have exceeded (by 115 basis points) that of a 50% stock portfolio for 1924--1952. However, for 1961--1981, her formula's resistance to stock-price declines is hampered by its generous 40% minimum stock allocation, and her formula's potential for capital appreciation is limited by its modest 60% maximum percentage of stock (data not shown).
 
-Wade Pfau published two papers showing that "Valuation-Based Asset Allocation" can offer a higher theoretical "safe withdrawal rate" in retirement^[Pfau, Wade D., Long-Term Investors and Valuation-Based Asset Allocation (2011). Available at SSRN: *https://dx.doi.org/10.2139/ssrn.2544636*; and Pfau, Wade D., Withdrawal Rates, Savings Rates, and Valuation-Based Asset Allocation (2011). Available at SSRN: *https://dx.doi.org/10.2139/ssrn.2544635*.].  Those works explored step-wise allocations among two or three coarsely grained stock percentage levels (in contrast to the increments of 6% taken in this paper), and determination of the stock percentage did not consider the current yield of bonds.
-Although Pfau focused on 30-year returns (which may be fewer years than one might expect their retirement to last but which may be longer than one can wait before needing access to some of the invested principal), Pfau also addressed this by comparing intervals from 1--60 years.
+Wade Pfau published two papers investigating "Valuation-Based Asset Allocation", for which
+stock-percentage adjustments were coarsely grained,
+"buy" and "sell" limits were not staggered, and determination of stock percentage did not consider the yield of bonds.
+In the first, he established as a decision rule whether the P/E10 was greater than the rolling median P/E10 since 1881, and he showed that switching between 100% stocks and 100% bonds on the basis of this rule would give 30-year returns comparable with a 100% stock allocation but with fluctuation on par with a 50% stock allocation;
+because 30-years may be fewer than one might expect their retirement to last but may be more than one can wait before needing access to some of the invested principal, he also compared those results to results for intervals of 1--60 years.^[Pfau, Wade D., 2011. *Long-Term Investors and Valuation-Based Asset Allocation.* Available at SSRN: *https://dx.doi.org/10.2139/ssrn.2544636*]
+In the second paper, Pfau showed that switching among 25%, 50%, and 75% stock allocation (respectively when the P/E10 is more than 33% above the average since 1881, within 33% of the average, and more than 33% below the average)
+can offer a higher theoretical "safe withdrawal rate" in retirement.^[Pfau, Wade D., 2011. *Withdrawal Rates, Savings Rates, and Valuation-Based Asset Allocation.* Available at SSRN: *https://dx.doi.org/10.2139/ssrn.2544635*.]
+
+Cardinale *et al.* studied predictors for stock and bond returns, finding that stock earnings yield showed significant, moderately high correlation with ten-year returns and that (perhaps unsurprisingly) initial bond yield tracks future performance well over the long term.^[Cardinale, Mirko, Navone, Marco, and Pioch, Andrzej, 2014. *The Power of Dynamic Asset Allocation.* The Journal of Portfolio Management. 40, p. 47-60. *https://dx.doi.org/10.3905/jpm.2014.2014.1.041*.]
 
 # Conclusion
 
-Because of its high minimum intermediate-term return over the course of the historical record, the YBAR addresses what may be the retiree's greatest concern, i.e., maintaining the principal value of capital while seeking its growth.
+Because the minimum intermediate-term return of the YBAR has typically been higher than that of fixed-percentage stock allocations, the YBAR addresses what may be the retiree's greatest concern, i.e., maintaining the principal value of capital while seeking its growth.
 Fixed-percentage stock allocations would have outperformed the YBAR when yields were high, but those high yields would address any concern that the principal value might decline.
-The YBAR does not generally sacrifice much of the upside of an aggressive fixed allocation.
-The volatile stock percentage specified by the YBAR seems preferable to occasional greater downward volatility of stock prices that can substantially depress the minimum intermediate-term returns seen for fixed-percentage stock allocations.
-Regardless of whether one uses the YBAR or a fixed-percentage stock allocation to manage volatile assets, these cannot fund near term expenses without undue exposure to the possibility of a considerable loss in their principal value.
+The YBAR does not generally sacrifice much of the upside of a high-percentage stock allocation.
+The volatile stock percentage specified by the YBAR seems preferable to occasional severe downward volatility of stock prices that can substantially depress the minimum intermediate-term returns seen for fixed-percentage stock allocations.
+Regardless of whether one uses the YBAR or a fixed-percentage stock allocation to manage volatile assets, volatile assets cannot fund near term expenses without undue exposure to the possibility of a considerable loss in their principal value.
 
 # Software availability
 
