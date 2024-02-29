@@ -12,7 +12,7 @@ This software generates results consumed by the `YieldBasedAssetRatio.Rmd` scrip
 >
 > For 20-year intervals since 1911, when allocating between 10-year US Treasury bonds and the S&P 500 index, a simple formula implementing such a "Yield-Based Asset Ratio" hypothetically would have had a *minimum* real compound annual growth rate (CAGR) of 1.92%, considerably higher than would have been observed for 6%, 60%, and 85% stock allocations (CAGR -2.33%, -0.41%, and 0.09%, respectively). Results suggest that a fixed-percentage stock allocation may not offer the best protection of investment returns and principal for interval lengths of 11 or more years.
 
-## How to generate YieldBasedAssetRatio.Rmd
+## How to generate `YieldBasedAssetRatio.pdf`
 
 To build from the command line (rather than RStudio), first set up the conda enviroment to support `rmarkdown`.  (To bootstrap conda, I install and use "MiniForge" as described at [https://github.com/conda-forge/miniforge](https://github.com/conda-forge/miniforge).)
 
@@ -56,7 +56,15 @@ R --vanilla --no-echo -f build.R
 
 ### To modify parameters
 
-Edit the `e10p_margin` case on line 45 of `render_figures.R` and `make`.
+Edit line 46-140 of `render_figures.R` and run `make -f Makefile` or `make -f Makefile ybar_intro`.  For documentation of the parameters, see endnotes 7 and 8 of [https://eschenlauer.com/investing/risk_based_allocation/YBAR_intro.html](https://eschenlauer.com/investing/risk_based_allocation/YBAR_intro.html) (and elsewhere in that document for the theoretical bases for these parameters).
+
+## How to generate figures for `YBAR_intro.html`
+
+To generate the figures referenced by `YBAR_intro.html`:
+
+```bash
+make -f Makefile ybar_intro
+```
 
 # Disclaimer
 

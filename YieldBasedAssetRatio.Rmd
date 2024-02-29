@@ -18,7 +18,7 @@ knitr::opts_chunk$set(echo = TRUE)
 > Minimum investment returns are of primary importance to funding retirement expenses from an investment portfolio. Prolonged periods of low yields have at times had severe effects on minimum 20-year returns. Is there a strategy that can mitigate weak medium-term returns more effectively than fixed-percentage stock allocations?
 >
 > Benjamin Graham allowed for fluctuation in the proportion of a portfolio invested in common stock.
-> Considering his "Margin of Safety" principle for stock purchases and its complement for stock sales, one might adjust the stock percentage of the portfolio based on both the stock earnings yield and the current yield for bonds, facilitating capital appreciation by avoiding trading until the present yield of the purchased security is substantially greater than that of the sold security.
+> Considering his "Margin of Safety" principle for stock purchases and its complement for stock sales, one might adjust the stock percentage of the portfolio based on both the stock earnings yield and the current yield for bonds, facilitating capital appreciation by avoiding trading until the *present* yield of the purchased security is substantially greater than that of the sold security.
 > It may be wise to add a hedge against stock prices in excess of historically sustainable levels.
 >
 > For 20-year intervals since 1911, when allocating between 10-year US Treasury bonds and the S&P 500 index, a simple formula implementing such a "Yield-Based Asset Ratio" hypothetically would have had a *minimum* real compound annual growth rate (CAGR) of 1.92%, considerably higher than would have been observed for 6%, 60%, and 85% stock allocations (CAGR -2.33%, -0.41%, and 0.09%, respectively). Results suggest that a fixed-percentage stock allocation may not offer the best protection of investment returns and principal for interval lengths of 11 or more years.
@@ -37,7 +37,6 @@ knitr::opts_chunk$set(echo = TRUE)
 A retirement may last forty years or more; funding it requires a decumulation strategy that both supports ongoing spending and resists market downturns.  Although returns from aggressive investments may offer modest opportunities to increase funding for longer-term expenses, incurring losses at unfavorable times when funding near-term spending from the retirement portfolio may threaten principal that is earmarked to generate income in the distant future.^[Pfau, Wade D., 2023. *Retirement Planning Guidebook: Navigating the Important Decisions for Retirement Success.* Retirement Researcher Media. ISBN-13: 978-1-94-564015-5. [*https://retirementresearcher.com/books/*](https://retirementresearcher.com/books/)] In the near term, minimally volatile assets, insurance products (e.g., annuities), or buffer assets (e.g., home equity conversion mortgages) may be the retiree's best recourse to mitigate the risk that "market underperformance" poses to funding retirement successfully.^[*Ibid.*] Volatile assets can only be wisely dedicated to funding intermediate-term and long-term spending needs, but one must decide how to allocate investments among volatile assets.
 
 Current conventional wisdom posits that a fixed-percentage stock allocation can provide a balance between risk of loss and returns that is fair-to-good (depending on the percentage chosen), but how reliable is that balance in the intermediate term, e.g., over 20 years? Historically, during protracted intervals when stock yields were generally low, fixed-percentage stock allocations neither buffered stock-market price declines dramatically nor provided income efficiently.
-
 For example, total real^[Throughout this paper, all returns, growth, and rates of growth (i.e., CAGR) are expressed in "real" (i.e., inflation-adjusted) terms.] returns for the Standard & Poor's 500 stock index (SP500) were painfully low over 20-year intervals starting in 1912, 1929, and 1961, and they were barely competitive with bonds over 1988–2008. One may argue that September 1961 started the worst 20-year interval since 1911 because, between 1969 and 1981, real returns from both SP500 and 10-year US Treasury bonds (GS10) were so minimal that SP500 had real growth of only 7% over the entire twenty years starting March of 1962 (compound annual growth rate, CAGR: 0.34%), while GS10 lost 33% of its real value (CAGR: –1.98%); portfolios having a fixed-percentage stock allocation would have performed between these rates of return.
 
 ## Historical perspective
@@ -341,17 +340,17 @@ There are several important limitations to consider when interpreting these resu
 
 - Over holding periods of less than 20 years, there is substantial risk of realizing a loss on investments in such volatile assets as stocks or longer-term bonds.
   - Notably, for 18 or fewer years after 1962, even the YBAR had CAGR < 2%.
-  - This analysis implicitly assumes that a separate strategy exists to manage shorter-term expenses.
+  - *Shorter-term expenses are assumed to be separately funded using less-volatile assets.*
   - This analysis does not model distribution from the portfolio, implicitly assuming that distributions would come from stocks when the earnings yield is lower or bonds when the current yield is lower.
 - For this data set, there are only about five times that the YBAR can be subjected to performance tests under observed conditions where relatively reduced stock yield adversely affected stocks' intermediate return (1912, 1929, 1961--1963, 1988, and 1998).
-  - One cannot say what the future will hold, and the lessons offered by the past are limited, so it is up to the reader to decide whether the analysis presented here is sufficiently thorough.
-  - No attempt was made to model future possibilities that (necessarily) would differ from the historical record with respect to either the amount or the sequence of investment returns.
+  - No attempt was made to model the amount or sequence of future returns. The lessons offered by the past are limited, so it is up to the reader to decide whether the analysis presented here is sufficiently thorough.
+- No comparison was made with other means of controlling minimum returns, such as using a "fixed indexed annuity" or other insurance contract.^[See the "Annuities and Risk Pooling" chapter of Pfau, 2023, *Op. cit.*]
 - Neither survivorship bias in the S&P 500 index nor bond default rates are part of this analysis.
 - No attempt is made here to compare the after-tax returns of a constant percentage allocation with those of a YBAR allocation. This analysis implicitly assumes that intermediate-to-long term investments are held in a tax-deferred or tax-exempt account.
-- This analysis assumes the use of index funds; thus, expenses and commissions are neglected.
+- This analysis assumes the use of index funds; expenses and commissions are deemed negligible.
 - No attempt was made to add money market funds as an alternative to investing in bonds.
 - No attempt was made to model allocation among several stock funds or several bond funds.
-- One aspect of this analysis applies unknowable future data to present decisions: the factor $\frac{2 \times B}{T}$ used in defining the minimum limit and the factor $\frac{3 \times B}{T}$ used in the maximum limit were deduced by inspecting performance during the entire 1911--2022 period.
+- One aspect of this analysis applies unknowable future data to present decisions: the factor $\frac{2 \times B}{T}$ used in the expression for the minimum limit and the factor $\frac{3 \times B}{T}$ used in the expression for the maximum limit were deduced by inspecting performance during the entire 1911--2022 period.
 
 ## "Is this risk management, or is it speculation?"
 
@@ -361,7 +360,7 @@ One does well to be mindful of both the price paid and the security of the princ
 An uncritical assessment might mistake this formula for so-called "market timing", a term chosen to imply a speculative operation that makes guesses about the future, i.e., when stock prices have reached a maximum or minimum.
 Rather than seeking to mitigate any anticipated "turn of the tide", this approach responds incrementally and proportionately to *present* yields, without guessing how they might change.
 
-Fixed-percentage stock allocation has as its basis the speculative assumption that, regardless of the prices paid, stock prices will ultimately rise so quickly that capital appreciation of stocks will make up for any excessive cost by the time that the investor needs money. Benjamin Graham discourages such wishful thinking.^[Graham, 2003. *Op. cit.*, p. 18.: "An investment operation is one which, upon thorough analysis, promises safety of principal and an adequate return. Operations not meeting these requirements are speculative."]  It seems defensible to heed the advice of Graham and to rely upon substantiated, objective, and analytical reason^[Graham, 2003. *Op. cit.*, p. 524.: "If you have formed a conclusion from the facts and if you know your judgment is sound, act on it – even though others may hesitate or differ. (You are neither right nor wrong because the crowd disagrees with you. You are right because your data and reasoning are right.) "], without regard to whether others choose to label such activity as "market timing".
+By contrast, fixed-percentage stock allocation has as its basis the speculation that, regardless of the prices paid, stock prices will ultimately rise so quickly that capital appreciation of stocks will make up for any excessive cost by the time that the investor needs money. Benjamin Graham discourages such wishful thinking.^[Graham, 2003. *Op. cit.*, p. 18.: "An investment operation is one which, upon thorough analysis, promises safety of principal and an adequate return. Operations not meeting these requirements are speculative."]  It seems wiser to heed the advice of Graham and rely upon substantiated, objective, and analytical reason^[Graham, 2003. *Op. cit.*, p. 524.: "If you have formed a conclusion from the facts and if you know your judgment is sound, act on it – even though others may hesitate or differ. (You are neither right nor wrong because the crowd disagrees with you. You are right because your data and reasoning are right.) "], without regard to whether others choose to label such activity as "market timing".
 
 ## Previous work
 
@@ -416,8 +415,15 @@ knitr::include_graphics("fig10_PE10_trend.pdf")
 ```
 
 ```{r echo=FALSE, results='asis'}
-cat("\n\\newpage\n")
+cat("\n\\clearpage\n")
 ```
+**Acknowledgements**
+
+I am grateful to Arthur Eschenlauer, formerly of the Morgan Guaranty Trust Company, (generally) for the instruction in investing that I receive from him and (particularly) for introducing me to the idea of adjusting independent "buy" and "sell" limits according to market conditions.
+
+The publications of Benjamin Graham, Lucile Tomlinson [Wessman], Jason Zweig, and Wade Pfau shaped my thinking and bolstered my confidence in the results of this research.
+
+Fred Dulles, Jeremy Chacón, Mark Esler, and Bogleheads users Beensabu and siamond provided helpful comments, suggestions, and encouragement.
 
 **Disclaimer**
 
@@ -427,29 +433,29 @@ Arthur Eschenlauer is not a financial advisor. This material is not investment a
 
 Copyright &copy; 2024 by Arthur Copeland Eschenlauer (ORCiD 0000-0002-2882-0508).
 
-This presentation is made available to under the Creative Commons
+This presentation is made available to you under the Creative Commons
 Attribution-ShareAlike 4.0 International license (CC-BY-SA 4.0) [*https://creativecommons.org/licenses/by-sa/4.0/*](https://creativecommons.org/licenses/by-sa/4.0/),
-which means:
+The hyperlink may be consulted for details, but in summary:
 
 - You are free to:
   - *Share* - copy and redistribute the material in any medium or format for any purpose, even commercially.
   - *Adapt* - remix, transform, and build upon the material for any purpose, even commercially.
   - The licensor cannot revoke these freedoms as long as you follow the license terms.
 - Under the following terms:
-  - *Attribution* - You must give appropriate credit, provide a
-  link to the license, and indicate if changes were made. You may do so in
+  - *Attribution* - You must give appropriate credit,^[If supplied, you must provide the name of the creator and attribution parties, a copyright notice, a license notice, a disclaimer notice, and a link to the material.] provide a
+  link to the license, and indicate^[See, e.g., https://wiki.creativecommons.org/wiki/Recommended_practices_for_attribution#This_is_a_great_attribution] if changes were made. You may do so in
   any reasonable manner, but not in any way that suggests the licensor
   endorses you or your use.
   - *ShareAlike* - If you remix, transform, or build upon the
-  material, you must distribute your contributions under the same license
+  material, you must distribute your contributions under the same license^[You may also use a license listed as compatible at [https://creativecommons.org/compatiblelicenses](https://creativecommons.org/compatiblelicenses).]
   as the original.
   - *No additional restrictions* - You may not apply legal terms
-  or technological measures that legally restrict others from doing
+  or technological measures^[The license prohibits application of effective technological measures, defined with reference to Article 11 of the WIPO Copyright Treaty.] that legally restrict others from doing
   anything the license permits.
 - Notices:
   - You do not have to comply with the license for elements of the
     material in the public domain or where your use is permitted by an
-    applicable exception or limitation.
+    applicable exception or limitation.^[The rights of users under exceptions and limitations, such as fair use and fair dealing, are not affected by the CC licenses.]
   - No warranties are given. The license may not give you all of the
     permissions necessary for your intended use. For example, other rights
     such as publicity, privacy, or moral rights may limit how you use the

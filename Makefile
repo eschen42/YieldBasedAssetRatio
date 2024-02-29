@@ -16,6 +16,12 @@ YieldBasedAssetRatio.pdf: \
 	R --vanilla --no-echo -f render_figures.R
 	R --vanilla --no-echo -f build.R
 
+ybar_intro: \
+    graham.sqlite \
+    old_paper_figures.R \
+    render_figures.R
+	R --vanilla --no-echo -f old_paper_figures.R
+
 graham.sqlite: graham_parm.sql fetch_shiller.R ie_data.xls
 	R --vanilla --no-echo -f fetch_shiller.R
 	sqlite3 graham.sqlite < graham_parm.sql

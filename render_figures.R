@@ -1,13 +1,18 @@
-my_variants <-
-  c(
-    "e10p",         # 1
-    "ep",           # 2
-    "ep_margin",    # 3
-    "e10p_margin",  # 4
-    "old_paper"     # 5
-    )
-# note: "old_paper" generates images for
-#  https://eschenlauer.com/investing/risk_based_allocation/YBAR_intro.html
+if (!exists("my_variants")) {
+  my_variants <-
+    c(
+      "e10p",         # 1
+      "ep",           # 2
+      "ep_margin",    # 3
+      "e10p_margin",  # 4
+      "ybar_intro"     # 5
+      )
+  # note: "ybar_intro" generates images for
+  #  https://eschenlauer.com/investing/risk_based_allocation/YBAR_intro.html
+}
+if (!exists("my_variant_selector")) {
+  my_variant_selector <- c(4)
+}
 
 if (!dir.exists("img")) { dir.create("img")}
 cp_img <-
@@ -19,26 +24,25 @@ cp_img <-
 
 # images for
 #  https://eschenlauer.com/investing/risk_based_allocation/YBAR_intro.html
-if (!dir.exists("ybar_img_old")) { dir.create("ybar_img_old")}
+if (!dir.exists("img_ybar_intro")) { dir.create("img_ybar_intro")}
 cp_old <-
   function(src, dst) {
     #cat("cp_old ", src, dst, "\n", file = stderr())
     if(file.exists(src)) {
-      file.copy(from = src, to = paste0("ybar_img_old/", dst), overwrite = TRUE)
+      file.copy(from = src, to = paste0("img_ybar_intro/", dst), overwrite = TRUE)
       }
     }
 
-#ACE for_variants <- my_variants
-for_variants <- my_variants[4]
+for_variants <- my_variants[my_variant_selector]
 for (my_variant in for_variants) {
-  OLD_PAPER <- (my_variant == "old_paper")
-  if (OLD_PAPER) {
+  if ((my_variant %in% c("ep", "ybar_intro")) || length(my_variant_selector) > 1) {
     img_ext <- function(s) paste0(s, ".svg")
     img <- svg
   } else {
     img_ext <- function(s) paste0(s, ".pdf")
     img <- pdf
   }
+  # see notes 7 and 8 of YBAR_intro.html for an explanation of the parameters set here.
   update_sql <-
     switch (
       my_variant,
@@ -46,20 +50,15 @@ for (my_variant in for_variants) {
         ("
         UPDATE parms
           SET H    = 0.25,   -- maximum tolerable 'loss on paper' when past margin of reversion
-          -- SET H    = 1.25,   -- maximum tolerable 'loss on paper' when past margin of reversion
               Ma   = 0.85,   -- maximum acceptable stock proportion in portfolio
-              --Ma   = 1.00,   -- maximum acceptable stock proportion in portfolio
               Mi   = 0.06,   -- minimum acceptable stock proportion in portfolio
-              --Mi   = 0.00,   -- minimum acceptable stock proportion in portfolio
               mid  = 0.60,   -- mid-way allocation (avg YBAR for 1911-2022 with [Mi,Ma] = [0.06,0.88])
-              R    = 0.012,  -- offset minimum stock pct; lowering decreases capital appreciation
+              -- R    = 0.012,  -- offset minimum stock pct; lowering decreases capital appreciation
               T    = 0.0414, -- historic bond CAGR
-              -- T    = 0.065, -- historic bond CAGR
-              W    = 0.0645, -- historic stock CAGR
-              Y    = 0.0400, -- the mean of W and the historic T-bill CAGR (1.54%)
-              Z    = 0.0303, -- 1 / (95th percentile for P/E10)
+              -- W    = 0.0645, -- historic stock CAGR
+              -- Y    = 0.0400, -- the mean of W and the historic T-bill CAGR (1.54%)
+              -- Z    = 0.0303, -- 1 / (95th percentile for P/E10)
               trgr = 0.06,   -- amount beyond limit when is trade triggered
-              -- first_year = 1901,   -- first year for rolling period calculations
               first_year = 1911,   -- first year for rolling period calculations
               scheme_S = 'e10p', -- 'e10p' use E10/P for stock earnings yield (S)
               scheme_M = 'margin', -- 'margin' use margins of safety and folly for threshold-setting
@@ -67,70 +66,49 @@ for (my_variant in for_variants) {
               max_factor = 3 -- slope-accelerator for max stock percentage (3 works well since 1911)
               WHERE grp = 1
         "),
-      old_paper = 
+      ybar_intro = 
         ("
         UPDATE parms
           SET H    = 0.25,   -- maximum tolerable 'loss on paper' when past margin of reversion
-          -- SET H    = 1.0,   -- maximum tolerable 'loss on paper' when past margin of reversion
-              Ma   = 0.86,   -- maximum acceptable stock proportion in portfolio
-              --Ma   = 1.00,   -- maximum acceptable stock proportion in portfolio
+              Ma   = 0.85,   -- maximum acceptable stock proportion in portfolio
               Mi   = 0.06,   -- minimum acceptable stock proportion in portfolio
-              --Mi   = 0.00,   -- minimum acceptable stock proportion in portfolio
               mid  = 0.60,   -- mid-way allocation (avg YBAR for 1911-2022 with [Mi,Ma] = [0.06,0.88])
-              --mid  = 0.6477,   -- mid-way allocation (avg YBAR for 1911-2022 with [Mi,Ma] = [0.06,0.88])
               R    = 0.012,  -- offset minimum stock pct; lowering decreases capital appreciation
               T    = 0.0414, -- historic bond CAGR
               W    = 0.0645, -- historic stock CAGR
               Y    = 0.0400, -- the mean of W and the historic T-bill CAGR (1.54%)
               Z    = 0.0303, -- 1 / (95th percentile for P/E10)
               trgr = 0.06,   -- amount beyond limit when is trade triggered
-              --trgr = 0.00,   -- amount beyond limit when is trade triggered
               first_year = 1911,   -- first year for rolling period calculations
-              -- first_year = 1891,   -- first year for rolling period calculations
               scheme_S = 'e10p', -- 'e10p' use E10/P for stock earnings yield (S)
-              -- scheme_S = 'ep', -- 'ep' use E/P for stock earnings yield (S)
-              scheme_M = 'RTWYZ', -- 'RTWYZ' use R, T, W, Y, Z for threshold-setting
-              -- scheme_M = 'margin', -- 'margin' use margins of safety and folly for threshold-setting
-              min_factor = 2, -- slope-accelerator for min stock
-              max_factor = 3 -- slope-accelerator for max stock
+              scheme_M = 'RTWYZ' -- 'RTWYZ' use R, T, W, Y, Z for threshold-setting
               WHERE grp = 1
         "),
       e10p = 
         ("
         UPDATE parms
           SET H    = 0.25,   -- maximum tolerable 'loss on paper' when past margin of reversion
-          -- SET H    = 1.25,   -- maximum tolerable 'loss on paper' when past margin of reversion
               Ma   = 0.85,   -- maximum acceptable stock proportion in portfolio
-              -- Ma   = 0.00,   -- maximum acceptable stock proportion in portfolio
               Mi   = 0.06,   -- minimum acceptable stock proportion in portfolio
-              -- Mi   = 0.00,   -- minimum acceptable stock proportion in portfolio
               mid  = 0.60,   -- mid-way allocation (avg YBAR for 1911-2022 with [Mi,Ma] = [0.06,0.88])
-              --mid  = 0.6477,   -- mid-way allocation (avg YBAR for 1911-2022 with [Mi,Ma] = [0.06,0.88])
               R    = 0.012,  -- offset minimum stock pct; lowering decreases capital appreciation
               T    = 0.0414, -- historic bond CAGR
               W    = 0.0645, -- historic stock CAGR
               Y    = 0.0400, -- the mean of W and the historic T-bill CAGR (1.54%)
               Z    = 0.0303, -- 1 / (95th percentile for P/E10)
               trgr = 0.06,   -- amount beyond limit when is trade triggered
-              -- trgr = 0.00,   -- amount beyond limit when is trade triggered
               first_year = 1911,   -- first year for rolling period calculations
               scheme_S = 'e10p', -- 'e10p' use E10/P for stock earnings yield (S)
-              scheme_M = 'RTWYZ', -- 'RTWYZ' use R, T, W, Y, Z for threshold-setting
-              min_factor = 2, -- slope-accelerator for min stock
-              max_factor = 3 -- slope-accelerator for max stock
+              scheme_M = 'RTWYZ' -- 'RTWYZ' use R, T, W, Y, Z for threshold-setting
               WHERE grp = 1
         "),
       ep = 
         ("
         UPDATE parms
           SET H    = 0.25,   -- maximum tolerable 'loss on paper' when past margin of reversion
-          -- SET H    = 1.25,   -- maximum tolerable 'loss on paper' when past margin of reversion
               Ma   = 0.85,   -- maximum acceptable stock proportion in portfolio
-              --Ma   = 1.00,   -- maximum acceptable stock proportion in portfolio
               Mi   = 0.06,   -- minimum acceptable stock proportion in portfolio
-              --Mi   = 0.00,   -- minimum acceptable stock proportion in portfolio
               mid  = 0.60,   -- mid-way allocation (avg YBAR for 1911-2022 with [Mi,Ma] = [0.06,0.88])
-              --mid  = 0.6477,   -- mid-way allocation (avg YBAR for 1911-2022 with [Mi,Ma] = [0.06,0.88])
               R    = 0.012,  -- offset minimum stock pct; lowering decreases capital appreciation
               T    = 0.0414, -- historic bond CAGR
               W    = 0.0645, -- historic stock CAGR
@@ -139,27 +117,17 @@ for (my_variant in for_variants) {
               trgr = 0.06,   -- amount beyond limit when is trade triggered
               first_year = 1911,   -- first year for rolling period calculations
               scheme_S = 'ep', -- 'ep' use E/P for stock earnings yield (S)
-              scheme_M = 'RTWYZ', -- 'RTWYZ' use R, T, W, Y, Z for threshold-setting
-              min_factor = 2, -- slope-accelerator for min stock
-              max_factor = 3 -- slope-accelerator for max stock
+              scheme_M = 'RTWYZ' -- 'RTWYZ' use R, T, W, Y, Z for threshold-setting
               WHERE grp = 1
         "),
       ep_margin = 
         ("
         UPDATE parms
           SET H    = 0.25,   -- maximum tolerable 'loss on paper' when past margin of reversion
-          -- SET H    = 1.25,   -- maximum tolerable 'loss on paper' when past margin of reversion
               Ma   = 0.85,   -- maximum acceptable stock proportion in portfolio
-              --Ma   = 1.00,   -- maximum acceptable stock proportion in portfolio
               Mi   = 0.06,   -- minimum acceptable stock proportion in portfolio
-              --Mi   = 0.00,   -- minimum acceptable stock proportion in portfolio
               mid  = 0.60,   -- mid-way allocation (avg YBAR for 1911-2022 with [Mi,Ma] = [0.06,0.88])
-              --mid  = 0.6477,   -- mid-way allocation (avg YBAR for 1911-2022 with [Mi,Ma] = [0.06,0.88])
-              R    = 0.012,  -- offset minimum stock pct; lowering decreases capital appreciation
               T    = 0.0414, -- historic bond CAGR
-              W    = 0.0645, -- historic stock CAGR
-              Y    = 0.0400, -- the mean of W and the historic T-bill CAGR (1.54%)
-              Z    = 0.0303, -- 1 / (95th percentile for P/E10)
               trgr = 0.06,   -- amount beyond limit when is trade triggered
               first_year = 1911,   -- first year for rolling period calculations
               scheme_S = 'ep', -- 'ep' use E/P for stock earnings yield (S)
@@ -170,29 +138,19 @@ for (my_variant in for_variants) {
         ")
     )
 
-  if (OLD_PAPER) {
-    my_dbname <- "graham.sqlite"
-    my_parm_f <-
-      function(.) {
-      my_conn <- RSQLite::dbConnect(RSQLite::SQLite(), my_dbname)
-      on.exit(RSQLite::dbDisconnect(my_conn))
-      RSQLite::dbExecute(my_conn, update_sql)
-    }
-  } else {
-    my_dbname <- "graham.sqlite"
-    my_parm_f <-
-      function(.) {
-      my_conn <- RSQLite::dbConnect(RSQLite::SQLite(), my_dbname)
-      on.exit(RSQLite::dbDisconnect(my_conn))
-      RSQLite::dbExecute(my_conn, update_sql)
-    }
+  my_dbname <- "graham.sqlite"
+  my_parm_f <-
+    function(.) {
+    my_conn <- RSQLite::dbConnect(RSQLite::SQLite(), my_dbname)
+    on.exit(RSQLite::dbDisconnect(my_conn))
+    RSQLite::dbExecute(my_conn, update_sql)
   }
 
   my_dbname |> my_parm_f()
 
   my_sub <- switch(
     my_variant,
-    old_paper = "stock earnings yield = E10 / P",
+    ybar_intro = "stock earnings yield = E10 / P",
     e10p = "stock earnings yield = E10 / P",
     ep = "stock earnings yield = E / P",
     e10p_margin = "margin-based; stock earnings yield = E10 / P",
@@ -497,6 +455,7 @@ for (my_variant in for_variants) {
     ) #; View(grow20cagr)
   sink(file = stderr())
   cat("----------------------------------------------------------------\n")
+  cat("scenario: ", my_variant, "\n")
   print(
     with(
       grow20cagr,
@@ -662,7 +621,7 @@ for (my_variant in for_variants) {
     }
     )
 
-    if (!OLD_PAPER) {
+    if (my_variant != "ybar_intro") {
       my_sub = sprintf("D = %0.2f", parm_df$trgr)
     } else {
       my_sub = ""
@@ -699,7 +658,7 @@ for (my_variant in for_variants) {
         ylim = c(0, 1)
         )
       par(new=TRUE)
-      if (!OLD_PAPER) {
+      if (my_variant != "ybar_intro") {
         plot(
           function(x)  f_min_stock_proportion(x, parm_df$T) - parm_df$trgr,
           col = "red",
@@ -750,7 +709,7 @@ for (my_variant in for_variants) {
           y = 0.3,
           labels = "region of safety"
           )
-      } else { # my_variant == "old_paper"
+      } else { # my_variant == "ybar_intro"
         plot(
           #function(x)  1.8 * f_margin_of_safety(x, parm_df$T),
           function(x)  2.0 * f_margin_of_safety(x, parm_df$T),
@@ -1102,7 +1061,7 @@ for (my_variant in for_variants) {
     dev.off()
   }
     
-  if (my_variant == "e10p_margin") {
+  if (my_variant %in% c("e10p_margin", "ep", "ybar_intro")) {
     cor_df <-
       sqldf::sqldf(
         "
@@ -1161,7 +1120,7 @@ for (my_variant in for_variants) {
 
   switch(
     my_variant,
-    old_paper = {
+    ybar_intro = {
       # "fig3_ybar_history.svg"
       # "fig6_bond_yield_return_corr.svg"
       # "fig7_E10P_yield_return_corr.svg"
@@ -1194,6 +1153,7 @@ for (my_variant in for_variants) {
       cp_old("min_by_year.svg", "fig5c_min_by_year_pe.svg")
       cp_img("fig1_cf20yr.pdf", "fig1_cf20yr_ep.pdf")
       cp_img("min_by_year.pdf", "fig5c_min_by_year_pe.pdf")
+      cp_old("fig7_E10P_yield_return_corr.svg", "fig8_EP_yield_return_corr.svg")
       },
     e10p_margin = {
       cp_img("fig1_cf20yr.pdf", "fig1_cf20yr_mos.pdf")
@@ -1206,6 +1166,7 @@ for (my_variant in for_variants) {
       cp_img("fig7_E10P_yield_return_corr.pdf", "fig7_E10P_yield_return_corr.pdf")
       cp_img("value_alloc_yields_1911_2022.pdf", "fig4_cumulative_all.pdf")
       cp_img("value_alloc_yields_1961_1981.pdf", "fig5_cumulative_detail.pdf")
+      cp_old("fig1_cf20yr.svg", "fig1_cf20yr_mos.svg")
       },
     ep_margin = {}
     )
