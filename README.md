@@ -56,7 +56,7 @@ R --vanilla --no-echo -f build.R
 
 ### To modify parameters
 
-Edit line 46-140 of `render_figures.R` and run `make -f Makefile` or `make -f Makefile ybar_intro`.  For documentation of the parameters, see endnotes 7 and 8 of [https://eschenlauer.com/investing/risk_based_allocation/YBAR_intro.html](https://eschenlauer.com/investing/risk_based_allocation/YBAR_intro.html) (and elsewhere in that document for the theoretical bases for these parameters).
+Edit line 46-140 of `render_figures.R` and run `make -f Makefile`.  For documentation of the parameters, see endnotes 7 and 8 of [https://eschenlauer.com/investing/risk_based_allocation/YBAR_intro.html](https://eschenlauer.com/investing/risk_based_allocation/YBAR_intro.html) (and elsewhere in that document for the theoretical bases for these parameters).
 
 ## How to generate figures for `YBAR_intro.html`
 
