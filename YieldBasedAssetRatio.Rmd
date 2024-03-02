@@ -19,10 +19,10 @@ knitr::opts_chunk$set(echo = TRUE)
 >
 > Benjamin Graham allowed for fluctuation in the proportion of a portfolio invested in common stock.
 > Considering his "Margin of Safety" principle for stock purchases and its complement for stock sales, one might adjust the stock percentage of the portfolio based on both the stock earnings yield and the current yield for bonds, facilitating capital appreciation by avoiding trading until the *present* yield of the purchased security is substantially greater than that of the sold security.
-> It may be wise to add a hedge against stock prices in excess of historically sustainable levels.
+> Precautions may be required when stock prices exceed historically sustainable levels.
 >
-> A simple formula implementing such a "Yield-Based Asset Ratio" hypothetically would have had a *minimum* real compound annual growth rate (CAGR) of 1.92% for 20-year intervals since 1911, when allocating between 10-year US Treasury bonds and the S&P 500 index, considerably higher than would have been observed for 6%, 60%, and 85% stock allocations (CAGR -2.33%, -0.41%, and 0.09%, respectively). Results suggest that a fixed-percentage stock allocation may not offer the best protection of returns and principal for interval lengths of 11 or more years.
-> Over the short term, volatile assets pose undue risk to their principal value.
+> A simple formula implementing such a "Yield-Based Asset Ratio" hypothetically would have had a *minimum* real compound annual growth rate (CAGR) of 1.92% for 20-year intervals since 1911 when allocating between 10-year US Treasury bonds and the S&P 500 index, considerably higher than would have been observed for 6%, 60%, and 85% stock allocations (CAGR -2.33%, -0.41%, and 0.09%, respectively). Results suggest that a fixed-percentage stock allocation may not offer the best protection of returns and principal for interval lengths of 11 or more years.
+> Volatile assets pose undue risk to their principal value over the short term. 
 
 **Abbreviations**
 
@@ -45,12 +45,12 @@ For example, total real^[This paper expresses all returns, growth, and rates of 
 Are stocks a prudent investment at any time?
 Edward McQuarrie writes:
 
-> US investors must accept that stocks will not always beat bonds, no matter [the length of] the holding period. ... Two centuries [of data] are sufficient to undermine the idea that an advantage of stocks over bonds, of +2% to +4% annualized,  represents any kind of lawful regularity or any range to which values must quickly revert."^[McQuarrie, Edward F., 2023. *Stocks for the Long Run? Sometimes Yes, Sometimes No.* Financial Analysts Journal, [DOI: 10.1080/0015198X.2023.2268556](https://dx.doi.org/10.1080/0015198X.2023.2268556).]
+> US investors must accept that stocks will not always beat bonds, no matter [the length of] the holding period. ... Two centuries [of data] are sufficient to undermine the idea that an advantage of stocks over bonds, of +2% to +4% annualized,  represents any kind of lawful regularity or any range to which values must quickly revert.^[McQuarrie, Edward F., 2023. *Stocks for the Long Run? Sometimes Yes, Sometimes No.* Financial Analysts Journal, [DOI: 10.1080/0015198X.2023.2268556](https://dx.doi.org/10.1080/0015198X.2023.2268556).]
 
 Benjamin Graham urged investors to avoid paying too much for stocks (lest the cost basis erode the gains substantially), suggesting that investors set "an upper limit of purchase price at 25 times average earnings of the past seven years"^[Benjamin Graham, 2003. *The Intelligent Investor -- Revised edition, updated with new commentary by Jason Zweig.* Harper Collins. [*https://lccn.loc.gov/2003047894*](https://lccn.loc.gov/2003047894), p. 159.]; at this limit, the "earnings yield" (annual earnings divided by price) would be 4%.
 Robert Shiller defined an analogous "Cyclically Adjusted Price to Earnings Ratio" (CAPE), wherein earnings are averaged over the previous ten years rather than seven, and related it to "price bubbles" in the S&P 500 stock index^[Robert J. Shiller, 2016. *Irrational Exuberance.* Princeton University Press. [*https://lccn.loc.gov/2014036705*](https://lccn.loc.gov/2014036705).]; the CAPE is also commonly known as the "P/E10 ratio" or "the Shiller PE ratio".
-William Bernstein noted (and interpreted) a gradually increasing trend in the P/E10,^[Bernstein, William J., 2013. The Paradox of Wealth and the End of History Illusion. Efficient Frontier Advisors.
-[*https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=2bb45f3324df5b05c4764f135cfea7ad37f78b33*](https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=2bb45f3324df5b05c4764f135cfea7ad37f78b33).  His interpretation: "Both theory and long-run empirical data support the notion that economic growth lowers security returns."] as illustrated in Figure 11 in the Appendix.
+William Bernstein noted (and interpreted) a gradually increasing trend in the P/E10^[Bernstein, William J., 2013. The Paradox of Wealth and the End of History Illusion. Efficient Frontier Advisors.
+[*https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=2bb45f3324df5b05c4764f135cfea7ad37f78b33*](https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=2bb45f3324df5b05c4764f135cfea7ad37f78b33).  His interpretation: "Both theory and long-run empirical data support the notion that economic growth lowers security returns."], as illustrated in Figure 11 in the Appendix.
 
 Graham weighed the value of stock investments against the alternative of investing in bonds.
 Graham generalized this in his "margin of safety" principle:
@@ -60,7 +60,7 @@ Graham generalized this in his "margin of safety" principle:
 
 Graham did not insist that the ratio of stocks to bonds in a portfolio be invariant under all circumstances:
 
-> The program I propose with 25 percent of the portfolio in stocks and 25 percent in bonds, allowing the other 50 percent to fluctuate in accordance with the market, could be operated pretty well over the future, whether the business cycle is under better control or not.^["Benjamin Graham: Thoughts on Security Analysis" [transcript of lecture at the Northeast Missouri State University business school, March, 1972], Friends of Financial History, no. 42, March, 1991, pp. 8--10 and 28--29. [*https://archive.org/details/friendsoffinanci00rmsm_38/page/8/mode/2up *](https://archive.org/details/friendsoffinanci00rmsm_38/page/8/mode/2up).]
+> The program I propose with 25 percent of the portfolio in stocks and 25 percent in bonds, allowing the other 50 percent to fluctuate in accordance with the market, could be operated pretty well over the future.^["Benjamin Graham: Thoughts on Security Analysis" [transcript of lecture at the Northeast Missouri State University business school, March, 1972], Friends of Financial History, no. 42, March, 1991, pp. 8--10 and 28--29. [*https://archive.org/details/friendsoffinanci00rmsm_38/page/8/mode/2up *](https://archive.org/details/friendsoffinanci00rmsm_38/page/8/mode/2up).]
 
 In 1953, Lucille Tomlinson investigated an "investment formula" implementing the essence of Graham's proposed program to explore the hypothetical results of allowing the percentage of a portfolio invested in stocks (from the Dow-Jones index) to fluctuate, showing that, for 1924--1952, such a portfolio would have performed comparably to a portfolio 100% invested in stocks, yet with somewhat less volatility.^[Lucile Tomlinson, 1953. *Practical Formulas for Successful Investing.* Wilfred Funk, Inc.. [*https://lccn.loc.gov/53005696*](https://lccn.loc.gov/53005696), pp. 192--193, 232--238.]
 
@@ -79,7 +79,7 @@ This paper presents a Yield-Based Asset Ratio (YBAR) investment formula:
 - The YBAR sets dynamic minimum and maximum limits on the percentage of stock in a portfolio.
   - These limits vary both with the present nominal yield of ten-year US Treasury bonds and with the earnings yield of the S&P 500 stock index.
 - This formula would have had a (real) 1.92% CAGR for the 20 years beginning in September of 1961.
-- For all 20-year periods since 1911, this formula's gain would have had a minimum that was substantially higher than minima for a 6% stock, 60% stock, or 85% stock portfolio.
+- For all 20-year periods since 1911, this formula's gain would have had a minimum that was substantially higher than minima for 6% stock, 60% stock, or 85% stock portfolios.
 - With respect to minimum returns over an investment period of 20 years or longer, the performance of this formula compares favorably (in hypothetical tests) to allocation methods specifying a fixed percentage of stock in a portfolio.
 - This formula and its parameters were developed and tested using the historical record (i.e., Shiller's data) since 1911, which is both a short interval from a statistical sampling perspective and a long interval with respect to what might be considered to be "the modern era".
 
@@ -153,7 +153,7 @@ this up at [*https://multpl.com/10-year-treasury-rate*](https://multpl.com//10-y
   - \(\textbf{H}\) = maximum "reversion hazard", i.e., the maximum tolerable <i>unrealized</i> loss
 when the price of SP500 declines to the statistically expected level;
     - e.g., adjust according to risk appetite; this paper uses 25%.
-    -  Such loss would be realized *only* when an investor is forced to sell at a loss.
+    -  Such loss would be realized *only* when an investor sells at a loss.
   - \(\textbf{Mi}\) = minimum acceptable percentage of stock in the portfolio;
     - although Graham suggested 25%; this paper uses 6%.
   - \(\textbf{Ma}\) = maximum acceptable percentage of stock in the portfolio;
@@ -164,7 +164,7 @@ $$
 \boxed{ \textbf{S} = \frac{1}{\text{P/E10}} }
 $$
   - \(\textbf{T}\) = 4.14%, the average nominal current yield for GS10 since 1911.^[The formula is not sensitive to this parameter; increasing \(\textbf{T}\) to 6.5% has little impact on the formula's performance.]
-  - \(\textbf{X}\) = the "expected P/E10",^[John Tukey's "median-median line" (via the R `line` function, [*https://search.r-project.org/R/refmans/stats/html/line.html*](https://search.r-project.org/R/refmans/stats/html/line.html)) was used to estimate expected P/E10 rather than a least squares line because distribution of the P/E10 deviates considerably from normality. This is shown in Figure 11 in the Appendix.] computed as:
+  - \(\textbf{X}\) = the "expected P/E10"^[John Tukey's "median-median line" (via the R `line` function, [*https://search.r-project.org/R/refmans/stats/html/line.html*](https://search.r-project.org/R/refmans/stats/html/line.html)) was used to estimate expected P/E10 rather than a least squares line because distribution of the P/E10 deviates considerably from normality. This is shown in Figure 11 in the Appendix.], computed as:
 $$
   \boxed{ \textbf{X} = (\text{date in years}) \times 0.058784736 - 97.431912 }
 $$
@@ -183,7 +183,7 @@ The first expression, upon which other two depend, specifies a "reversion cap", 
 
 $$
 \boxed{
-   \textbf{Cap(S, H, X)} = \frac{ \textbf{H} \times \textbf{S} \times \textbf{X}}{ max \Big( \textbf{H} \times \textbf{S} \times \textbf{X}, 1 - (\textbf{S} \times \textbf{X}) \Big) }
+   \textbf{Cap(H,S,X)} = \frac{ \textbf{H} \times \textbf{S} \times \textbf{X}}{ max \Big( \textbf{H} \times \textbf{S} \times \textbf{X}, 1 - (\textbf{S} \times \textbf{X}) \Big) }
   }
 $$
 
@@ -193,9 +193,9 @@ The minimum stock percentage, which reflects the margin of safety, is given by:
 
 $$
 \boxed{
-    \textbf{MinStockPercent(S, B, H, Ma)}
+    \textbf{MinStockPercent(B,H,Ma,S,X)}
     = min\Bigg(
-      {\small \textbf{Cap(S, H, X)}},
+      {\small \textbf{Cap(H,S,X)}},
       \textbf{Ma},
       max\bigg(
         0,
@@ -207,7 +207,7 @@ $$
 }
 $$
 
-One would buy stock to reach this minimum percentage once the actual percentage of stock in the portfolio falls to $\textbf{MinStockPercent(S, B, H, Ma)} - \textbf{D}$.
+One would buy stock to reach this minimum percentage once the actual percentage of stock in the portfolio falls to $\textbf{MinStockPercent(B,H,Ma,S,X)} - \textbf{D}$.
 
 The factor $\frac{2 \times \textbf{B}}{\textbf{T}}$ was deduced from performance of the formula since 1911 to capture effectively opportunities for capital appreciation of stocks.
 
@@ -217,9 +217,9 @@ The maximum stock percentage, which reflects the margin of folly, is given by:
 
 $$
 \boxed{
-    \textbf{MaxStockPercent(S, B, H, Ma, Mi)}
+    \textbf{MaxStockPercent(B,H,Ma,Mi,S,X)}
     = min\Bigg(
-      {\small \textbf{Cap(S, H, X)}},
+      {\small \textbf{Cap(H,S,X)}},
       \textbf{Ma},
       max\bigg(
         \textbf{Mi},
@@ -231,7 +231,7 @@ $$
 }
 $$
 
-One would sell stock to reach this maximum percentage once the actual percentage of stock in the portfolio rises to $\textbf{MaxStockPercent(S, B, H, Ma)} + \textbf{D}$.
+One would sell stock to reach this maximum percentage once the actual percentage of stock in the portfolio rises to $\textbf{MaxStockPercent(B,H,Ma,Mi,S,X)} + \textbf{D}$.
 
 The factor $\frac{3 \times \textbf{B}}{\textbf{T}}$ was deduced from performance of the formula since 1911 to capture effectively opportunities to avoid depreciation of stocks.
 
@@ -325,7 +325,7 @@ knitr::include_graphics("img/fig5b_min_by_year_margin.pdf")
 
 # Discussion
 
-This analysis demonstrates that, when yields are low, a fixed-percentage stock allocation does not buffer market declines as effectively as the yield-based asset ratio and produces less total return over the medium term (20 years or more).  This implies that it is wiser to consider what yields the market is offering in the present moment than to speculate that stocks will consistently outperform bonds within any given time frame.
+This analysis demonstrates that, when yields are low, a fixed-percentage stock allocation does not buffer market declines as effectively as the yield-based asset ratio and produces less total return over the medium term (20 years or more).  This implies that it is wiser to consider what yields the market is offering in the present moment than to speculate that stocks will consistently outperform bonds over any time frame.
 
 This analysis further demonstrates that the YBAR is no panacea.  Although the YBAR produces minimum returns greater than fixed-percentage stock allocations for intervals greater than ten years, minimum returns are meager (CAGR < 2%) for intervals of less than 20 years.  A funding shortfall (or reduced budget) is a very real possibility unless nearer-term expenses are funded by less volatile assets, insurance products, or buffer assets.
 
@@ -344,10 +344,10 @@ There are several important limitations to consider when interpreting these resu
   - Notably, for 18 or fewer years after 1962, even the YBAR had CAGR < 2%.
   - This analysis does not model distribution from the portfolio, implicitly assuming that distributions would come from stocks when the earnings yield is lower or bonds when the current yield is lower.
 - For this data set, there are only about five times that the YBAR can be subjected to performance tests under observed conditions where relatively reduced stock yield adversely affected intermediate return of stocks (1912, 1929, 1961--1963, 1988, and 1998).
-  - No attempt was made to vary the amount or sequence of future returns. Because the lessons offered by the past are limited, so the reader must decide whether the analysis presented here is sufficiently thorough.
+  - No attempt was made to vary the amount or sequence of future returns. Because the lessons offered by the past are limited, the reader must decide whether the analysis presented here is sufficiently thorough.
 - No comparison was made with other means of controlling minimum returns, such as using a "fixed indexed annuity" or other insurance contract.^[See the "Annuities and Risk Pooling" chapter of Pfau, 2023, *Op. cit.*]
 - Neither survivorship bias in the S&P 500 index nor bond default rates are part of this analysis.
-- No attempt is made here to compare the after-tax returns of a constant percentage allocation with those of a YBAR allocation. This analysis implicitly assumes that intermediate-to-long term investments are held in a tax-deferred or tax-exempt account.
+- No attempt is made here to compare the after-tax returns of a constant percentage allocation with those of a YBAR allocation. This analysis implicitly assumes that most intermediate-to-long term investments are held in a tax-deferred or tax-exempt account.
 - This analysis assumes the use of index funds; expenses and commissions are deemed negligible.
 - No attempt was made to add money market funds as an alternative to investing in bonds.
 - No attempt was made to model allocation among several stock funds or several bond funds.
@@ -428,7 +428,10 @@ Fred Dulles, Jeremy Chacón, Mark Esler, and Bogleheads users Beensabu and siamo
 
 **Disclaimer**
 
-Arthur Eschenlauer is not a financial advisor. This material is not investment advice, a solicitation, or a recommendation to buy or sell any security or investment product; it has been provided only for purposes of academic investigation.
+All illustrations are presented for their historical value and should not be construed as predictive of future results.
+This perspective is provided only for purposes of academic investigation, and it has not been reviewed or endorsed by financial professionals.
+Arthur Eschenlauer is not a financial advisor.
+This material is not investment advice, a solicitation, or a recommendation to buy or sell any security or investment product.
 
 **License - CC-BY-SA 4.0**
 
@@ -443,7 +446,7 @@ The hyperlink may be consulted for details, but in summary:
   - *Adapt* - remix, transform, and build upon the material for any purpose, even commercially.
   - The licensor cannot revoke these freedoms as long as you follow the license terms.
 - Under the following terms:
-  - *Attribution* - You must give appropriate credit,^[If supplied, you must provide the name of the creator and attribution parties, a copyright notice, a license notice, a disclaimer notice, and a link to the material.] provide a
+  - *Attribution* - You must give appropriate credit^[If supplied, you must provide the name of the creator and attribution parties, a copyright notice, a license notice, a disclaimer notice, and a link to the material.], provide a
   link to the license, and indicate^[See, e.g., https://wiki.creativecommons.org/wiki/Recommended_practices_for_attribution#This_is_a_great_attribution] if changes were made. You may do so in
   any reasonable manner, but not in any way that suggests the licensor
   endorses you or your use.

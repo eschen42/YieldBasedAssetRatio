@@ -32,7 +32,7 @@ iframe {
 <center>
 <h1>Increasing Minimum Performance with a Yield-Based Asset Ratio</h1>
 <b>(or, "Invest like it's 1962")</b>
-<h3>29 February 2024 - Arthur C. Eschenlauer <a href="https://orcid.org/0000-0002-2882-0508">(ORCiD 0000-0002-2882-0508)</a></h3>
+<h3>1 March 2024 - Arthur C. Eschenlauer <a href="https://orcid.org/0000-0002-2882-0508">(ORCiD 0000-0002-2882-0508)</a></h3>
 </center>
 <hr />
 
@@ -42,7 +42,7 @@ Minimum investment returns are of primary importance to funding retirement expen
 <br /><br />
 Benjamin Graham allowed for fluctuation in the proportion of a portfolio invested in common stock.
 Considering his "Margin of Safety" principle for stock purchases and its complement for stock sales, one might adjust the stock percentage of the portfolio based on both the stock earnings yield and the current yield for bonds, facilitating capital appreciation by avoiding trading until the <i>present</i> yield of the purchased security is substantially greater than that of the sold security.
-It may be wise to add a hedge against stock prices in excess of historically sustainable levels.
+Precautions may be required when stock prices exceed historically sustainable levels.
 <br /><br />
 A simple formula implementing such a "Yield-Based Asset Ratio" hypothetically would have had
 a <i>minimum</i> compound annual growth rate (CAGR) of +1.96% for 20-year intervals since 1911
@@ -51,7 +51,7 @@ considerably higher than would have been observed for 6%, 60%, and 85% stock all
 (CAGR -2.33%, -0.41%, and +0.09%, respectively).
 Results suggest that a fixed-percentage stock allocation may not offer the best protection
 of returns and principal for interval lengths of 11 or more years.
-Over the short term, volatile assets pose undue risk to their principal value.
+Volatile assets pose undue risk to their principal value over the short term.
 </b>
 <br /><br />
 (A Google spreadsheet for testing this formula is available.)
@@ -105,7 +105,7 @@ that hypothetically would have gained 1.96% CAGR for the 20 years beginning in S
 </li>
 <li>whose gain over all 20-year periods since 1911 (shown in orange in the first figure)
 would have had a <u>minimum</u> that was substantially
-higher than minima for a 6% stock, 60% stock, or 85% stock portfolio,
+higher than minima for 6% stock, 60% stock, or 85% stock portfolios,
 </li>
 <li>
 that is tested against on historical returns of ten-year US Treasury bonds and the S&amp;P 500 stock index,
@@ -348,7 +348,7 @@ this up at <a href="https://multpl.com/10-year-treasury-rate" class="uri">https:
 <li>
 \(\textbf{H}\) = the maximum "reversion hazard", i.e., the maximum tolerable <i>unrealized</i> loss
 when the price of SP500 declines to the statistically expected level (e.g., use 10&ndash;30%, I used 25% for this demonstration).
-Such loss would <i>only</i> be realized when an investor is forced to sell at a loss.
+Such loss would <i>only</i> be realized when an investor sells at a loss.
 </li>
 <li>
 \(\textbf{Mi}\) = the minimum acceptable percentage of stock in the portfolio
@@ -376,7 +376,7 @@ The expression to determine \(\textbf{C}\), which <i>caps the stock percentage</
 <blockquote>
 $$
 \boxed{
-  \textbf{C(S, H, X)} =
+  \textbf{C(H,S,X)} =
    \frac{ \textbf{H} \times \textbf{S} \times \textbf{X}}{ max \Big( \textbf{H} \times \textbf{S} \times \textbf{X}, 1 - (\textbf{S} \times \textbf{X}) \Big) }  
   }
 $$
@@ -387,28 +387,28 @@ $$
 <blockquote>
 $$
 \boxed{
-\textbf{MinimumStockPercentage(S, B, H, Ma)}
-= min\Bigg(\textbf{C(S, H, X)}, \textbf{Ma}, max\bigg(0, \frac{\textbf{S} - \textbf{B} - 0.09\%}{2.22\%}\bigg)\Bigg)
+\textbf{MinimumStockPercentage(B,H,Ma,S,X)}
+= min\Bigg(\textbf{C(H,S,X)}, \textbf{Ma}, max\bigg(0, \frac{\textbf{S} - \textbf{B} - 0.09\%}{2.22\%}\bigg)\Bigg)
 }
 $$
 </blockquote>
 Buy stock only when:
 $$
-\textbf{(stock percentage)} < (\textbf{MinimumStockPercentage(S, B, H, Ma)} - \textbf{D})
+\textbf{(stock percentage)} < (\textbf{MinimumStockPercentage(B,H,Ma,S,X)} - \textbf{D})
 $$
 <p>
 <p>The expression to determine the <i>maximum stock percentage</i> is:</p>
 <blockquote>
 $$
 \boxed{
-\textbf{MaximumStockPercentage(S, B,  H, Ma, Mi)}
-= min\Bigg(\textbf{C(S, H, X)}, \textbf{Ma}, max\bigg(\textbf{Mi}, \frac{\textbf{S} - \textbf{B} + 1.11\%}{0.97\%}\bigg)\Bigg)
+\textbf{MaximumStockPercentage(B,H,Ma,Mi,S,X)}
+= min\Bigg(\textbf{C(H,S,X)}, \textbf{Ma}, max\bigg(\textbf{Mi}, \frac{\textbf{S} - \textbf{B} + 1.11\%}{0.97\%}\bigg)\Bigg)
 }
 $$
 </blockquote>
 Sell stock only to meet expenses or when:
 $$
-\textbf{(stock percentage)} > (\textbf{MinimumStockPercentage(S, B, H, Ma)} + \textbf{D})
+\textbf{(stock percentage)} > (\textbf{MinimumStockPercentage(B,H,Ma,Mi,S,X)} + \textbf{D})
 $$
 <p>
 <i>
@@ -502,7 +502,7 @@ height=750
 </center>
 
 <p>
-Note that the cap on percentage allocation, <b>C(S, H, X)</b>, is necessary to reduce the effects of such adverse conditions as were seen in 1912 and 1929; it seems inadvisable to omit it [9].
+Note that the cap on percentage allocation, <b>C(H,S,X)</b>, is necessary to reduce the effects of such adverse conditions as were seen in 1912 and 1929; it seems inadvisable to omit it [9].
 </p>
 
 <h3>The YBAR increases minimum returns over intervals greater than 10 years</h3>
@@ -576,7 +576,7 @@ would come from stocks when the earnings yield is lower or bonds when the curren
   Neither survivorship bias in the S&amp;P 500 index nor bond default rates are part of this analysis.
 </li>
 <li>
-  No attempt is made here to compare the after-tax returns of a constant percentage allocation with those of a YBAR allocation. This analysis implicitly assumes that intermediate-to-long term investments are held in a tax-deferred or tax-exempt account.
+  No attempt is made here to compare the after-tax returns of a constant percentage allocation with those of a YBAR allocation. This analysis implicitly assumes that most intermediate-to-long term investments are held in a tax-deferred or tax-exempt account.
 </li>
 <li>
   This analysis assumes the use of index funds; expenses and commissions deemed negligible.
@@ -792,7 +792,7 @@ New York, Wilfred Funk, Inc.,
   <blockquote>
   $$
   \boxed{
-    \textbf{C(S, H, X)} =
+    \textbf{C(H,S,X)} =
      \frac{ \textbf{H} \times \textbf{S} \times \textbf{X}}{ max \Big( \textbf{H} \times \textbf{S} \times \textbf{X}, 1 - (\textbf{S} \times \textbf{X}) \Big) }  
   }
   $$
@@ -802,13 +802,13 @@ New York, Wilfred Funk, Inc.,
   <p>The expression to determine the <i>minimum stock percentage</i> is:</p>
   <blockquote>
   $$
-  \textbf{MinimumStockPercentage(S, B, H, Ma)}
-  = min\Bigg(\textbf{C(S, H, X)}, \textbf{Ma}, max\bigg(0, \frac{\textbf{S} - \textbf{B} + \text{T} - \text{Z} - \text{R}}{\text{W} - \text{Z} - \text{R}}\bigg)\Bigg)
+  \textbf{MinimumStockPercentage(B,H,Ma,S,X)}
+  = min\Bigg(\textbf{C(H,S,X)}, \textbf{Ma}, max\bigg(0, \frac{\textbf{S} - \textbf{B} + \text{T} - \text{Z} - \text{R}}{\text{W} - \text{Z} - \text{R}}\bigg)\Bigg)
   $$
   $$
   \boxed{
-  \textbf{MinimumStockPercentage(S, B, H, Ma)}
-  = min\Bigg(\textbf{C(S, H, X)}, \textbf{Ma}, max\bigg(0, \frac{\textbf{S} - \textbf{B} - 0.09\%}{2.22\%}\bigg)\Bigg)
+  \textbf{MinimumStockPercentage(B,H,Ma,S,X)}
+  = min\Bigg(\textbf{C(H,S,X)}, \textbf{Ma}, max\bigg(0, \frac{\textbf{S} - \textbf{B} - 0.09\%}{2.22\%}\bigg)\Bigg)
   }
   $$
   </blockquote>
@@ -816,13 +816,13 @@ New York, Wilfred Funk, Inc.,
   <p>The expression to determine the <i>maximum stock percentage</i> is:</p>
   <blockquote>
   $$
-  \textbf{MaximumStockPercentage(S, B,  H, Ma, Mi)}
-  = min\Bigg(\textbf{C(S, H, X)}, \textbf{Ma}, max\bigg(\textbf{Mi}, \frac{\textbf{S} - \textbf{B} + \text{T} - \text{Z}}{\text{Y} - \text{Z}}\bigg)\Bigg)
+  \textbf{MaximumStockPercentage(B,H,Ma,Mi,S,X)}
+  = min\Bigg(\textbf{C(H,S,X)}, \textbf{Ma}, max\bigg(\textbf{Mi}, \frac{\textbf{S} - \textbf{B} + \text{T} - \text{Z}}{\text{Y} - \text{Z}}\bigg)\Bigg)
   $$
   $$
   \boxed{
-  \textbf{MaximumStockPercentage(S, B,  H, Ma, Mi)}
-  = min\Bigg(\textbf{C(S, H, X)}, \textbf{Ma}, max\bigg(\textbf{Mi}, \frac{\textbf{S} - \textbf{B} + 1.11\%}{0.97\%}\bigg)\Bigg)
+  \textbf{MaximumStockPercentage(B,H,Ma,Mi,S,X)}
+  = min\Bigg(\textbf{C(H,S,X)}, \textbf{Ma}, max\bigg(\textbf{Mi}, \frac{\textbf{S} - \textbf{B} + 1.11\%}{0.97\%}\bigg)\Bigg)
   }
   $$
   </blockquote>
@@ -871,9 +871,9 @@ was used to estimate expected P/E10 rather than a least squares line because dis
   <blockquote>
   $$
   \boxed{
-    \textbf{MinimumStockPercentage(S, B, H, Ma)}
+    \textbf{MinimumStockPercentage(B,H,Ma,S,X)}
     \approx min\Bigg(
-      \textbf{C(S, H, X)},
+      \textbf{C(H,S,X)},
       \textbf{Ma},
       max\bigg(
         0,
@@ -891,7 +891,7 @@ was used to estimate expected P/E10 rather than a least squares line because dis
   \boxed{
     \textbf{MaximumStockPercentage(S, B, H, Ma, Mi)}
     \approx min\Bigg(
-      \textbf{C(S, H, X)},
+      \textbf{C(H,S,X)},
       \textbf{Ma},
       max\bigg(
         \textbf{Mi},
@@ -907,7 +907,7 @@ was used to estimate expected P/E10 rather than a least squares line because dis
   <blockquote>
   $$
   \boxed{
-    \textbf{C(S, H, X)} = \frac{ \textbf{H} }{ max \Big( \textbf{H}, \frac{1}{(\textbf{S} \times \textbf{X}) - 1} \Big) }
+    \textbf{C(H,S,X)} = \frac{ \textbf{H} }{ max \Big( \textbf{H}, \frac{1}{(\textbf{S} \times \textbf{X}) - 1} \Big) }
     }
   $$
   </blockquote>
@@ -935,7 +935,7 @@ was used to estimate expected P/E10 rather than a least squares line because dis
 </blockquote>
 </p>
 
-<p>[9] In the name of simplicity, one might consider omitting the <b>C(S, H, X)</b> term from the expressions specifying minimum and maximum stock percentage if (only) one could be absolutely certain that such conditions could not recur.  However, retaining <b>C(S, H, X)</b> and instead setting <b>H</b> as high as one <i>reasons</i> that they can afford is the course of action that is more consistent with Graham's philosophy of viewing history as a teacher rather than a nuisance.
+<p>[9] In the name of simplicity, one might consider omitting the <b>C(H,S,X)</b> term from the expressions specifying minimum and maximum stock percentage if (only) one could be absolutely certain that such conditions could not recur.  However, retaining <b>C(H,S,X)</b> and instead setting <b>H</b> as high as one <i>reasons</i> that they can afford is the course of action that is more consistent with Graham's philosophy of viewing history as a teacher rather than a nuisance.
 </p>
 
 <p>[9a] Here are some additional illustrations of the effect of the YBAR on minimum returns over several inteval lengths:
