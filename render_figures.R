@@ -38,9 +38,11 @@ for (my_variant in for_variants) {
   if ((my_variant %in% c("ep", "ybar_intro")) || length(my_variant_selector) > 1) {
     img_ext <- function(s) paste0(s, ".svg")
     img <- svg
+    img_type_name <- "svg"
   } else {
     img_ext <- function(s) paste0(s, ".pdf")
     img <- pdf
+    img_type_name <- "pdf"
   }
   # see notes 7 and 8 of YBAR_intro.html for an explanation of the parameters set here.
   update_sql <-
@@ -148,14 +150,25 @@ for (my_variant in for_variants) {
 
   my_dbname |> my_parm_f()
 
-  my_sub <- switch(
-    my_variant,
-    ybar_intro = "stock earnings yield = E10 / P",
-    e10p = "stock earnings yield = E10 / P",
-    ep = "stock earnings yield = E / P",
-    e10p_margin = "margin-based; stock earnings yield = E10 / P",
-    ep_margin = "margin-based; stock earnings yield = E / P"
-    )
+  if (img_type_name == "svg") {
+    my_sub <- switch(
+      my_variant,
+      ybar_intro = "stock earnings yield = E10 / P",
+      e10p = "stock earnings yield = E10 / P",
+      ep = "stock earnings yield = E / P",
+      e10p_margin = "margin-based; stock earnings yield = E10 / P",
+      ep_margin = "margin-based; stock earnings yield = E / P"
+      )
+  } else {
+    my_sub <- switch(
+      my_variant,
+      ybar_intro = "stock earnings yield = E10 / P",
+      e10p = "stock earnings yield = E10 / P",
+      ep = "stock earnings yield = E / P",
+      e10p_margin = "stock earnings yield = E10 / P",
+      ep_margin = "stock earnings yield = E / P"
+      )
+  }
 
 
   graham_base_df <-
@@ -264,12 +277,14 @@ for (my_variant in for_variants) {
     )
 
   parm_coda <-
-    ifelse(
-      my_variant %in% c("e10p_margin", "ep_margin"),
-      sprintf("T = %0.4f; H = %0.2f", parm_df$T, parm_df$H),
-      sprintf("H = %0.2f", parm_df$H)
-      )
-  #parm_coda <-  sprintf("H = %0.2f", parm_df$H)
+    sprintf("T = %0.2f%s; H = %0.2f", 100 * parm_df$T, "%", parm_df$H)
+  parm_coda_H <- sprintf("H = %0.2f", parm_df$H)
+  #parm_coda <-
+  # ifelse(
+  #   my_variant %in% c("e10p_margin", "ep_margin"),
+  #   sprintf("T = %0.4f; H = %0.2f", parm_df$T, parm_df$H),
+  #   sprintf("H = %0.2f", parm_df$H)
+  #   )
 
   my_lwd <- c(3, 1.5, 3, 1.5)
   my_lty <- c("solid",      "dotdash",    "twodash",         "dashed")
@@ -349,7 +364,7 @@ for (my_variant in for_variants) {
     img(img_ext("min_by_year"), width = 800/72, height = 400/72)
     matplot(
       main = "Minimum annualized growth rate vs. interval length",
-      sub = my_sub,
+      sub = paste0(my_sub, "; ", parm_coda),
       xlab = "length of interval in years",
       ylab = "minimum compound annualized growth rate (percent) over interval",
       x = x_mat,
@@ -579,7 +594,7 @@ for (my_variant in for_variants) {
       )
       axis(side = 4, yaxp = c(0, .2, 20) * 0.75, las = 2)
       axis(side = 3, xaxp = c(0, .2, 20), las = 2)
-      lines(c(min_x, max_x), c(parm_df$T, parm_df$T), col = "blue", lty = "dotted")
+      lines(c(min_x, max_x), c(parm_df$T, parm_df$T), col = "grey30", lty = "dotted")
       par(new=TRUE)
       op <- par(mar = c(5,4,7,4) + 0.2)
       contour(
@@ -606,14 +621,15 @@ for (my_variant in for_variants) {
         lwd = 1.0
       )
     legend(
-      x = "bottomright",
+      x = "topleft",
       legend = c(
         "margin of safety",
-        "margin of folly"
+        "margin of folly",
+        "historic average GS10 yield"
         ),
-      col = c("red", "blue"),
-      lwd = c(1, 1.0),
-      lty = c("solid", "dashed")
+      col = c("red", "blue", "grey30"),
+      lwd = c(1.0, 1.0, 1.0),
+      lty = c("solid", "dashed", "dotted")
       )
     }, finally = {
       dev.off()
@@ -621,11 +637,14 @@ for (my_variant in for_variants) {
     }
     )
 
-    if (my_variant != "ybar_intro") {
-      my_sub = sprintf("D = %0.2f", parm_df$trgr)
-    } else {
-      my_sub = ""
-    }
+    my_sub_prop =
+      sprintf(
+        "D = %0.2f; T = %0.2f%s; H = %0.2f",
+        parm_df$trgr,
+        100 * parm_df$T,
+        "%",
+        parm_df$H
+        )
     my_xlim <- c(0.02, 0.1)
     tryCatch({
       img(img_ext("min_max_stock_at_4pt14pct"), width = 650/72, height = 650/72)
@@ -635,7 +654,7 @@ for (my_variant in for_variants) {
         col = "red",
         lty = "solid",
         main = "Minimum and maximum stock proportion vs. earnings yield",
-        sub = my_sub,
+        sub = my_sub_prop,
         xlab = "stock earnings yield",
         ylab = "stock proportion, when nominal bond current yield = 4.14%",
         xaxp = c(0, .1, 10),
@@ -789,7 +808,7 @@ for (my_variant in for_variants) {
       labels = c("0", "0.25", "0.5", "0.75", sprintf("%0.2f", parm_df$Ma)),
       method = c("simple", "edge", "flattest")[3],
       main = "Minimum proportion of stocks",
-      sub = parm_coda,
+      sub = parm_coda_H,
       xlab = "S (S&P 500 earnings yield, i.e., E10/P)",
       ylab = "B (Ten-year US Treasury bonds current yield / 100%)",
       xlim = c(0, max_x), ylim = c(0, max_x),
@@ -802,7 +821,7 @@ for (my_variant in for_variants) {
     axis(side = 4, yaxp = c(0, .2, 20) * 0.75, las = 2)
     axis(side = 3, xaxp = c(0, .2, 20), las = 2)
     
-    lines(c(min_x, max_x), c(parm_df$T, parm_df$T), col = "blue", lty = "dotted")
+    lines(c(min_x, max_x), c(parm_df$T, parm_df$T), col = "grey30", lty = "dotted")
     
     }, finally = {
       dev.off()
@@ -825,7 +844,7 @@ for (my_variant in for_variants) {
       levels = c(parm_df$Mi, 0.25 * (1:3), parm_df$Ma),
       #levels = c(0, 0.25 * (1:3), parm_df$Ma),
       main = "Maximum proportion of stocks",
-      sub = parm_coda,
+      sub = parm_coda_H,
       xlab = "S (S&P 500 earnings yield, i.e., E10/P)",
       ylab = "B (Ten-year US Treasury bonds current yield / 100%)",
       xlim = c(0, max_x), ylim = c(0, max_x),
@@ -839,7 +858,7 @@ for (my_variant in for_variants) {
     
     axis(side = 4, yaxp = c(0, .2, 20) * 0.75, las = 2)
     axis(side = 3, xaxp = c(0, .2, 20), las = 2)
-    lines(c(min_x, max_x), c(parm_df$T, parm_df$T), col = "blue", lty = "dotted")
+    lines(c(min_x, max_x), c(parm_df$T, parm_df$T), col = "grey30", lty = "dotted")
     }, finally = {
       dev.off()
       par(op)
@@ -967,8 +986,9 @@ for (my_variant in for_variants) {
       xlab = "", # "date",
       ylab = "stock allocation, percent",
       axes = FALSE, #yaxp = c(.001, 100, 1),
+      sub = paste0(my_sub, "; ", parm_coda),
       main = "Percentage stock allocation"
-      #, sub = "100% of proceeds reinvested"
+      #, sub = "100% of proceeds reinvested" my_sub
       )
     my_alloc <- grow_df$alloc
     my_alloc <- ifelse(grow_df$trade == "", NA, my_alloc)

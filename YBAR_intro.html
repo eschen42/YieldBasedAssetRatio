@@ -38,45 +38,60 @@ iframe {
 
 <blockquote>
 <p><b>
-&nbsp;&nbsp;
-Minimum investment returns are of primary importance to funding retirement expenses from an investment portfolio. Prolonged periods of low yields have at times had severe effects on minimum 20-year returns. Is there a strategy that can mitigate weak medium-term returns more effectively than fixed-percentage stock allocations?<br />&nbsp;&nbsp;
+Minimum investment returns are of primary importance to funding retirement expenses from an portfolio of volatile assets. Prolonged periods of low yields have at times had severe effects on minimum 20-year returns. Is there a strategy that can mitigate weak medium-term returns more effectively than fixed-percentage stock allocations?
+<br /><br />
 Benjamin Graham allowed for fluctuation in the proportion of a portfolio invested in common stock.
 Considering his "Margin of Safety" principle for stock purchases and its complement for stock sales, one might adjust the stock percentage of the portfolio based on both the stock earnings yield and the current yield for bonds, facilitating capital appreciation by avoiding trading until the <i>present</i> yield of the purchased security is substantially greater than that of the sold security.
 It may be wise to add a hedge against stock prices in excess of historically sustainable levels.
-<br />&nbsp;&nbsp;
-For 20-year intervals since 1911,
-when allocating between 10-year US Treasury bonds and
-the S&amp;P 500 index,
-a simple formula
-implementing such a "Yield-Based Asset Ratio"
-hypothetically would have had
-a <i>minimum</i> compound annual growth rate (CAGR) of +1.96%, considerably higher
-than would have been observed for 6%, 60%, and 85% stock allocations
+<br /><br />
+A simple formula implementing such a "Yield-Based Asset Ratio" hypothetically would have had
+a <i>minimum</i> compound annual growth rate (CAGR) of +1.96% for 20-year intervals since 1911
+when allocating between 10-year US Treasury bonds and the S&amp;P 500 index,
+considerably higher than would have been observed for 6%, 60%, and 85% stock allocations
 (CAGR -2.33%, -0.41%, and +0.09%, respectively).
-Results suggest that a fixed-percentage stock allocation may not offer the best protection of investment returns and principal for interval lengths of 11 or more years.
+Results suggest that a fixed-percentage stock allocation may not offer the best protection
+of returns and principal for interval lengths of 11 or more years.
+Over the short term, volatile assets pose undue risk to their principal value.
 </b>
-<br />&nbsp;&nbsp;
+<br /><br />
 (A Google spreadsheet for testing this formula is available.)
 </p>
 </blockquote>
 
 <hr />
 
+<h3>Abbreviations</h3>
+
+<ul>
+<li><i>CAGR</i>: compound annual growth rate
+</li>
+<li><i>CAPE</i>: cyclically-adjusted price-to-earnings ratio; synonym for P/E10
+</li>
+<li><i>GS10</i>: ten-year US Treasury bonds
+</li>
+<li><i>P/E10</i>: SP500 price divided by annual earnings averaged over ten years; synonym for CAPE
+</li>
+<li><i>SP500</i>: the S&amp;P 500 index of common stocks
+</li>
+<li><i>YBAR</i>: yield-based asset ratio
+</li>
+</ul>
+
 <h2>Introduction</h2>
 
 <p>
-A retirement may last forty years or more; funding it requires a decumulation strategy that both supports ongoing spending and resists market downturns.  Although returns from aggressive investments may offer modest opportunities to increase funding for longer-term expenses, incurring losses at unfavorable times when funding near-term spending from the retirement portfolio may threaten principal that is earmarked to generate income in the distant future [12]. In the near term, minimally volatile assets, insurance products (e.g., annuities), or buffer assets (e.g., home equity conversion mortgages) may be the retiree's best recourse to mitigate the risk that "market underperformance" poses to funding retirement successfully [12]. Volatile assets can only be wisely dedicated to funding intermediate-term and long-term spending needs, but one must decide how to allocate investments among volatile assets.
+A retirement may last forty years or more; funding it requires a decumulation strategy that both supports ongoing spending and resists market downturns.  Although returns from aggressive investments may offer modest opportunities to increase funding for longer-term expenses, losses incurred at unfavorable times when funding near-term spending from a retirement portfolio may threaten principal that is earmarked to generate income in the distant future [12]. In the near term, minimally volatile assets, insurance products (e.g., annuities), or buffer assets (e.g., home equity conversion mortgages) may be the retiree's best recourse to mitigate the risk that "market underperformance" poses to funding retirement successfully [12]. Volatile assets can only be wisely dedicated to funding intermediate-term and long-term spending needs, yet one must decide how to allocate investments among volatile assets.
 </p>
 
 <p>
 Current conventional wisdom posits that a fixed-percentage stock allocation can provide a balance between risk of loss and returns that is fair-to-good (depending on the percentage chosen), but how reliable is that balance in the intermediate term, e.g., over 20 years? Historically, during protracted intervals when stock yields were generally low, fixed-percentage stock allocations neither buffered stock-market price declines dramatically nor provided income efficiently.
-Total real returns for the S&amp;P 500 ("GSPC") were painfully low over 20 year intervals starting in 1912, 1929, and 1961, and they were barely competitive with bonds over 1988&ndash;2008.
+Total "real" (i.e., inflation-adjusted) returns for the S&amp;P 500 ("SP500") were painfully low over 20 year intervals starting in 1912, 1929, and 1961, and they were barely competitive with bonds over 1988&ndash;2008.
 One may argue that September 1961 started the worst 20-year interval since 1911 because,
 between 1969 and 1981, real returns
-from both GSPC and 10-year US Treasury bonds ("TNX" or "GS10")
-were so minimal that GSPC had real growth of only 7%
+from both SP500 and 10-year US Treasury bonds ("GS10")
+were so minimal that SP500 had real growth of only 7%
 <i>over the entire twenty years</i> starting March of 1962 (compound annual growth rate, "CAGR": 0.34%),
-while TNX lost 33% of its value (CAGR: &ndash;1.98%);
+while GS10 lost 33% of its value (CAGR: &ndash;1.98%);
 fixed percentage portfolios would have performed between these rates.</p>
 
 <h3>
@@ -86,14 +101,14 @@ Can one elevate the minimum 20-year return of a portfolio?
 Here is presented an "investment formula" (i.e., a decision rule):
 <ul>
 <li>
-that hypothetically would have gained 1.94% CAGR for the 20 years beginning in September of 1961,
+that hypothetically would have gained 1.96% CAGR for the 20 years beginning in September of 1961,
 </li>
-<li>whose gain over all 20-year periods since 1913 (shown in orange in the first figure)
+<li>whose gain over all 20-year periods since 1911 (shown in orange in the first figure)
 would have had a <u>minimum</u> that was substantially
 higher than minima for a 6% stock, 60% stock, or 85% stock portfolio,
 </li>
 <li>
-that is based on historical returns of ten-year US Treasury bonds and the S&amp;P 500 stock index,
+that is tested against on historical returns of ten-year US Treasury bonds and the S&amp;P 500 stock index,
 </li>
 <li>
 that takes as inputs the <i>present</i> nominal yields of ten-year US Treasury bonds and the S&amp;P 500 stock index, and
@@ -105,7 +120,7 @@ that specifies minimum and maximum limits for the percentage of stock in a portf
 </p>
 
 <p>
-With respect to minimum returns for an intermediate term time horizon (20 years), the performance of the Yield-Based Asset Ratio ("YBAR") compares favorably to allocation methods specifying a fixed percentage of stock in a portfolio, as shown in the first figure:
+With respect to minimum returns for an intermediate term time horizon (20 years), the performance of the Yield-Based Asset Ratio ("YBAR") typically compares favorably to allocation methods specifying a fixed percentage of stock in a portfolio, as shown in the first figure:
 </p>
 <center>
 <img
@@ -227,7 +242,7 @@ in an expected earning power considerably above the going rate for bonds.</i> [2
 <p>
 Graham did not insist that the ratio of stocks to bonds in a portfolio be invariant under all circumstances:
 <blockquote>
-The program I propose with 25 percent of the portfolio in stocks and 25 percent in bonds, allowing the other 50 percent to fluctuate in accordance with the market, could be operated pretty well over the future, whether the business cycle is under better control or not. [1]
+The program I propose with 25 percent of the portfolio in stocks and 25 percent in bonds, allowing the other 50 percent to fluctuate in accordance with the market, could be operated pretty well over the future. [1]
 </blockquote>
 </p>
 
@@ -260,8 +275,8 @@ This is as intuitive and arbitrary as the margin of safety.
 </p>
 <ul>
 <li>There has been a 64% correlation between the nominal interest rate
-yield for TNX and its subsequent ten-year real return [4].</li>
-<li>There has been a 58% correlation between GSPC earnings yield
+yield for GS10 and its subsequent ten-year real return [4].</li>
+<li>There has been a 58% correlation between SP500 earnings yield
 (which I estimate as E10/P, i.e., the average earnings for the preceding
 ten years divided by the current price) and the subsequent ten-year real
 return [5].
@@ -277,8 +292,8 @@ with P/E10 as in Robert Shiller's famous graph from <i>Irrational Exuberance</i>
 </p>
 <p>Thus, it seems reasonable (e.g, see [2a] and [6]):
 <ul>
-<li>to buy stocks in a broadly diversified stock index fund when the TNX current yield (i.e., nominal interest rate) on bonds falls considerably below the GSPC earnings yield (i.e., E10/P);</li>
-<li>to sell stocks when the TNX yield considerably outstrips the GSPC earnings yield, by which time the price of the latter will likely present an opportunity to profit substantially by the sale [6, and this work];</li>
+<li>to buy stocks in a broadly diversified stock index fund when the GS10 current yield (i.e., nominal interest rate) on bonds falls considerably below the SP500 earnings yield (i.e., E10/P);</li>
+<li>to sell stocks when the GS10 yield considerably outstrips the SP500 earnings yield, by which time the price of the latter will likely present an opportunity to profit substantially by the sale [6, and this work];</li>
 <li>to sell stocks when one judges their price to be in the \( 95^\text{th} \) percentile or higher [this work];</li>
 <li>to do no trading otherwise.</li>
 </ul>
@@ -286,17 +301,17 @@ with P/E10 as in Robert Shiller's famous graph from <i>Irrational Exuberance</i>
 <p>A few more considerations are in order:
 </p>
 <ul>
-<li>Since 1911, overall inflation has been about 2.6% and TNX has overall had a 1.54% real yield (i.e., a 4.14% nominal yield).</li>
+<li>Since 1911, overall inflation has been about 2.6% and GS10 has overall had a 1.54% real yield (i.e., a 4.14% nominal yield).</li>
 <ul><li>
-Note that this estimate of the expected nominal yield of TNX may be too low because bond returns were much lower during the 1942&ndash;1982 time span than during the rest of the past two centuries, when it was closer to 5.9% [13].
+Note that this estimate of the expected nominal yield of GS10 may be too low because bond returns were much lower during the 1942&ndash;1982 time span than during the rest of the past two centuries, when it was closer to 5.9% [13].
 </li></ul>
 <li>A trend-adjusted percentile rank for P/E10 since 1881 [7] shows that the \( 95^\text{th} \) percentile for the P/E10 in 2024 is about 33, corresponding to an earnings yield (E10/P) of 3.03%.</li>
 <ul><li>
 In other words, once the P/E10 reaches 33, it is two standard deviations above the expected value, meaning that it is nineteen times as likely to fall in the near-to-intermediate term as it is to rise.
 </li></ul>
-<li>From these, the point where it is statistically unwise to hold GSPC rather than selling it to invest in TNX comes when:
+<li>From these, the point where it is statistically unwise to hold SP500 rather than selling it to invest in GS10 comes when:
 $$
-\text{GSPC earnings yield} <  3.03\% + (\text{TNX current yield} - 4.14\%)
+\text{SP500 earnings yield} <  3.03\% + (\text{GS10 current yield} - 4.14\%)
 $$
 </li>
 </ul>
@@ -306,8 +321,8 @@ $$
 <p>Here is an "investment formula" based on the preceding observations, termed a "yield-based asset ratio" (YBAR).</p>
 <ul>
 <li>Do not trade stock when percentage of stock in the portfolio lies between the minimum and maximum stock percentages.</li>
-<li>Buy stock incrementally when it falls below the minimum stock percentage; this is a practical utilization of Graham's "margin of safety".</li>
-<li>Sell stock incrementally when it exceeds the maximum stock percentage; this reflects the considerations stated above and the "margin of folly".</li>
+<li>Buy stock incrementally when it falls considerably below the minimum stock percentage; this is a practical utilization of Graham's "margin of safety".</li>
+<li>Sell stock incrementally when it considerably exceeds the maximum stock percentage; this reflects the considerations stated above and the "margin of folly".</li>
 <li>When stock prices are very high, apply a cap to the stock percentage; this respects the "margin of reversion".</li>
 </ul>
 
@@ -319,7 +334,7 @@ $$
 as follows (subject to personal opinions and preferences):</p>
 <ul>
 <li>
-\(\textbf{B}\) = the current nominal yield on TNX (10-year Treasuries); e.g., look
+\(\textbf{B}\) = the current nominal yield on GS10 (10-year Treasuries); e.g., look
 this up at <a href="https://multpl.com/10-year-treasury-rate" class="uri">https://multpl.com//10-year-treasury-rate</a>
 </li>
 <li>
@@ -331,8 +346,8 @@ this up at <a href="https://multpl.com/10-year-treasury-rate" class="uri">https:
   </ul>
 </li>
 <li>
-\(\textbf{H}\) = the maximum hazard, i.e., the maximum tolerable <i>unrealized</i> loss
-when the price of GSPC declines to the statistically expected level (e.g., use 10&ndash;30%, I used 25% for this demonstration).
+\(\textbf{H}\) = the maximum "reversion hazard", i.e., the maximum tolerable <i>unrealized</i> loss
+when the price of SP500 declines to the statistically expected level (e.g., use 10&ndash;30%, I used 25% for this demonstration).
 Such loss would <i>only</i> be realized when an investor is forced to sell at a loss.
 </li>
 <li>
@@ -344,7 +359,7 @@ Such loss would <i>only</i> be realized when an investor is forced to sell at a 
 (although Graham recommended 75%, this demonstration used 85%).
 </li>
 <li>
-\(\textbf{S}\) = the earnings yield on GSPC (S&amp;P 500 index); e.g., look up the
+\(\textbf{S}\) = the earnings yield on SP500 (S&amp;P 500 index); e.g., look up the
 Shiller PE (the P/E10) at <a href="https://multpl.com/shiller-pe" class="uri">https://multpl.com/shiller-pe</a>, and take the reciprocal, i.e.,
 <!--S = 1 / (P/E10)-->
 $$
@@ -400,12 +415,12 @@ $$
 These expressions are <u>not</u> overly sensitive to the precise values for either inputs or the chosen constant values.
 </i>
 </p>
-<p>The next figure shows a representative example of the buy and sell boundaries, given the historical 10-yr Treasury bond (TNX) yield (for 1911&ndash;2022). Also shown are:
+<p>The next figure shows a representative example of the buy and sell boundaries, given the historical 10-yr Treasury bond (GS10) yield (for 1911&ndash;2022). Also shown are:
 <ul>
 <li>2 &#215; (Graham's "margin of safety")</li>
 <li>1 &#8722; 3 &#215; (the "margin of folly")</li>
 </ul>
-which respectively approximate the slopes of the buy and sell boundaries when TNX yield is in the range of 4&ndash;6%; see [8] for discussion of these approximations.
+which respectively approximate the slopes of the buy and sell boundaries when GS10 yield is in the range of 4&ndash;6%; see [8] for discussion of these approximations.
 <center>
 <img
 src="img_ybar_intro/fig2_boundaries.svg"
@@ -445,7 +460,7 @@ The red solid portions of the curve in the middle panel indicate the (comparativ
 </p>
 
 <p>
-The second figure shows the detail during 1962&ndash;1985; the YBAR recovered much better from the hiccup at the end of 1975 than did any fixed percentage allocation.
+The second figure shows the detail during 1962&ndash;1985; the YBAR recovered much better from the hiccups in 1974 and 1980 than did any fixed percentage allocation.
 </p>
 <center>
 <img
@@ -536,12 +551,12 @@ height=495
 
 <p>There are several caveats to consider when interpreting these results:
 <ul>
+<li><i>This analysis implicitly assumes that a separate strategy exists to fund shorter-term expenses using less-volatile assets.</i></li>
 <li>
   This analysis implicitly assumes that a strategy exists to manage shorter-term expenses.
   <ul>
   <li>Over holding periods of less than 20 years, there is substantial risk of realizing a loss on investments in such volatile assets as stocks or longer-term bonds.</li>
   <li>Notably, for 18 or fewer years after 1962, even the YBAR had CAGR &lt; 2%.</li>
-  <li>This analysis implicitly assumes that a separate strategy exists to fund shorter-term expenses using less-volatile assets.</li>
   <li>This analysis does not model distribution from the portfolio, implicitly assuming that distributions
 would come from stocks when the earnings yield is lower or bonds when the current yield is lower.</li>
   </ul>
@@ -550,7 +565,7 @@ would come from stocks when the earnings yield is lower or bonds when the curren
   For this data set, there are only about five times that the formula can be subjected to performance tests under observed conditions of relatively reduced stock yield adversely affecting intermediate return (1912, 1929, 1961&ndash;1963, 1988, and 1998).
 <ul>
 <li>
-  No attempt was made to model the amount or sequence of future returns. The lessons offered by the past are limited, so it is up to the reader to decide whether the analysis presented here is sufficiently thorough.
+  No attempt was made to vary the amount or sequence of future returns.  Because the lessons offered by the past are limited, the reader must decide whether the analysis presented here is sufficiently thorough.
 </li>
 </ul>
 </li>
@@ -837,7 +852,7 @@ was used to estimate expected P/E10 rather than a least squares line because dis
   On p. 267 of the 1959 second revised edition of <i>The Intelligent Investor</i>, Graham says,
   "A reasonably sound central value, or intrinsic value, ... can be ascertained by capitalizing the average earnings for the past ten years on a basis equivalent to twice the yield of high-grade bonds." 
   <p>
-  However, there is a more practical reason for adding adjustment factors to the margins of safety and folly. Below a TNX yield of 4%, the margin of reversion dominates the stock percentage specified by the formula, and above 6%, the margin of safety seems too conservative and the margin of folly seems dangerously permissive.
+  However, there is a more practical reason for adding adjustment factors to the margins of safety and folly. Below a GS10 yield of 4%, the margin of reversion dominates the stock percentage specified by the formula, and above 6%, the margin of safety seems too conservative and the margin of folly seems dangerously permissive.
   </p>
 
   <p>
@@ -845,7 +860,7 @@ was used to estimate expected P/E10 rather than a least squares line because dis
   </p>
 
   <p>
-  For a broad range of TNX yields, better fits to the sloped regions of the minimum and maximum stock percentages are given by further adjustments:
+  For a broad range of GS10 yields, better fits to the sloped regions of the minimum and maximum stock percentages are given by further adjustments:
   $$
   \text{sloped region of minimum stock percentage} \approx \frac{2 \times \textbf{B}}{\textbf{T}} \times (\text{margin of safety})
   $$
@@ -879,7 +894,7 @@ was used to estimate expected P/E10 rather than a least squares line because dis
       \textbf{C(S, H, X)},
       \textbf{Ma},
       max\bigg(
-        Mi,
+        \textbf{Mi},
         1 - {\small \frac{3 \times \textbf{B}}{\textbf{T}} }
         \times
         \Big( {\small\frac{\textbf{B}}{\textbf{S}}} - 1 \Big)
