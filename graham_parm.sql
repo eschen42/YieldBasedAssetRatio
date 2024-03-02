@@ -102,13 +102,13 @@ CREATE TABLE IF NOT EXISTS
 -- seed the first row, which will be filled by the next statement
 --   (rather than here because because the column assignments
 --   are not easy to see or comment in an insert statement)
-INSERT INTO parms(grp) VALUES (1), (2);
+INSERT INTO parms(grp) VALUES (1);
 
 -- see https://eschenlauer.com/investing/risk_based_allocation/YBAR_intro.html
 --   for guidance regarding the parameters chosen here
 UPDATE parms
-  SET H    = 0.25,   -- maximum tolerable "loss on paper" when past margin of reversion
-      Ma   = 0.88,   -- maximum acceptable stock proportion in portfolio
+  SET H    = 0.25,   -- maximum tolerable 'loss on paper' when past margin of reversion
+      Ma   = 0.85,   -- maximum acceptable stock proportion in portfolio
       Mi   = 0.06,   -- minimum acceptable stock proportion in portfolio
       mid  = 0.60,   -- mid-way allocation (avg YBAR for 1911-2022 with [Mi,Ma] = [0.06,0.88])
       R    = 0.012,  -- offset minimum stock pct; lowering decreases capital appreciation
@@ -117,36 +117,11 @@ UPDATE parms
       Y    = 0.0400, -- the mean of W and the historic T-bill CAGR (1.54%)
       Z    = 0.0303, -- 1 / (95th percentile for P/E10)
       trgr = 0.06,   -- amount beyond limit when is trade triggered
-      first_year = 1897,   -- first year for rolling period calculations
-      scheme_S = 'e10p', -- 'e10p' use E10/P for stock earnings yield (S)
-      -- scheme_S = 'ep', -- 'ep' use E/P for stock earnings yield (S)
-      -- scheme_M = 'RTWYZ' -- 'RTWYZ' use R, T, W, Y, Z for threshold-setting
-      scheme_M = 'margin', -- 'margin" use margins of safety and folly for threshold-setting
-      min_factor = 2, -- slope-accelerator for min stock
-      max_factor = 3 -- slope-accelerator for max stock
-  WHERE grp = 2
-  ;
-
-UPDATE parms
-  SET H    = 0.25,   -- maximum tolerable 'loss on paper' when past margin of reversion
-      Ma   = 0.87,   -- maximum acceptable stock proportion in portfolio
-      --Ma   = 1.00,   -- maximum acceptable stock proportion in portfolio
-      Mi   = 0.03,   -- minimum acceptable stock proportion in portfolio
-      --Mi   = 0.00,   -- minimum acceptable stock proportion in portfolio
-      mid  = 0.60,   -- mid-way allocation (avg YBAR for 1911-2022 with [Mi,Ma] = [0.06,0.88])
-      --mid  = 0.6477,   -- mid-way allocation (avg YBAR for 1911-2022 with [Mi,Ma] = [0.06,0.88])
-      R    = 0.012,  -- offset minimum stock pct; lowering decreases capital appreciation
-      T    = 0.0414, -- historic bond CAGR
-      W    = 0.0645, -- historic stock CAGR
-      Y    = 0.0400, -- the mean of W and the historic T-bill CAGR (1.54%)
-      Z    = 0.0303, -- 1 / (95th percentile for P/E10)
-      trgr = 0.03,   -- amount beyond limit when is trade triggered
-      --trgr = 0.00,   -- amount beyond limit when is trade triggered
       first_year = 1911,   -- first year for rolling period calculations
       scheme_S = 'e10p', -- 'e10p' use E10/P for stock earnings yield (S)
       -- scheme_S = 'ep', -- 'ep' use E/P for stock earnings yield (S)
-      scheme_M = '', -- '' use R, T, W, X, Y, Z for threshold-setting
-      -- scheme_M = 'margin' -- 'margin' use margins of safety and folly for threshold-setting
+      -- scheme_M = 'RTWYZ', -- '' use R, T, W, X, Y, Z for threshold-setting
+      scheme_M = 'margin', -- 'margin' use margins of safety and folly for threshold-setting
       min_factor = 2, -- slope-accelerator for min stock
       max_factor = 3 -- slope-accelerator for max stock
   WHERE grp = 1
@@ -236,19 +211,17 @@ CREATE VIEW IF NOT EXISTS
     ;
 
 -- allocation cap
---   C(S, H, X) = H / max(H, 1.0 / (S * X) - 1)
---     Note that relative-PE10 == 1/(S*X)
 CREATE VIEW IF NOT EXISTS
   -- From YBAR_intro.html, op cit:
   --   allocation cap
-  --     C(S, H, X) = H / max(H, 1 / (S * X) - 1)
-  -- Note that relative-PE10 == 1 /(S * X)
+  --     C(S,H,X) = H / max(H, 1 / (S * X) - 1)
+  --              = (H * S * X) / max(H * S * X, 1 - S * X)
+  -- Note that relative-PE10 == 1 / (S * X)
   alloc_cap
   AS
   SELECT
     a.*,
-    -- S * X == relative_pe10
-    -- H / max(H, 1.0 / (S * X) - 1.0) AS C
+    -- apply margin of reversion
     S * X * H / max(S * X * H, 1.0 - S * X) AS C
   FROM (
     SELECT
@@ -264,10 +237,14 @@ CREATE VIEW IF NOT EXISTS
 
 CREATE VIEW IF NOT EXISTS
   -- From YBAR_intro.html, op cit:
-  --   allocation minimum
-  --     min_stock_percentage = min(C, Ma, max(0,  (S - B - 0.0009)/0.0222))
-  --   allocation maximum
-  --     max_stock_percentage = min(C, Ma, max(Mi, (S - B + 0.0111)/0.0097))
+  --   allocation minimum (rates-based)
+  --     = min(C, Ma, max(0,  (S - B - 0.0009)/0.0222))
+  --   allocation minimum (margin-based)
+  --     = min(C, Ma, max(0, (min_factor * B / T) * (S / B - 1)))
+  --   allocation maximum (rates-based)
+  --     = min(C, Ma, max(Mi, (S - B + 0.0111)/0.0097))
+  --   allocation maximum (margin-based)
+  --     = min(C, Ma, max(Mi, 1 - (max_factor * B / T) * (B / S - 1)))
   guide
   AS
   SELECT

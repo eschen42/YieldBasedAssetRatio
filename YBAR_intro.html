@@ -37,13 +37,14 @@ iframe {
 <hr />
 
 <blockquote>
-<p><b>
+<b>
+<p>
 Minimum investment returns are of primary importance to funding retirement expenses from an portfolio of volatile assets. Prolonged periods of low yields have at times had severe effects on minimum 20-year returns. Is there a strategy that can mitigate weak medium-term returns more effectively than fixed-percentage stock allocations?
-<br /><br />
+</p><p>
 Benjamin Graham allowed for fluctuation in the proportion of a portfolio invested in common stock.
-Considering his "Margin of Safety" principle for stock purchases and its complement for stock sales, one might adjust the stock percentage of the portfolio based on both the stock earnings yield and the current yield for bonds, facilitating capital appreciation by avoiding trading until the <i>present</i> yield of the purchased security is substantially greater than that of the sold security.
+Considering his "Margin of Safety" principle for stock purchases and its complement for stock sales, one might adjust the stock percentage of the portfolio based on both the earnings yield of stock and the current yield of bonds, facilitating capital appreciation by avoiding trading until the <i>present</i> yield of the purchased security is substantially greater than that of the sold security.
 Precautions may be required when stock prices exceed historically sustainable levels.
-<br /><br />
+</p><p>
 A simple formula implementing such a "Yield-Based Asset Ratio" hypothetically would have had
 a <i>minimum</i> compound annual growth rate (CAGR) of +1.96% for 20-year intervals since 1911
 when allocating between 10-year US Treasury bonds and the S&amp;P 500 index,
@@ -52,8 +53,9 @@ considerably higher than would have been observed for 6%, 60%, and 85% stock all
 Results suggest that a fixed-percentage stock allocation may not offer the best protection
 of returns and principal for interval lengths of 11 or more years.
 Volatile assets pose undue risk to their principal value over the short term.
+</p>
 </b>
-<br /><br />
+<p>
 (A Google spreadsheet for testing this formula is available.)
 </p>
 </blockquote>
@@ -80,7 +82,7 @@ Volatile assets pose undue risk to their principal value over the short term.
 <h2>Introduction</h2>
 
 <p>
-A retirement may last forty years or more; funding it requires a decumulation strategy that both supports ongoing spending and resists market downturns.  Although returns from aggressive investments may offer modest opportunities to increase funding for longer-term expenses, losses incurred at unfavorable times when funding near-term spending from a retirement portfolio may threaten principal that is earmarked to generate income in the distant future [12]. In the near term, minimally volatile assets, insurance products (e.g., annuities), or buffer assets (e.g., home equity conversion mortgages) may be the retiree's best recourse to mitigate the risk that "market underperformance" poses to funding retirement successfully [12]. Volatile assets can only be wisely dedicated to funding intermediate-term and long-term spending needs, yet one must decide how to allocate investments among volatile assets.
+A retirement may last forty years or more; funding it requires a decumulation strategy that both supports ongoing spending and resists market downturns.  Returns from aggressive investments may offer modest opportunities to increase funding for longer-term expenses; however, when funding near-term spending from a retirement portfolio, losses incurred at unfavorable times may threaten principal that is earmarked to generate income in the distant future [12]. In the near term, minimally volatile assets, insurance products (e.g., annuities), or buffer assets (e.g., home equity conversion mortgages) may be the retiree's best recourse to mitigate the risk that "market underperformance" poses to funding retirement successfully [12]. Volatile assets can only be wisely dedicated to funding intermediate-term and long-term spending needs, yet one must decide how to allocate investments among volatile assets.
 </p>
 
 <p>
@@ -251,6 +253,7 @@ Graham expressed the margin of safety in percentage terms [1, 2] as:
   $$
   \textbf{margin of safety} = 100\% \times \bigg( \frac{\text{stock earnings yield}}{\text{bond current yield}} - 1\bigg)
   $$
+Higher values suggest greater safety in buying stock.
 Graham presented this as a generally useful guiding principle to apply during a decision whether to purchase stock, not as a precise trading indicator.
 It is an intuitive but ultimately arbitrary construction.
 </p>
@@ -260,15 +263,16 @@ One may introduce a companion term, the "margin of folly", where bond yields are
   $$
   \textbf{margin of folly} = 100\% \times \bigg( \frac{\text{bond current yield}}{\text{stock earnings yield}} - 1\bigg)
   $$
+Higher values suggest greater folly in not selling stock.
 This is as intuitive and arbitrary as the margin of safety.
 </p>
 
-<p>Another companion term, "margin of reversion", reflects how stock earnings yield stands relative to historical expectation:
+<p>Another companion term, "margin of reversion", reflects how favorably stock earnings yield stands relative to historical expectation:
   $$
-  \textbf{margin of reversion} = 100\% \times \bigg( \frac{\text{historically expected stock earnings yield}}{\text{stock earnings yield}} - 1\bigg)
+  \textbf{margin of reversion} = 100\% \times \bigg( \frac{\text{historically expected stock earnings yield}}{\text{stock earnings yield}} - 1 \bigg)
   $$
-</p>
-<p>The retiree may wish to consider the effect that reversion of stock prices to historically expected levels would have on their ability to fund longer term spending from their investment portfolio.
+Lower values suggest greater hazard if stock price reverts toward (or beyond) the historically expected level.
+The retiree might wish to consider how realization of this hazard would affect their ability to fund longer-term spending from their investment portfolio if they were to take distributions while stock price is low.
 </p>
 
 <p>Since 1911, earnings yields for stocks and interest for 10-year government bonds have been weak estimators of their respective 10-year returns:

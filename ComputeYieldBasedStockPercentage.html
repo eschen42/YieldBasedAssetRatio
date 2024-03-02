@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252">
+<title>
+Compute Yield-Based Stock Percentages
+</title>
+<script
+  src="https://polyfill.io/v3/polyfill.min.js?features=es6">
+</script>
+
+<script
+  type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+
+<script>
+function fOneDecimal(r) {
+    return Math.round(r * 10.0) / 10.0
+}
+function fTwoDecimals(r) {
+    return Math.round(r * 100.0) / 100.0
+}
+function fSubmit() {
+    var S, shiller_pe, B, H, X, Mi, Ma, C, lo_bound, hi_bound
+    shiller_pe = Number(document.getElementById("shiller_pe").value);  
+    B = Number(document.getElementById("gs10_pct").value);
+    H = Number(document.getElementById("max_hazard_pct").value);
+    X = Number(fShillerPETrended());
+    Ma = Number(document.getElementById("max_stock_pct").value);
+    Mi = Number(document.getElementById("min_stock_pct").value);
+    
+    text = "<br />Mi: " + Mi
+      + "<br />Ma: " + Ma
+      + "<br />X: " + X
+      + "<br />H: " + H
+      + "<br />B: " + B
+      ;
+    document.getElementById("result").innerHTML = text;
+
+        
+    // If x is Not a Number or less than one or greater than 10
+    if (isNaN(shiller_pe) || !(shiller_pe > 0)) {
+        text = "Input error: Shiller PE Ratio is not valid."; 
+    } else if (isNaN(B) || !(B > 0)) {
+        text = "Input Error: 10 Year Treasury rate is not valid."; 
+    } else if (isNaN(H) || !(H > 0)) {
+        text = "Input Error: 'Percent that you can afford to lose' is not valid."; 
+    } else if (isNaN(X) || !(X > 0)) {
+        text = "Input Error: Trended Shiller PE Ratio calculation is not valid (this is a software bug)."; 
+    } else if (isNaN(Mi) || !(Mi >= 0)) {
+        text = "Input Error: Minimum percentage stock input is not valid."; 
+    } else if (isNaN(Ma) || !(Ma > 0)) {
+        text = "Input Error: Minimum percentage stock input is not valid."; 
+    } else {
+        if (Ma < Mi) {
+            text = "Input Error: Maximum percent stock " + Ma + " must exceed minimum " + Mi;
+        } else {
+            text = text + "<br />shiller_pe: " + shiller_pe;
+            document.getElementById("result").innerHTML = text;
+
+            S = 1.0 / shiller_pe
+            text = text + "<br />S: " + S;
+            document.getElementById("result").innerHTML = text;
+            text = text + "<br />X: " + X;
+            document.getElementById("result").innerHTML = text;
+            text = text + "<br />(1/(S * X) - 1): " + (1/(S * X) - 1);
+            document.getElementById("result").innerHTML = text;
+            text = text + "<br />H: " + H;
+            document.getElementById("result").innerHTML = text;
+
+            //var relative_pe10 = shiller_pe / X
+            var relative_pe10 = 1 / (S * X)
+            text = text + "<br />relative_pe10: " + relative_pe10;
+            document.getElementById("result").innerHTML = text;
+            var stock_hazard = (relative_pe10 - 1) / relative_pe10
+
+            var moderator = (H / 100.0) / Math.max(H / 100.0, relative_pe10 - 1)
+            text = text + "<br />moderator: " + moderator;
+            document.getElementById("result").innerHTML = text;
+
+            C = moderator // (H / 100.0) / Math.max(H / 100.0, 1 / ((S * X) - 1))
+            text = text + "<br />C: " + C;
+            document.getElementById("result").innerHTML = text;
+
+            lo_bound = Math.min(moderator, Ma / 100.0, Math.max(0, (100.0 * S - B - 0.09) / 2.22))
+            hi_bound = Math.min(moderator, Ma / 100.0, Math.max(Mi / 100.0, (100.0 * S - B + 1.11) / 0.97))
+            text = ""
+            document.getElementById("result").innerHTML = text;
+
+            // // temp additions
+            // margin_of_safety = 100.0 * S / B - 1;
+            // text = text + "<br />raw margin of safety, S / B - 1 = " + fTwoDecimals(margin_of_safety);
+            // margin_of_folly = 0.01 * B / S - 1;
+            // text = text + "<br />raw margin of folly, B / S - 1 = " + fTwoDecimals(margin_of_folly);
+
+            // var safety_factor = 2.0 * B / 4.14
+            // var folly_factor = 3.0 * B / 4.14
+            // text = text + "<br />safety factor, 2.0 * B / 4.14 = " + fTwoDecimals(safety_factor);
+            // text = text + "<br />folly factor, 3.0 * B / 4.14 = " + fTwoDecimals(folly_factor);
+
+            // margin_of_safety = margin_of_safety * safety_factor;
+            // text = text + "<br />(margin of safety)(safety factor) = " + fTwoDecimals(margin_of_safety);
+            // margin_of_folly = 1 - margin_of_folly * folly_factor;
+            // text = text + "<br />1 - (margin of folly)(folly factor) = " + fTwoDecimals(margin_of_folly);
+
+            // text = text + "<br />lo_bound = " + fTwoDecimals(lo_bound);
+            // text = text + "<br />hi_bound = " + fTwoDecimals(hi_bound);
+            // text = text + "<br />";
+            // document.getElementById("result").innerHTML = text;
+            // // end temp additions
+
+            text = ""
+
+            // note that threshold to trade is deliberately hard-coded at six percent
+            if (lo_bound > 0 ) {
+                if (lo_bound - 0.06 <= 0) {
+                    text = text +
+                      "<br /><i>Consider increasing stock percentage of portfolio ";
+                } else {
+                    text = text +
+                      "<br /><i>When stock is below " +
+                      fOneDecimal(100.0 * Math.max(0, lo_bound - 0.06)) +
+                      "% of the portfolio, consider increasing it ";
+                }
+                text = text + "to the <u>minimum</u> specified by the formula: <b>" +
+                  fOneDecimal(100.0 * lo_bound) +
+                  "%</b></i>";
+            } else {
+                text = text + "<br /><i>Buying stock seems not to be worth the risk right now.</i>";
+                text = text + " Formula specifies <u>minimum</u> % stock: " + fOneDecimal(100.0 * lo_bound) + "%";
+            }
+
+            document.getElementById("result").innerHTML = text;
+
+            text = text + "<br />";
+            if (hi_bound < 1 ) {
+                if (hi_bound + 0.06 >= 1) {
+                    text = text +
+                      "<br /><i>Consider decreasing stock percentage of portfolio ";
+                } else {
+                    text = text +
+                      "<br /><i>When stock is above " +
+                      fOneDecimal(100.0 * Math.max(0, hi_bound + 0.06)) +
+                      "% of the portfolio, consider decreasing it ";
+                }
+                text = text +
+                  " to the <u>maximum</u> specified by the formula: <b>" +
+                  fOneDecimal(100.0 * hi_bound) +
+                  "%</b></i>";
+            } else {
+                text = text + "<br /><i>There is little if any reason to consider selling stock right now.</i>";
+                text = text + " Formula specifies <u>maximum</u> % stock: " + fOneDecimal(100.0 * hi_bound) + "%";
+            }
+
+            document.getElementById("result").innerHTML = text;
+
+            text = text + "<br />";
+
+
+            margin_of_safety = 100.0 * (100.0 * S / B - 1);
+            text = text + "<br />\"Margin of Safety\" (<b>S</b> &divide; <b>B</b> - 1) is <b>" +
+              fTwoDecimals(margin_of_safety) +"%</b>.";
+            if (margin_of_safety < 0) {
+              text = text + "&nbsp; &rarr; &nbsp;<i>This is a highly unfavorable time to buy stock.</i>";
+            } else if (margin_of_safety > B / 0.0414) {
+              text = text + "&nbsp; &rarr; &nbsp;This seems like an auspcious time to buy stock.";
+            } else {
+              text = text + "&nbsp; &rarr; &nbsp;Buying stock right now seems to offer very little advantage.";
+            }
+
+            margin_of_folly = 100.0 * (0.01 * B / S - 1);
+            text = text + "<br />\"Margin of Folly\" (<b>B</b> &divide; <b>S</b> - 1) is <b>" +
+              fTwoDecimals(margin_of_folly) + "%</b>.";
+            if (margin_of_folly < 0) {
+              text = text + "&nbsp; &rarr; &nbsp;<i>This is <u>not</u> a very favorable time to buy 10-year US Treasury bonds.</i>";
+            } else {
+              text = text + "&nbsp; &rarr; &nbsp;Conditions favor selling index funds that track the S&amp;P 500 and using proceeds to buy 10-year US Treasury bonds.";
+            }
+
+            margin_of_reversion = 100.0 * (1 / (S * X) - 1);
+            text = text + "<br />\"Margin of Reversion\" (1 - 1 &divide; (<b>S</b> &times; <b>X</b>)) is <b>" +
+              fTwoDecimals(-margin_of_reversion) + "%</b>.";
+            if (margin_of_reversion > 37) {
+              text = text + "&nbsp; &rarr; &nbsp;Relative to long-term earnings, <i>the S&amp;P 500 price is significantly higher than historical expectation.</i>";
+            } else {
+              text = text + "&nbsp; &rarr; &nbsp;Relative to long-term earnings, the S&amp;P 500 price is not significantly outside the historically expected range.";
+            }
+
+            text = text + "<br /><br /><small>";
+            if (100.0 * S > B) {
+                text = text +
+                  "<b>S</b> (the S&amp;P 500 earnings yield, " + fTwoDecimals(100.0 * S) +
+                  "%) &gt; <b>B</b> (the current yield for 10-yr US Treasury bonds, " + fTwoDecimals(B) +"%)."
+            } else {
+                text = text +
+                  "<b>B</b> (the current yield for 10-yr US Treasury bonds, " + fTwoDecimals(B) +
+                  "%) &gt; <b>S</b> (the S&amp;P 500 earnings yield, " + fTwoDecimals(100.0 * S) + "%).";
+            }
+            text = text + "<br />The expected S&amp;P 500 earnings yield (<b>1 &divide; X</b>) is " +
+              fTwoDecimals(100.0 / X)
+            if (X * S < 1) {
+              text = text + "%; hence, the price of the S&amp;P 500 index appears to be " +
+              fTwoDecimals( 100 * ( 1/(S * X) - 1) ) + "% above the value expected by the historically sustained growth rate.<br />";
+            } else {
+              text = text + "%; hence, the price of the S&amp;P 500 index appears to be " +
+              fTwoDecimals( 100 * (1 - 1/(S * X)) ) + "% below the value expected by the historically sustained growth rate.<br />";
+            }
+            text = text +
+                "<i>Expected % of entire portfolio value</i> lost when both the \"Shiller PE Ratio\" changes to exactly <b>X</b> and stock is at maximum % specified by formula: <b>" +
+                fOneDecimal(100.0 * hi_bound * ((1/S)/(X) - 1)) + "%</b>.<br />";
+            text = text + "</small><br />";
+
+            //text = "<center>" + text + "</center>";
+            document.getElementById("result").innerHTML = text;
+
+        }
+    }
+
+    document.getElementById("result").innerHTML = text;
+}
+
+function fShillerPETrended() {
+    var date_fraction = TodayInYears.inYears()
+    // for magic numbers here, see 
+    //   https://eschenlauer.com/investing/risk_based_allocation/YBAR_intro.html
+    return fTwoDecimals((date_fraction * 0.057877 - 95.694931))
+}
+
+var TodayInYears = {
+    inMonths: function(d1) {
+        var d1Y = d1.getFullYear();
+        var d1M = d1.getMonth();
+        return (d1M + 12 * d1Y);
+    },
+    inYears: function() {
+        const hodie = new Date();
+        return TodayInYears.inMonths(hodie) / 12;
+    }
+}
+</script>
+
+<style>
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  border-style: dotted;
+  padding: 5px;
+}
+iframe {
+  display: block;
+  text-align: center;
+  margin: auto;
+}
+</style>
+
+</head>
+<body>
+(<a href="#disclaimer">Note the disclaimer below.</a> Please do not mistake this for financial advice; I am posting this seeking critical review of my observations.)
+
+<h2>Preferred version</h2>
+
+<p>
+Because the calculator on this page depends on historical values of many different yields and rates, I recommend instead using the version based on the relative yields of stocks and bonds linked here:
+</p>
+
+<a href="./ComputeMOSStockPercentage.html">ComputeMOSStockPercentage.html</a>
+
+<p>
+Although the results are quite similar between the calculator on this page and the other calculator, the other uses fewer parameters and assumptions.
+</p>
+
+<h2>Compute Yield-Based Stock Percentages</h2>
+
+<p>
+<b>The primary objective of this formula is to limit risk of loss</b>, in the spirit of the chapter <i>"Margin of Safety" as the Central Concept of Investment.</i> from <i>The Intelligent Investor"</i> by Benjamin Graham (a foundational researcher/practitioner of investment practice; see also, e.g., <a href="https://www.investopedia.com/articles/basics/07/grahamprinciples.asp">https://www.investopedia.com/articles/basics/07/grahamprinciples.asp</a>). However, it does have more potential for gains than fixed-percentage stock allocations because it allows for stock to increase in value as its price rises between "buy" and "sell" margins.
+</p>
+
+<p>
+How to use this calculator:
+<ol>
+<li>Fill in the five blanks with updated information.</li>
+<li>Click the "Submit" button.</li>
+<li>Read out the minimum and maximum percentage stock from the results.</li>
+<li>Consider adjusting stock percentage of the portfolio <i>only when</i> that percentage lies more than about 6% beyond the minimum or maximum.</li>
+</ol>
+</p>
+
+
+<p>
+<b>Note well</b> that this formula applies <i>only</i> to assets that are held as long-term investments; <i>short-term investments (whose principal must fund expenditures that are only a few years away) are more advisably allocated to low-volatility assets</i> (ultra-short term bonds, money market funds, CDs, TIPS, etc.).  One ought to take the least risk with whatever they cannot afford to lose!
+</p>
+
+<hr>
+
+<table style="width:100%">
+
+<tbody>
+<tr><th style="text-align:center;width:65%;">
+Question
+</th><th style="text-align:left;width:20%;">
+Answer
+</th><th style="text-align:center;width:10%;">
+Term
+</th>
+</tr>
+<tr><td style="text-align:center;">
+What is the "Shiller PE Ratio" on <a href="https://www.multpl.com/">https://www.multpl.com/</a>? (Read from frame below.)
+</td><td>
+<input id="shiller_pe" value="34.58">
+</td><td style="text-align:center;">
+\( 1 / \textbf{ S} \)
+</td></tr>
+
+<tr><td style="text-align:center;">
+What is the percentage "10 Year Treasury Rate" on <a href="https://www.multpl.com/">https://www.multpl.com/</a>? (Read from frame below.)
+</td><td>
+<input id="gs10_pct" value="4.14">%
+</td><td style="text-align:center;">
+\( \textbf{B} \)
+</td></tr>
+
+<tr><td style="text-align:center;">
+What is the <i>minimum</i> percentage of stock that you would consider for long-term investments, e.g., 0-40% (default 6%)?
+</td><td>
+<input id="min_stock_pct" value="6">%
+</td><td style="text-align:center;">
+\( \textbf{Mi} \)
+</td></tr>
+
+<tr><td style="text-align:center;">
+What is the <i>maximum</i> percentage of stock that you would consider for long-term investments (except when stock price is exceedingly high), e.g., 60-100% (default 88%)?
+</td><td>
+<input id="max_stock_pct" value="85">%
+</td><td style="text-align:center;">
+\( \textbf{Ma} \)
+</td></tr>
+
+<tr><td style="text-align:center;">
+Regarding risk-tolerance, how much decline in the portfolio value can you tolerate if the S&amp;P 500 price retreats to its historically expected level, e.g., 10-30% (default 25%)?
+</td><td>
+<input id="max_hazard_pct" value="25">%
+</td><td style="text-align:center;">
+\( \textbf{H} \)
+</td></tr>
+
+</tbody>
+</table>
+
+All calculation occurs in your browser.
+The "Submit" button does not send data elsewhere.
+<b>
+This calculator is a work in progress.  No assurance of any kind is given that these results are correct; do not rely on them. Verify all calculations manually, and make decisions with appropriate professional advice.</b>
+<button type="button" onclick="fSubmit()">Submit</button>
+
+<p id="result"></p>
+
+
+<hr />
+<iframe
+src="https://multpl.com"
+width=1024
+height=400
+></iframe>
+
+<hr />
+
+<h2>What This Calculator Does, and Why</h2>
+
+<p>
+This page computes:
+<ul>
+<li>the minimum percentage of stock to hold in a portfolio (to take advantage of returns, i.e., dividends and rising value of equities).</li>
+<li>the maximum percentage of stock to hold in a portfolio (to take advantage of bond yields when they exceed expected stock returns).</li>
+<li>the maximum percent of exposure of the portfolio to loss due to changes in value of equities (to preserve value), and</li>
+</ul>
+As with the traditional 60:40 portfolio, there is no need to do adjustments very frequently, yet opportunity is greater when one rebalances at times when stocks are attractively priced (e.g., most recently during the COVID flash-crash of April, 2020).
+</p>
+
+<h3>Why not use fixed-percentage stock allocation?</h3>
+
+<p>
+Why might one not rather choose to use a fixed-percentage stock allocation like the 60:40 stock:bond ratio that is recommended by so many financial advisors? The answer is that fixed-percentage allocations
+ don't provide as much protection against reduced returns when stock returns are weak (or even negative).
+</p>
+
+<p>
+An analysis supporting this assertion (along with explanation of the expressions implemented by this calculator) may be found at:
+<blockquote>
+<a href="./YBAR_intro.html">https://eschenlauer.com/investing/risk_based_allocation/YBAR_intro.html</a>
+</blockquote>
+That analysis may be summarized as follows:
+<blockquote>
+<p>
+Minimum investment returns are of primary importance to funding retirement expenses from an portfolio of volatile assets. Prolonged periods of low yields have at times had severe effects on minimum 20-year returns. Is there a strategy that can mitigate weak medium-term returns more effectively than fixed-percentage stock allocations?
+</p><p>
+Benjamin Graham allowed for fluctuation in the proportion of a portfolio invested in common stock.
+Considering his "Margin of Safety" principle for stock purchases and its complement for stock sales, one might adjust the stock percentage of the portfolio based on both the stock earnings yield and the current yield for bonds, facilitating capital appreciation by avoiding trading until the <i>present</i> yield of the purchased security is substantially greater than that of the sold security.
+Precautions may be required when stock prices exceed historically sustainable levels.
+</p><p>
+A simple formula implementing such a "Yield-Based Asset Ratio" hypothetically would have had
+a <i>minimum</i> compound annual growth rate (CAGR) of +1.96% for 20-year intervals since 1911
+when allocating between 10-year US Treasury bonds and the S&amp;P 500 index,
+considerably higher than would have been observed for 6%, 60%, and 85% stock allocations
+(CAGR -2.33%, -0.41%, and +0.09%, respectively).
+Results suggest that a fixed-percentage stock allocation may not offer the best protection
+of returns and principal for interval lengths of 11 or more years.
+Volatile assets pose undue risk to their principal value over the short term.
+</p>
+</blockquote>
+</p>
+
+<p>
+I think that the non-retiree might do well during the "wealth accumulation" phase to consider (and avoid) the effect of losses on overall accumulation.  Indeed, that served me well during the five years preceding my retirement, which I think is no accident because Benjamin Graham's ideas are at the root of the approach presented here.
+</p>
+
+<h3>What are the expressions used to calculate the results in this formula?</h3>
+
+These expressions are explained in endnote 7 the document linked above:
+
+$$
+  \boxed{
+    \textbf{C(H,S,X)} =
+     \frac{ \textbf{H} \times \textbf{S} \times \textbf{X}}{ max \Big( \textbf{H} \times \textbf{S} \times \textbf{X}, 1 - (\textbf{S} \times \textbf{X}) \Big) }  
+  }
+
+$$
+
+$$
+\boxed{
+\textbf{MinimumStockPercentage(B,H,Ma,S,X)}
+= min\Bigg(\textbf{C(H,S,X)}, \textbf{Ma}, max\bigg(0, \frac{\textbf{S} - \textbf{B} - 0.09\%}{2.22\%}\bigg)\Bigg)
+}
+$$
+$$
+\boxed{
+\textbf{MaximumStockPercentage(B,H,Ma,Mi,S,X)}
+= min\Bigg(\textbf{C(H,S,X)}, \textbf{Ma}, max\bigg(\textbf{Mi}, \frac{\textbf{S} - \textbf{B} + 1.11\%}{0.97\%}\bigg)\Bigg)
+}
+$$
+
+where \( \textbf{X} = (\text{date in years}) \times 0.0578777 - 95.694931 = 21.45 \text{ for January 2024.} \)  (This is the projection of the trend in the median Shiller PE.)
+<h3>How would this formula have performed historically?</h3>
+
+<p>
+For a moderately long time horizon, the performance of the Yield Based Asset Ratio ("YBAR") compares favorably to allocation methods specifying fixed percentages of stock in a portfolio (6%, 60%, and 88%) when considering minimum returns and volatility.
+<br />
+<br />
+<center>
+<img
+src="./img_ybar_intro/fig1_cf20yr.svg"
+width=800
+height=495
+/>
+</center>
+<br />
+The YBAR had an average allocation of 60% stock, so the fixed 60% stock allocation is the most direct comparison.
+The YBAR did better for 20-year periods starting in 1958 and 1961 and had a much higher minimum 20-year return overall, with less variation.
+Predicatably, the YBAR underperforms the 60% portfolio over 20-year periods when stock returns are high and bond returns are falling; <i>however, at such times in the past, both would have been performing fairly well (\( > 3.5\% \) real return per year).</i>
+</p>
+
+<hr />
+
+<div id="disclaimer" />
+<h3>Disclaimer</h3>
+
+<p>
+I am not a financial advisor. <i>Do not construe this material as investment advice, a solicitation, or a recommendation to buy or sell any security or investment product</i>; it has been provided for general informational purposes only.  Please treat this material with commensurate skepticism, bearing in mind that investment involves risk-of-loss and that future results cannot be predicted. Please seek advice specific to your situation from a <i>competent</i> financial professional.  "May you invest with your head, not over it."
+</p>
+
+<p>
+<i>I believe that the average financial advisor will advise you to avoid taking
+such an approach as described here</i>
+(because they may feel that the principles discussed are unfamiliar or obsolete),
+but discussing this with your financial advisor may deepen your knowledge of investing,
+of your needs, and of your advisor's willingness to meet those needs.
+</p>
+
+<h3>License - CC-BY-SA 3.0</h3>
+<p>Copyright &copy; 2024 by Arthur Copeland Eschenlauer</p>
+<p>This presentation is made available to you under the Creative Commons
+Attribution-ShareAlike 3.0 Unported license (CC-BY-SA 3.0) <a href="https://creativecommons.org/licenses/by-sa/3.0/">https://creativecommons.org/licenses/by-sa/3.0/</a>,
+which means:</p>
+<ul>
+<li>You are free to:
+<ul>
+<li><em>Share</em> - copy and redistribute the material in any medium or
+format</li>
+<li><em>Adapt</em> - remix, transform, and build upon the material for
+any purpose, even commercially.</li>
+</ul></li>
+<li>Under the following terms:
+<ul>
+<li><em>Attribution</em> - You must give appropriate credit, provide a
+link to the license, and indicate if changes were made. You may do so in
+any reasonable manner, but not in any way that suggests the licensor
+endorses you or your use.</li>
+<li><em>ShareAlike</em> - If you remix, transform, or build upon the
+material, you must distribute your contributions under the same license
+as the original.</li>
+<li><em>No additional restrictions</em> - You may not apply legal terms
+or technological measures that legally restrict others from doing
+anything the license permits.</li>
+</ul></li>
+<li>The licensor cannot revoke these freedoms as long as you follow the
+license terms.</li>
+<li>You do not have to comply with the license for elements of the
+material in the public domain or where your use is permitted by an
+applicable exception or limitation.</li>
+<li>No warranties are given. The license may not give you all of the
+permissions necessary for your intended use. For example, other rights
+such as publicity, privacy, or moral rights may limit how you use the
+material.</li>
+</ul>
+
+
+</body></html>
+<!-- vim: sw=4 ts=4 ai et
+-->
