@@ -356,7 +356,7 @@ There are several important limitations to consider when interpreting these resu
 - This analysis assumes the use of index funds; expenses and commissions are deemed negligible.
 - No attempt was made to add money market funds as an alternative to investing in bonds.
 - No attempt was made to model allocation among several stock funds or several bond funds.
-- One aspect of this analysis applies unknowable future data to present decisions: the factor $\frac{2 \times B}{T}$ used in the expression for the minimum limit and the factor $\frac{3 \times B}{T}$ used in the expression for the maximum limit were deduced by inspecting performance during the entire 1911--2022 period.
+- One aspect of this analysis applies unknowable future data to present decisions: both the factor $\frac{2 \times B}{T}$ used in the expression for the minimum limit and the factor $\frac{3 \times B}{T}$ used in the expression for the maximum limit were deduced by inspecting performance during the entire 1911--2022 period.
 
 ## "Is this risk management, or is it speculation?"
 
@@ -392,7 +392,7 @@ Regardless of whether one uses the YBAR or a fixed-percentage stock allocation t
 
 # Software availability
 
-The results and figures presented in this paper were generated using the software available in the GitHub repository at  [*https://github.com/eschen42/YieldBasedAssetRatio*](https://github.com/eschen42/YieldBasedAssetRatio).  This is made available to facilitate experimentation and testing with alternative parameters or criteria.
+The results and figures presented in this paper were generated using the software available in the GitHub repository at  [*https://github.com/eschen42/YieldBasedAssetRatio*](https://github.com/eschen42/YieldBasedAssetRatio) (DOI [*10.5281/zenodo.10764741*](https://zenodo.org/doi/10.5281/zenodo.10764741)).  This is made available to facilitate experimentation and testing with alternative parameters or criteria.
 
 ```{r echo=FALSE, results='asis'}
 cat("\n\\newpage\n")
