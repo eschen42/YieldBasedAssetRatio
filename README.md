@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/10764741.svg)](https://zenodo.org/badge/latestdoi/10764741)
+
 # YieldBasedAssetRatio
 
 A yield-based asset ratio to boost minimum investment returns.
