@@ -71,4 +71,4 @@ make -f Makefile ybar_intro
 
 # Disclaimer
 
-Arthur Eschenlauer is not a financial advisor. This material is not investment advice, a solicitation, or a recommendation to buy or sell any security or investment product; it has been provided only for purposes of academic investigation.
+Arthur Eschenlauer is not a financial advisor. This material is not investment advice, a solicitation, or a recommendation to buy or sell any security or investment product; it has been provided only for purposes of academic investigation, and it has not been reviewed or endorsed by financial professionals.
