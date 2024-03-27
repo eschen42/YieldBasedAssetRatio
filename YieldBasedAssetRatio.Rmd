@@ -1,6 +1,10 @@
 ---
 title: "A Yield-Based Asset Ratio to Boost Minimum Investment Returns"
-author: "Arthur C. Eschenlauer (*https://orcid.org/0000-0002-2882-0508*)"
+author:
+  - "Arthur C. Eschenlauer"
+  - "ybar@eschenlauer.com"
+  - "*https://orcid.org/0000-0002-2882-0508*"
+  #- DOI 10.2139/ssrn.4746302
 date: "`r Sys.Date()`"
 output:
   pdf_document:
@@ -390,7 +394,7 @@ The YBAR does not generally sacrifice much of the upside of a high-percentage st
 The volatile stock percentage specified by the YBAR seems preferable to occasional severe downward volatility of stock prices that can substantially depress the minimum intermediate-term returns seen for fixed-percentage stock allocations.
 Regardless of whether one uses the YBAR or a fixed-percentage stock allocation to manage volatile assets, volatile assets cannot fund near term expenses without undue exposure to the possibility of a considerable loss in their principal value.
 
-# Software availability
+**Software availability**
 
 The results and figures presented in this paper were generated using the software available in the GitHub repository at  [*https://github.com/eschen42/YieldBasedAssetRatio*](https://github.com/eschen42/YieldBasedAssetRatio) (DOI [*10.5281/zenodo.10764741*](https://zenodo.org/doi/10.5281/zenodo.10764741)).  This is made available to facilitate experimentation and testing with alternative parameters or criteria.
 

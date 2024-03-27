@@ -4,7 +4,7 @@
 
 A yield-based asset ratio to boost minimum investment returns.
 
-This software generates results consumed by the `YieldBasedAssetRatio.Rmd` script to produce `YieldBasedAssetRatio.pdf`, for which the abstract reads:
+This software generates results consumed by the `YieldBasedAssetRatio.Rmd` script to produce `YieldBasedAssetRatio.pdf` (Available at SSRN: [https://ssrn.com/abstract=4746302](https://ssrn.com/abstract=4746302) or [https://dx.doi.org/10.2139/ssrn.4746302](https://dx.doi.org/10.2139/ssrn.4746302)), for which the abstract reads:
 
 > Minimum investment returns are of primary importance to funding retirement expenses from a portfolio of volatile assets. Prolonged periods of low yields have at times had severe effects on minimum 20-year returns. Is there a strategy that can mitigate weak medium-term returns more effectively than fixed-percentage stock allocations?
 >

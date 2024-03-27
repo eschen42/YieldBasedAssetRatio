@@ -983,6 +983,7 @@ for (my_variant in for_variants) {
       col = c("grey50"),
       lwd = 1.5,
       xlim = my_xlim,
+      ylim = c(0, 1),
       xlab = "", # "date",
       ylab = "stock allocation, percent",
       axes = FALSE, #yaxp = c(.001, 100, 1),
@@ -992,6 +993,14 @@ for (my_variant in for_variants) {
       )
     my_alloc <- grow_df$alloc
     my_alloc <- ifelse(grow_df$trade == "", NA, my_alloc)
+    my_ylabels <- c("0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100")
+    axis(
+      side = 2,
+      #yaxp = c(.001, 100, 1),
+      las = 2,
+      labels = my_ylabels,
+      at = as.numeric(my_ylabels) / 100
+      )
     par(new=TRUE)
     matplot(
       x = grow_df$DateFraction,
@@ -1002,23 +1011,10 @@ for (my_variant in for_variants) {
       lty = c("solid"),
       col = c("red"),
       xlim = my_xlim,
+      ylim = c(0, 1),
       xlab = "",
       ylab = "",
-      # xlab = "date",
-      # ylab = "stock allocation, percent",
       axes = FALSE
-      #, yaxp = c(.001, 100, 1),
-      #, main = "Yield-based stock allocation"
-      #, sub = "100% of proceeds reinvested"
-      )
-    # my_xaxis()
-    my_ylabels <- c("0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100")
-    axis(
-      side = 2,
-      #yaxp = c(.001, 100, 1),
-      las = 2,
-      labels = my_ylabels,
-      at = as.numeric(my_ylabels) / 100
       )
     legend(
       x = "bottomleft",

@@ -141,7 +141,8 @@ function fSubmit() {
             }
 
             //hi_bound = Math.min(moderator, Ma / 100.0, Math.max(Mi / 100.0, (100.0 * S - B + 1.11) / 0.97))
-            hi_bound = Math.min(moderator, Ma / 100.0, Math.max(Mi / 100.0, margin_of_folly))
+            //hi_bound = Math.min(moderator, Ma / 100.0, Math.max(Mi / 100.0, margin_of_folly))
+            hi_bound = Math.min(Math.max(moderator, Mi/100), Ma / 100.0, Math.max(Mi / 100.0, margin_of_folly))
 
             text = text + "<br />";
             if (hi_bound < 1 ) {
@@ -265,7 +266,7 @@ iframe {
 <h2>Compute Stock Percentages Based on "Margin of Safety"</h2>
 
 <p>
-<b>The primary objective of this formula is to limit risk of loss</b>, in the spirit of the chapter <i>"Margin of Safety" as the Central Concept of Investment.</i> from <i>The Intelligent Investor"</i> by Benjamin Graham (a foundational researcher/practitioner of investment practice; see also, e.g., <a href="https://www.investopedia.com/articles/basics/07/grahamprinciples.asp">https://www.investopedia.com/articles/basics/07/grahamprinciples.asp</a>). However, it does have more potential for gains than fixed-percentage stock allocations because it allows for stock to increase in value as its price rises between "buy" and "sell" margins.
+<b>The primary objective of this formula is to limit risk of loss</b>, in the spirit of the chapter <i>"Margin of Safety" as the Central Concept of Investment</i> from <i>The Intelligent Investor"</i> by Benjamin Graham (a foundational researcher/practitioner of investment practice; see also, e.g., <a href="https://www.investopedia.com/articles/basics/07/grahamprinciples.asp">https://www.investopedia.com/articles/basics/07/grahamprinciples.asp</a>). However, it does have more potential for gains than fixed-percentage stock allocations because it allows for stock to increase in value as its price rises between "buy" and "sell" margins.
 </p>
 
 <p>
@@ -394,25 +395,16 @@ Why might one not rather choose to use a fixed-percentage stock allocation like 
 <p>
 An analysis supporting this assertion (along with explanation of the expressions implemented by this calculator) may be found at:
 <blockquote>
-<a href="./YBAR_intro.html">https://eschenlauer.com/investing/risk_based_allocation/YBAR_intro.html</a>
+<a href="https://ssrn.com/abstract=4746302">https://ssrn.com/abstract=4746302</a>
 </blockquote>
 That analysis may be summarized as follows:
 <blockquote>
 <p>
-Minimum investment returns are of primary importance to funding retirement expenses from an portfolio of volatile assets. Prolonged periods of low yields have at times had severe effects on minimum 20-year returns. Is there a strategy that can mitigate weak medium-term returns more effectively than fixed-percentage stock allocations?
+Minimum investment returns are of primary importance to funding retirement expenses from a portfolio of volatile assets. Prolonged periods of low yields have at times had severe effects on minimum 20-year returns. Is there a strategy that can mitigate weak medium-term returns more effectively than fixed-percentage stock allocations?
 </p><p>
-Benjamin Graham allowed for fluctuation in the proportion of a portfolio invested in common stock.
-Considering his "Margin of Safety" principle for stock purchases and its complement for stock sales, one might adjust the stock percentage of the portfolio based on both the stock earnings yield and the current yield for bonds, facilitating capital appreciation by avoiding trading until the <i>present</i> yield of the purchased security is substantially greater than that of the sold security.
-Precautions may be required when stock prices exceed historically sustainable levels.
+Benjamin Graham allowed for fluctuation in the proportion of a portfolio invested in common stock. Considering his "Margin of Safety" principle for stock purchases and its complement for stock sales, one might adjust the stock percentage of the portfolio based on both the earnings yield of stock and the current yield of bonds, facilitating capital appreciation by avoiding trading until the <i>present</i> yield of the purchased security is substantially greater than that of the sold security. Precautions may be required when stock prices exceed historically sustainable levels.
 </p><p>
-A simple formula implementing such a "Yield-Based Asset Ratio" hypothetically would have had
-a <i>minimum</i> compound annual growth rate (CAGR) of +1.96% for 20-year intervals since 1911
-when allocating between 10-year US Treasury bonds and the S&amp;P 500 index,
-considerably higher than would have been observed for 6%, 60%, and 85% stock allocations
-(CAGR -2.33%, -0.41%, and +0.09%, respectively).
-Results suggest that a fixed-percentage stock allocation may not offer the best protection
-of returns and principal for interval lengths of 11 or more years.
-Volatile assets pose undue risk to their principal value over the short term.
+A simple formula implementing such a "Yield-Based Asset Ratio" hypothetically would have had a <i>minimum</i> real compound annual growth rate (CAGR) of 1.92% for 20-year intervals since 1911 when allocating between 10-year US Treasury bonds and the S&P 500 index, considerably higher than would have been observed for 6%, 60%, and 85% stock allocations (CAGR -2.33%, -0.41%, and 0.09%, respectively). Results suggest that a fixed-percentage stock allocation may not offer the best protection of returns and principal for interval lengths of 11 or more years. Volatile assets pose undue risk to their principal value over the short term.
 </p>
 </blockquote>
 </p>
@@ -423,7 +415,7 @@ I think that the non-retiree might do well during the "wealth accumulation" phas
 
 <h3>What are the expressions used to calculate the results in this formula?</h3>
 
-These expressions are explained in endnote 8 of the document linked above:
+These expressions are explained in the document linked above:
 
 $$
 \boxed{
