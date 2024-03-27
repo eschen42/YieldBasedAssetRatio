@@ -2,7 +2,7 @@
 
 # YieldBasedAssetRatio
 
-A yield-based asset ratio to boost minimum investment returns.
+### Software for "A Yield-Based Asset Ratio to Boost Minimum Investment Returns"
 
 This software generates results consumed by the `YieldBasedAssetRatio.Rmd` script to produce `YieldBasedAssetRatio.pdf` (Available at SSRN: [https://ssrn.com/abstract=4746302](https://ssrn.com/abstract=4746302) or [https://dx.doi.org/10.2139/ssrn.4746302](https://dx.doi.org/10.2139/ssrn.4746302)), for which the abstract reads:
 
