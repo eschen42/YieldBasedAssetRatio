@@ -15,15 +15,22 @@ This software generates results consumed by the `YieldBasedAssetRatio.Rmd` scrip
 > A simple formula implementing such a "Yield-Based Asset Ratio" hypothetically would have had a *minimum* real compound annual growth rate (CAGR) of 1.92% for 20-year intervals since 1911 when allocating between 10-year US Treasury bonds and the S&P 500 index, considerably higher than would have been observed for 6%, 60%, and 85% stock allocations (CAGR -2.33%, -0.41%, and 0.09%, respectively). Results suggest that a fixed-percentage stock allocation may not offer the best protection of returns and principal for interval lengths of 11 or more years.
 > Volatile assets pose undue risk to their principal value over the short term. 
 
-## How to generate `YieldBasedAssetRatio.pdf`
+## How to generate `YieldBasedAssetRatio.pdf` and `YieldBasedStockBondCash.pdf`
 
-To build from the command line (rather than RStudio), first set up the conda enviroment to support `rmarkdown`.  (To bootstrap conda, I install and use "MiniForge" as described at [https://github.com/conda-forge/miniforge](https://github.com/conda-forge/miniforge).)
+To build from the command line (rather than RStudio), proceed as follows:
+
+## Set up the conda enviroment to support `rmarkdown`.
+
+To bootstrap conda, it may be convenient to install and use "MiniForge" as described at
+[https://github.com/conda-forge/miniforge](https://github.com/conda-forge/miniforge).
 
 ### Build an environment that can generate the PDF
 ```bash
 . ~/conda/bin/activate
-mamba create -n graham -c conda-forge r-renv=1.0.3 r-tinytex r-bookdown r-sqldf \
+mamba create -n graham -c conda-forge r-base=4.3.3 r-renv=1.1.5 \
+                                      r-tinytex r-bookdown r-sqldf \
                                       r-latex2exp r-readxl \
+                                      r-readods \
                                       make ca-certificates openssl
 ```
 
@@ -34,7 +41,9 @@ mamba create -n graham -c conda-forge r-renv=1.0.3 r-tinytex r-bookdown r-sqldf 
 
 ### Ensure that `sq1ite3` is on your PATH
 
-This build depends upon the `sqlite3` command line utility, which is not available (as far as I know) from the conda-forge conda channel.  This utility is documented at [https://sqlite.org/cli.html](https://sqlite.org/cli.html) and may be obtained by downloading the `sqlite-tools-...` bundles from [https://sqlite.org/download.html](https://sqlite.org/download.html) if `sqlite3` is not already installed on your system.  Make sure that it is on your path when performing the following steps.
+This build depends upon the `sqlite3` command line utility, which is not available (as far as I know) from the conda-forge conda channel.  This utility is documented at [https://sqlite.org/cli.html](https://sqlite.org/cli.html) and may be obtained by downloading the `sqlite-tools-...` bundles from [https://sqlite.org/download.html](https://sqlite.org/download.html) if `sqlite3` is not already installed on your system.
+
+Make sure that `sqlite3` is on your path when performing the following steps.
 
 ### Steps directed by `Makefile`
 
@@ -42,7 +51,7 @@ At this point,
 ```bash
 make -f Makefile
 ```
-should build `YieldBasedAssetRatio.pdf`
+should build `YieldBasedAssetRatio.pdf` and `YieldBasedStockBondCash.pdf`
 
 Conceptually, the `Makefile` directs `make` to perform the following:
 

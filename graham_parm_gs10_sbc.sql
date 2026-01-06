@@ -26,10 +26,14 @@ CREATE TABLE IF NOT EXISTS
     `10_Year_Annualized_Stock_Real_Return` REAL,
     `10_Year_Annualized_Bonds_Real_Return` REAL,
     `Real_10_Year_Excess_Annualized_Returns` REAL,
+    `US_Interest_Rate_30day_Tbill`,
+    `Monthly_tbill30_Returns`,
+    `Real_Total_tbill30_Returns`,
     -- Tukey fit for expected P/E10 - R: line(x, y, iter=5)
     `TukeyPE10` REAL,
     -- Tukey fit for expected P/E - R: line(x, y, iter=5)
-    `TukeyPE` REAL
+    `TukeyPE` REAL,
+    `Real_Total_tbill30_Returns` REAL
   );
 
 .print ' '
@@ -40,7 +44,7 @@ CREATE TABLE IF NOT EXISTS
 .print 'Dropping tables, views, and indexes created in this script'
 DROP INDEX IF EXISTS shiller_data__DateFraction__idx;
 DROP VIEW  IF EXISTS growth_months;
-DROP TABLE IF EXISTS parms;
+-- DROP TABLE IF EXISTS parms;
 DROP VIEW  IF EXISTS parm;
 DROP VIEW  IF EXISTS graham_base;
 DROP VIEW  IF EXISTS graham_gain;
@@ -102,13 +106,15 @@ CREATE TABLE IF NOT EXISTS
     min_factor NUM, -- presented value is 2
     max_factor NUM, -- presented value is 3
     lt_lim_cutoff NUM, -- presented value 0.0375,
-    lt_lim_slope NUM -- presented value 1.7
+    lt_lim_slope NUM, -- presented value 1.7
+    stock_lo NUM,
+    stock_hi NUM
   );
 
 -- seed the first row, which will be filled by the next statement
 --   (rather than here because because the column assignments
 --   are not easy to see or comment in an insert statement)
-INSERT INTO parms(grp) VALUES (1);
+INSERT OR IGNORE INTO parms(grp) VALUES (1);
 
 -- see https://eschenlauer.com/investing/risk_based_allocation/YBAR_intro.html
 --   for guidance regarding the parameters chosen here
@@ -117,21 +123,22 @@ UPDATE parms
       Ma   = 0.85,   -- maximum acceptable stock proportion in portfolio
       Mi   = 0.06,   -- minimum acceptable stock proportion in portfolio
       mid  = 0.60,   -- mid-way allocation (avg YBAR for 1911-2022 with [Mi,Ma] = [0.06,0.88])
-      R    = 0.012,  -- offset minimum stock pct; lowering decreases capital appreciation
+      -- R    = 0.012,  -- offset minimum stock pct; lowering decreases capital appreciation
       T    = 0.0414, -- historic bond CAGR
-      W    = 0.0645, -- historic stock CAGR
-      Y    = 0.0400, -- the mean of W and the historic T-bill CAGR (1.54%)
-      Z    = 0.0303, -- 1 / (95th percentile for P/E10)
+      -- W    = 0.0645, -- historic stock CAGR
+      -- Y    = 0.0400, -- the mean of W and the historic T-bill CAGR (1.54%)
+      -- Z    = 0.0303, -- 1 / (95th percentile for P/E10)
       trgr = 0.06,   -- amount beyond limit when is trade triggered
       first_year = 1911,   -- first year for rolling period calculations
       scheme_S = 'e10p', -- 'e10p' use E10/P for stock earnings yield (S)
-      -- scheme_S = 'ep', -- 'ep' use E/P for stock earnings yield (S)
-      -- scheme_M = 'RTWYZ', -- '' use R, T, W, X, Y, Z for threshold-setting
       scheme_M = 'margin', -- 'margin' use margins of safety and folly for threshold-setting
-      min_factor = 2, -- slope-accelerator for min stock
-      max_factor = 3, -- slope-accelerator for max stock
-      lt_lim_cutoff = 0.0375,
-      lt_lim_slope = 1.7
+      min_factor = 2, -- slope-accelerator for min stock percentage (2 works well since 1911)
+      -- min_factor = 1.8, -- slope-accelerator for min stock percentage (2 works well since 1911)
+      max_factor = 3, -- slope-accelerator for max stock percentage (3 works well since 1911)
+      lt_lim_cutoff = 0.0275, -- long-term limit cutoff based on GS10
+      lt_lim_slope = 3.1,     -- long-term limit slope based on GS10
+      stock_lo = 0.3,
+      stock_hi = 0.6
   WHERE grp = 1
   ;
 
@@ -178,6 +185,7 @@ CREATE VIEW IF NOT EXISTS
         p.lt_lim_slope * (1 - p.lt_lim_cutoff / Long_Interest_Rate_GS10)
         )
       ) AS fxdinc_lngtrm_prprtn,
+    `Real_Total_tbill30_Returns`,
     ROWID
   FROM shiller_data, parm p
   WHERE pe10 IS NOT NULL
@@ -217,7 +225,9 @@ CREATE VIEW IF NOT EXISTS
       ELSE
         t1.expected_pe
       END                         AS X,
-    t1.fxdinc_lngtrm_prprtn
+    t1.fxdinc_lngtrm_prprtn,
+    t2.Real_Total_tbill30_Returns / t1.Real_Total_tbill30_Returns
+                                  AS tbill30_real_grow
   FROM
     graham_base t1,
     graham_base t2,
@@ -247,7 +257,8 @@ CREATE VIEW IF NOT EXISTS
       X,
       S_real_grow,
       B_real_grow,
-      gb.fxdinc_lngtrm_prprtn
+      gb.fxdinc_lngtrm_prprtn,
+      gb.tbill30_real_grow
     FROM graham_gain gb
   ) a, parm p
   ;
@@ -284,7 +295,10 @@ CREATE VIEW IF NOT EXISTS
     max_stock + trgr AS max_trigger,
     0 AS total_bond,
     1 AS total_stock,
-    fxdinc_lngtrm_prprtn
+    fxdinc_lngtrm_prprtn,
+    fxdinc_lngtrm_prprtn - p.trgr AS min_bond,
+    fxdinc_lngtrm_prprtn + p.trgr AS max_bond,
+    tbill30_real_grow
   FROM
     ( SELECT
         a.*,
@@ -337,6 +351,7 @@ CREATE VIEW IF NOT EXISTS
       B,
       S_real_grow,
       B_real_grow,
+      tbill30_real_grow,
       min_trigger,
       min_stock,
       max_stock,
@@ -347,13 +362,17 @@ CREATE VIEW IF NOT EXISTS
       bond_val,
       cash_val,
       total_ybar,
+      prev_fixalloc,
+      fixalloc,
+      fixtrade,
       prev_alloc,
       alloc,
       trade,
       total_min,
       total_mid,
       total_max,
-      fxdinc_lngtrm_prprtn
+      fxdinc_lngtrm_prprtn,
+      total_tbill30
       )
     AS (
       SELECT
@@ -366,6 +385,7 @@ CREATE VIEW IF NOT EXISTS
         a.B,
         a.S_real_grow,
         a.B_real_grow,
+        a.tbill30_real_grow,
         a.min_trigger,
         a.min_stock,
         a.max_stock,
@@ -378,13 +398,17 @@ CREATE VIEW IF NOT EXISTS
         1 - a.max_stock - a.fxdinc_lngtrm_prprtn * (1 - a.max_stock)
           AS cash_val,
         1 AS total_ybar,
+        a.fxdinc_lngtrm_prprtn AS prev_fixalloc,
+        a.fxdinc_lngtrm_prprtn AS fixalloc,
+        '' AS fixtrade,
         a.max_stock AS prev_alloc,
         a.max_stock AS alloc,
-        '.' AS trade,
+        '' AS trade,
         1 AS total_min,
         1 AS total_mid,
         1 AS total_max,
-        a.fxdinc_lngtrm_prprtn
+        a.fxdinc_lngtrm_prprtn,
+        1 AS total_tbill30
       FROM guide a
       WHERE a.seq = 1
       UNION ALL
@@ -398,6 +422,7 @@ CREATE VIEW IF NOT EXISTS
         a.B,
         a.S_real_grow,
         a.B_real_grow,
+        a.tbill30_real_grow,
         a.min_trigger,
         a.min_stock,
         a.max_stock,
@@ -411,20 +436,70 @@ CREATE VIEW IF NOT EXISTS
         -- compute monthly gains for YBAR
         g.alloc * (g.stock_val + g.bond_val + g.cash_val) * g.S_real_grow
           AS stock_val,
-        g.fxdinc_lngtrm_prprtn * (1 - g.alloc) * (g.stock_val + g.bond_val + g.cash_val) * g.B_real_grow
+        -- g.fxdinc_lngtrm_prprtn * (1 - g.alloc) * (g.stock_val + g.bond_val + g.cash_val) * g.B_real_grow
+        --   AS bond_val,
+        CASE
+          WHEN
+            g.bond_val / (g.bond_val + g.cash_val) > a.max_bond
+            OR
+            g.bond_val / (g.bond_val + g.cash_val) < a.min_bond
+          THEN
+            g.fxdinc_lngtrm_prprtn * (1 - g.alloc)
+              * (g.stock_val + g.bond_val + g.cash_val) * g.B_real_grow
+          ELSE
+            (g.bond_val / (g.bond_val + g.cash_val)) * (1 - g.alloc) *
+              (g.stock_val + g.bond_val + g.cash_val) * g.B_real_grow
+          END
           AS bond_val,
-        (1 - g.fxdinc_lngtrm_prprtn) * (1 - g.alloc) * (g.stock_val + g.bond_val + g.cash_val)
+        -- (1 - g.fxdinc_lngtrm_prprtn) * (1 - g.alloc) * (g.stock_val + g.bond_val + g.cash_val)
+        --  AS cash_val,
+        CASE
+          WHEN
+            g.bond_val / (g.bond_val + g.cash_val) > a.max_bond
+            OR
+            g.bond_val / (g.bond_val + g.cash_val) < a.min_bond
+          THEN
+            (1 - g.fxdinc_lngtrm_prprtn) * (1 - g.alloc)
+              * (g.stock_val + g.bond_val + g.cash_val) * g.tbill30_real_grow
+          ELSE
+            (1 - g.bond_val / (g.bond_val + g.cash_val)) * (1 - g.alloc) *
+              (g.stock_val + g.bond_val + g.cash_val) * g.tbill30_real_grow
+          END
           AS cash_val,
         -- stock_val + bond_va + g.cash_val
         g.alloc * (g.stock_val + g.bond_val + g.cash_val) * g.S_real_grow
           + g.fxdinc_lngtrm_prprtn * (1 - g.alloc) * (g.stock_val + g.bond_val + g.cash_val) * g.B_real_grow
           + (1 - g.fxdinc_lngtrm_prprtn) * (1 - g.alloc) * (g.stock_val + g.bond_val + g.cash_val)
           AS total_ybar,
-        g.stock_val / (g.stock_val + g.bond_val + g.cash_val) AS prev_alloc,
+        -- apply fixed-income allocation for each month:
+        --   - if pct bond < target - D, buy bond till pct bond = target
+        --   - if pct bond > target + D, sell bond till pct bond = target
+        --   - otherwise, do not change allocation
+        g.fxdinc_lngtrm_prprtn AS prev_fixalloc,
+        CASE
+          WHEN
+            g.bond_val / (g.bond_val + g.cash_val) > a.max_bond
+            OR
+            g.bond_val / (g.bond_val + g.cash_val) < a.min_bond
+            THEN a.fxdinc_lngtrm_prprtn
+          ELSE g.bond_val / (g.bond_val + g.cash_val)
+          END
+          AS fixalloc,
+        CASE
+          WHEN
+            g.bond_val / (g.bond_val + g.cash_val) < a.min_bond
+            THEN '+'
+          WHEN
+            g.bond_val / (g.bond_val + g.cash_val) > a.max_bond
+            THEN '-'
+          ELSE ''
+          END
+          AS fixtrade,
         -- apply YBAR formula for each month:
         --   - if stock allocation < min_trigger, buy stock till allocation = min_stock
         --   - if stock allocation > max_trigger, sell stock till allocation = max_stock
         --   - otherwise, do not change allocation
+        g.stock_val / (g.stock_val + g.bond_val + g.cash_val) AS prev_alloc,
         CASE
           WHEN
             (g.alloc * (g.stock_val + g.bond_val + g.cash_val) * g.S_real_grow) / (
@@ -461,19 +536,20 @@ CREATE VIEW IF NOT EXISTS
           ELSE ''
           END
           AS trade,
-        -- compute monthly gains for minimum fixed percentage allocation (parm: Mi)
-        (1 - p.Mi) * g.total_min * g.B_real_grow
-          + p.Mi * g.total_min * g.S_real_grow
+        -- compute monthly gains for minimum fixed percentage allocation (parm: stock_lo)
+        (1 - p.stock_lo) * g.total_min * g.B_real_grow
+          + p.stock_lo * g.total_min * g.S_real_grow
           AS total_min,
         -- compute monthly gains for middle fixed percentage allocation (parm: mid)
         (1 - p.mid) * g.total_mid * g.B_real_grow
           + p.mid * g.total_mid * g.S_real_grow
           AS total_mid,
-        -- compute monthly gains for  maximum fixed percentage allocation (parm: Ma)
-        (1 - p.Ma) * g.total_max * g.B_real_grow
-          + p.Ma * g.total_max * g.S_real_grow
+        -- compute monthly gains for  maximum fixed percentage allocation (parm: stock_hi)
+        (1 - p.stock_hi) * g.total_max * g.B_real_grow
+          + p.stock_hi * g.total_max * g.S_real_grow
           AS total_max,
-        a.fxdinc_lngtrm_prprtn
+        a.fxdinc_lngtrm_prprtn,
+        g.total_tbill30 * a.tbill30_real_grow AS total_tbill30
       FROM 
         guide a,
         parm p,
@@ -499,6 +575,7 @@ CREATE VIEW IF NOT EXISTS
     t_end.total_max   / t_start.total_max   AS grow_max,
     t_end.total_bond  / t_start.total_bond  AS grow_bond,
     t_end.total_stock / t_start.total_stock AS grow_stock,
+    t_end.total_tbill30 / t_start.total_tbill30 AS grow_tbill30,
     t_start.B,
     t_start.S
   FROM
@@ -516,7 +593,10 @@ CREATE VIEW IF NOT EXISTS
     min(grow_ybar) AS min_grow_ybar,
     min(grow_min)  AS min_grow_min,
     min(grow_mid)  AS min_grow_mid,
-    min(grow_max)  AS min_grow_max
+    min(grow_max)  AS min_grow_max,
+    min(grow_tbill30)  AS min_grow_tbill30,
+    min(grow_bond)  AS min_grow_bond,
+    min(grow_stock)  AS min_grow_stock
   FROM growth
   GROUP BY years
   ;

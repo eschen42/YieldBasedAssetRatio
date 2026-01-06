@@ -1,0 +1,769 @@
+---
+title: "Yield-Based Allocation Among Stocks, Bonds, and Money Markets"
+author:
+  - "Arthur C. Eschenlauer"
+  - "ybar@eschenlauer.com"
+  - "*https://orcid.org/0000-0002-2882-0508*"
+#date: "`r Sys.Date()`"
+date: "`r Sys.time()`"
+output:
+  pdf_document:
+    toc: yes
+    toc_depth: 2
+    keep_tex: true
+header-includes:
+  - \usepackage{pdflscape}
+  - \newcommand{\blandscape}{\begin{landscape}}
+  - \newcommand{\elandscape}{\end{landscape}}
+  # see https://latex.org/forum/viewtopic.php?t=22099 for link to caption package doc
+  - \usepackage[margin=30pt, font={sf,small,stretch=0.80}, labelfont=bf, labelsep=endash]{caption}
+params:
+  ybar_H: 0.25
+  ybar_T: 0.0414
+  ybar_Mi: 0.06
+  ybar_Ma: 0.85
+  ybar_D: 0.06
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+img_dir <- "img_sbc"
+```
+```{r echo=FALSE, results='asis'}
+cat("\n\\newpage\n")
+sharpe_ratios <- as.data.frame(readODS::read_ods("sharpe_ratios.ods"))
+date_sys <- Sys.Date()
+date_display <-
+  sprintf("%d %s", as.integer(format(date_sys,"%d")), format(date_sys,"%b %Y"))
+date_fraction <-
+  as.numeric(format(date_sys,"%Y")) +
+    (as.numeric(format(date_sys,"%m")) - 1) / 12 +
+      (as.numeric(format(date_sys,"%d")) - 1) / 365
+ybar_X <- date_fraction * 0.058784736 - 97.431912
+ybar_T <- params$ybar_T
+ybar_H <- params$ybar_H
+```
+# Abstract
+
+> Since 1911, a strategy for dynamic allocation between the S&P 500 stock index and ten-year US Treasury bonds on the basis of their yields would have delivered an overall return comparable to that of a 100% stock portfolio. This strategy generally would have had greater risk-adjusted return than 30%, 60%, and 100% static stock allocations. However, when interest rates rose dramatically from near zero levels in 2022, limiting fixed-income assets to include only bonds proved unfavorable. This could have been mitigated by incrementally substituting money market funds for fixed-income assets as interest rates fell, halving portfolio decline during 2022.  Such an extension of the strategy would have had minimal impact on returns prior to 2008.
+
+**Abbreviations**
+
+- *YBAR*: a "yield-based asset ratio" allocation strategy
+- *bond-only YBAR*: the previously reported^[Arthur Eschenlauer (2024). "A Yield-Based Asset Ratio to Boost Minimum Investment Returns". *https://dx.doi.org/10.2139/ssrn.4746302*] YBAR strategy that included *only* GS10 and SP500
+- *extended YBAR*: a YBAR strategy extended to include *"cash"*, GS10, and SP500
+- *CAGR*: compound annual growth rate
+- *"cash"* (in this paper): a money market fund whose return approximates 30-day US Treasury bills
+- *GS10*: ten-year US Treasury bonds
+- *SP500*: the S&P 500 index of common stocks
+- *$\frac{E10}{P}$*: SP500 "earnings yield", i.e., the price divided into the ten-year average of annual earnings
+
+# Introduction
+
+The primary purpose of a retirement portfolio is to provide a sustainable stream of withdrawals over a retirement of uncertain length.
+Much has been discussed in great detail regarding tailoring a strategy for investment and spending to the needs and resources of the investor.^[
+Pfau, Wade (2025). *Retirement Planning Guidebook*, 2nd ed., rev. 2025. Retirement Researcher Media. ISBN 978-1-9445640 978-1-945640-15-5
+] 
+When interest, dividends, annuities, and reserves are insufficient to fund retirement expenses, assets must be sold.
+When asset prices are in decline, selling them accelerates the rate of depletion of principal.
+To minimize unfavorable asset sales, one does well to balance the volatility of the value of the principal against the total return of the portfolio.
+
+<!-- Gross return on an investment varies inversely with the purchase price; how might this impact volatility in the value of an investment portfolio at the midpoint of a 40-year retirement? -->
+How might volatility impact the value of an investment portfolio at the midpoint of a 40-year retirement?
+Historical simulations have shown that judiciously applying valuation as the basis of risk-adjustment for dynamic asset allocation would often have delivered risk-adjusted returns superior to those of static asset allocation without substantial sacrifice of overall returns.^[ Pfau, Wade D. (2011). "Long-Term Investors and Valuation-Based Asset Allocation". *https://dx.doi.org/10.2139/ssrn.2544636*] ^[White, James and Haghani, Victor (2022). "Man Doth Not Invest by Earnings Yield Alone". *https://dx.doi.org/10.2139/ssrn.4025456*]
+Since 1911, a "yield-based asset ratio" (YBAR) strategy allocating dynamically between the S&amp;P 500 stock index (SP500) and ten-year US Treasury bonds (GS10) on the basis of present yields would have boosted minimum returns over 20-year intervals relative to static stock allocation strategies.^[Eschenlauer (2024), *op. cit.*]
+The advantage of the YBAR was greatest from September 1961 through August 1981, when stock earnings yield and bond current yield alternately offered substantial advantage over one another while both rose slowly but extensively from very low levels.
+However, when sharp decreases in bond and stock prices coincided during 2022, neither the YBAR nor static allocations effectively reduced short-term decline of principal value.
+Could inclusion of money market funds into an extended YBAR strategy better protect principal value?
+
+Many bonds pose considerable risk that a rise in interest rates will erode their prices, as was dramatically apparent in 2022.
+Although long-term interest rates reveal the market's expectation about future interest rates, one cannot meaningfully predict when they will reach given levels.
+Interest rates vary sporadically with economic activity and intervention of central banks.
+Given that the Federal Open Market Committee has pursued^[*https://www.federalreserve.gov/monetarypolicy/files/fomc_longerrungoals.pdf*, retrieved May 2024.] a target annual inflation rate of 2% since 2012 and that GS10 interest rates have trended roughly 1.5--3% above inflation since 2012, nominal rates for GS10 might be expected in the neighborhood of 3--6% over the next few decades.
+Such a projection motivates
+examination of the historical record to deduce whether a formula exists that might have mitigated interest rate risk effectively in 2022.
+
+Robert Shiller maintains an historical record^[File `ie_data.xls` retrieved 2 April 2025 from *https://shillerdata.com/*; cached at *https://tinyurl.com/ie-data-20250402*.] of the price, earnings, dividends, and total returns of the spliced equivalent of SP500, the interest rate and total returns of GS10, and the spliced equivalent of the Consumer Price Index^[Annual inflation reports seen in the press are computed from the Consumer Price Index.] since 1871.
+Although "retrospectively testing" any allocation strategy against this historical record is not sufficient to establish its reliability for the future, a strategy would seem unreliable if it would not have fared well in the past. 
+Using parameters fitted to Shiller's historical record, this study examines what might have been the effect of responding to falling interest rates by incrementally shifting some of the fixed-income portion of the YBAR allocation from bonds toward lower-volatility assets (e.g., money market funds or perhaps ultra-short-term bond funds), demonstrating that such a strategy would have protected principal value in 2022 without disrupting favorable returns over 20-year intervals since 1911.
+
+# Incorporating Money Market Funds into the YBAR Strategy
+
+The previous paper^[Eschenlauer (2024), *op. cit.*] applied Shiller's data to simulate trading since 1911 for a YBAR strategy that is based on the relative relationship of the GS10's nominal yield to the SP500's earnings yield, computed as $\frac{E10}{P}$ (i.e., the price of SP500 divided into the average earnings over the preceding decade^[Alternatively, computing earnings yield as $\frac{E}{P}$ performs almost as well (results shown in the Appendix).]). Trading proceeded incrementally and only when the yields differed greatly.
+That paper presented an interpretation of Benjamin Graham's "Margin of Safety" concept, reflecting opportunity in SP500 valuation relative to GS10; a complementary "Margin of Folly", reflecting diminishing returns of SP500 relative to GS10; and a "Margin of Reversion", reflecting the SP500's price relative to its earning potential. Three expressions incorporating these margins specified gradual allocation changes between SP500 and GS10 as their nominal yields fluctuated, considerably protecting principal value of the investments and boosting minimum returns over interval lengths of 11 years or more.
+
+To complement and extend the three expressions presented previously, an expression is introduced here to shift the fixed-income allocation toward money market funds as bond yields diminish. Tables in the Appendix, based on these four expressions, provide an alternative to performing the arithmetic directly.
+
+## Partitioning of fixed-income assets between GS10 and money market assets
+
+To address declines in fixed-income asset price such as were seen when interest rates rose sharply in 2022, the following formula gradually reduces the percentage of fixed-income assets allocated to bonds as interest rates decrease. Parameters for the formula were fitted heuristically to the historical record since 1911.
+
+$$
+\boxed{
+    \textbf{BondPercentageOfFixedIncomeAssets(B)}
+    = 100\% \times min\Bigg(
+      1,
+      \textbf{m}_{\small \text{GS10}} \times max\bigg(
+        1 - \frac{\textbf{b}_{\small \text{GS10}}}{\textbf{B}},
+        0
+      \bigg)
+    \Bigg)
+}
+$$
+
+where $1 - \frac{\textbf{b}_{\small \text{GS10}}}{\textbf{B}}$ may be considered a "Margin of Bond Opportunity" (for GS10 relative to "cash") and:
+
+- \(\textbf{B}\) = current nominal yield for 10-year Treasury **B**onds (GS10); e.g., look
+this up at *https://multpl.com/10-year-treasury-rate*. 
+- \(\textbf{m}_{\small \text{GS10}}\) = 3.1;
+- \(\textbf{b}_{\small \text{GS10}}\) = 2.75\%.
+
+The remaining fixed-income assets (i.e., $\textbf{100\%} - \textbf{BondPercentageOfFixedIncomeAssets}$) are invested in money market funds (or ultra-short term bonds), which are assumed in this investigation to have the yield of 30-day US Treasury bills.
+The balance between bonds and "cash" is adjusted only when the actual percentage of fixed-income assets invested in bonds 
+is less than $\textbf{BondPercentageOfFixedIncomeAssets} - \textbf{D}$ or greater than $\textbf{BondPercentageOfFixedIncomeAssets} + \textbf{D}$, where:
+
+- \(\textbf{D}\) = greatest allowable deviation of an asset percentage from the target; this study uses 6%.
+
+For example, when the GS10 yield is 3.01%, the target allocation for GS10 would be 27.2%; for "cash", 72.8%. 
+Table 2 in the Appendix presents these percentages.   
+
+## Partitioning between stocks and fixed-income assets
+
+The previous paper^[Eschenlauer (2024), *op. cit.*] presented and explained expressions for the minimum and maximum stock percentage limits that trigger trading on the basis of present stock and bond yields. They are summarized in this section.
+
+To control the risk posed by extremely low earnings yield for stocks, both limits depend upon the "reversion cap" on stock percentage that is given by:
+
+$$
+\boxed{
+   \textbf{Cap(H,S,X)} = \frac{ \textbf{H}}{ max \Big( \textbf{H}, \frac{1}{\textbf{S} \times \textbf{X}} - 1 \Big) }
+  }
+$$
+
+where $\frac{1}{\textbf{S} \times \textbf{X}} - 1$ is the "Margin of Reversion" (for SP500 relative to historical trend) and:
+
+  - \(\textbf{H}\) = maximum "reversion ***h***azard", i.e., the maximum tolerable <i>unrealized</i> loss
+when the price of SP500 declines to the statistically expected level.^[One might reformulate the cap using the analogous "value at risk" metric (*https://en.wikipedia.org/wiki/Value_at_risk*).] Adjust according to risk appetite; this study uses 25%.  Such loss would be realized *only* when an investor chooses (or is forced) to sell at a loss.
+  - \(\textbf{S}\) = $\frac{E10}{P}$, the earnings yield on the S&amp;P 500 index of common ***s***tocks (SP500); e.g., find the P/E10 ratio ("Shiller PE") at *https://multpl.com/shiller-pe* and take the reciprocal:
+$$
+\boxed{ \textbf{S} = \frac{1}{\text{P/E10}} }
+$$
+  - \(\textbf{X}\) = the "e***x***pected P/E10"^[John Tukey's "median-median line" (via the R `line` function, [*https://search.r-project.org/R/refmans/stats/html/line.html*](https://search.r-project.org/R/refmans/stats/html/line.html)) was used to estimate expected P/E10 rather than a least squares line because distribution of the P/E10 deviates considerably from normality. See also William J. Bernstein, "The Paradox of Wealth and the End of History Illusion" (2003) Efficient Frontier Advisors.
+*https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=2bb45f3324df5b05c4764f135cfea7ad37f78b33*.] = `r sprintf("%0.2f", ybar_X)` as of `r date_display`, computed as:
+$$
+  \boxed{ \textbf{X} = (\text{date in years}) \times 0.058785 - 97.432 }
+$$
+
+The minimum stock percentage limit is given by:
+
+$$
+\boxed{
+    \textbf{MinStockPercent(B,H,Ma,S,T,X)}
+    = min\Bigg(
+      {\small \textbf{Cap(H,S,X)}},
+      \textbf{Ma},
+      max\bigg(
+        0,
+        {\small \frac{2 \times \textbf{B}}{\textbf{T}} }
+        \times
+        \Big( {\small \frac{\textbf{S}}{\textbf{B}}} - 1 \Big)
+      \bigg)
+    \Bigg)
+}
+$$
+
+where $\frac{\textbf{S}}{\textbf{B}} - 1$ is the "Margin of Safety" (for SP500 relative to GS10) and:
+
+  - \(\textbf{Ma}\) = ***ma***ximum acceptable percentage of stock in the portfolio; this study uses 85%.
+  - \(\textbf{T}\) = 4.14%, the average nominal yield for GS10 since 1911.
+
+The maximum stock percentage limit is given by:
+
+$$
+\boxed{
+    \textbf{MaxStockPercent(B,H,Ma,Mi,S,T,X)}
+    = min\Bigg(
+      {\small \textbf{Cap(H,S,X)}},
+      \textbf{Ma},
+      max\bigg(
+        \textbf{Mi},
+        1 - {\small \frac{3 \times \textbf{B}}{\textbf{T}} }
+        \times
+        \Big( {\small\frac{\textbf{B}}{\textbf{S}}} - 1 \Big)
+      \bigg)
+    \Bigg)
+}
+$$
+
+where $\frac{\textbf{B}}{\textbf{S}} - 1$ is the "Margin of Folly" (for SP500 relative to GS10) and:
+
+  - \(\textbf{Mi}\) = ***mi***nimum acceptable percentage of stock in the portfolio; this study uses 6%.
+
+Stocks are to be sold when stock percentage exceeds $\textbf{MaxStockPercent} + \textbf{D}$ and are to be purchased when stock percentage falls below $\textbf{MinStockPercent} - \textbf{D}$.
+
+For example, when the GS10 yield is 3.00% and the SP500 earnings yield is 29.65, the minimum limit for the percentage of the portfolio allocated to stock is 18%, and the maximum is 66%.
+Tables 3 and 4 in the Appendix present the respective maximum and minimum stock percentage limits. 
+  
+```{r echo=FALSE, results='asis'}
+#cat("\n\\newpage\n")
+```
+
+# Hypothetical results  of the extended YBAR strategy since 1911
+
+The next two figures illustrate the effect of seven allocations on simulated accumulation:
+
+- SP500;
+- the "extended YBAR", including SP500, GS10, and *"cash"*;
+- the "bond-only YBAR", including *only* SP500, and GS10;
+- a 60:40 SP500:GS10 allocation, with monthly rebalancing;
+- a 30:70 SP500:GS10 allocation, with monthly rebalancing;
+- GS10;
+- 30-day US Treasury bills.^[
+A spliced data set was constructed to represent returns of 30 day T-bills.  For months through October 2001, monthly returns were estimated by linear interpolation of yearly 30-day T-bill data that were extracted from the "Simba's backtesting spreadsheet" *https://www.bogleheads.org/wiki/Simba%27s_backtesting_spreadsheet*, accessed 30 April 2024. Data beginning November, 2001 were obtained from Board of Governors of the Federal Reserve System (US), 4-Week Treasury Bill Secondary Market Rate, Discount Basis [TB4WK], retrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/TB4WK, retrieved April 8, 2025. 
+]
+
+Both YBAR strategies are configured with the following parameters (as in the previous paper^[Eschenlauer (2024), *op. cit.*]): a minimum stock percentage (Mi) of 6% stock, a maximum (Ma) of 85% stock, a greatest allowable deviation beyond percentage limits (D) of 6%, and a maximum reversion hazard (H) of 25%.
+For both YBARs (except when reallocating), dividends are reinvested in SP500, and interest is reinvested in GS10. "Cash" grows at the same rate as 30-day US Treasury bills.
+
+The top panel of Figure 1 shows the hypothetical results for January 1911 through November 2023 (1355 months), during which the mean stock allocation for either YBAR was about 61%;
+all allocations are adjusted to have a \$1 value in January 1911.
+Both YBARs produced returns roughly as well as the 100% stock allocation, but variation for the latter often appears greater than for the former.
+
+The middle panel illustrates GS10 yield and the risk premium (or shortfall) for SP500 relative to GS10.
+
+The bottom panel shows the percentages of the portfolio allocated to SP500 and "cash". The blue downward open triangles show the 52 months that stock sales were required; the red upward solid triangles show the 28 months that stock purchases were required. The brown solid circles show the 76 months that "cash" was exchanged for bonds; the purple open circles, the 85 months that bonds were exchanged for "cash".
+With the exception of 1928--1930, the non-zero "cash" allocations before 1965 occurred at times when they had only negligible effect because the stock allocation was high and bond yields were lower than was seen for 1965--1995 (when GS10 yield remained well above 4%).
+
+```{r echo=FALSE, out.width=480, fig.align='center', fig.cap='Top panel, comparative cumulative performance of allocations relative to January, 1911; lettered bars indicate 20-year time intervals labeled in Figure 3. Middle panel, GS10 yield and risk premium (or shortfall) for SP500 relative to GS10. Bottom panel, "cash" and stock allocations (as percentage of portfolio value) for the extended YBAR; blue downward open triangles reflect stock sales driven by the maximum stock allocation specified by the strategy; red upward solid triangles, stock purchases driven by minimum stock allocation; purple open circles, shift to "cash" from bonds; brown solid circles, shift to bonds from "cash".'}
+knitr::include_graphics("img_sbc/fig4_cumulative_all.pdf")
+```
+
+```{r echo=FALSE, results='asis'}
+cat("\n\\newpage\n")
+```
+
+Inspection of Figure 1 reveals that, for both GS10 ans SP500, total returns were negative on a net basis over interval "C" (the 20 years from September, 1961 through August, 1981).
+This motivates examination of cumulative returns relative to September 1961.
+Figure 2 presents the same data as for Figure 1 but for the 747 months beginning September, 1961 and ending November 2023. For Figure 2, allocations were adjusted to have a \$1 value in September 1961. During this time frame, the mean stock allocation for either YBAR was about 41%.
+
+For the extended YBAR, stock sales were triggered during 36 months; purchases, during 20 months. "Cash" was exchanged for bonds during 42 months; bonds for "cash", during 38 months.
+
+As was previously reported^[Eschenlauer (2024), *op. cit.*] for the bond-only YBAR, the extended YBAR dramatically improved the cumulative return over interval "C", the 20 years from September 1961 through August 1981.
+The additional "cash" allocation of the extended YBAR generally mitigated the effect of the decline in bond value since June 2020 on the bond-only YBAR. Furthermore, the "cash" allocation specifically reduced twelve-month decline of returns in 2022 from about 21% for the bond-only YBAR to about 10% for the extended YBAR.
+
+The returns of the bond-only YBAR dipped considerably less circa March 2020 than the extended YBAR and recovered faster, but the decline in value of the former during 2022 eventually reversed the relative advantage.  Notably, although both YBARs recovered swiftly from a sharp dip in 2009, the 30:70 SP500:GS10 portfolio experienced only a very slight dip. 
+
+```{r echo=FALSE, out.width=480, fig.align='center', fig.cap='Top panel, comparative cumulative performance of allocations relative to September, 1961; lettered bars indicate 20-year time intervals labeled in Figure 3. Middle panel, GS10 yield and risk premium (or shortfall) for SP500 relative to GS10. Bottom panel, "cash" and stock allocations (as percentage of portfolio value) for the extended YBAR; blue downward open triangles reflect stock sales driven by the maximum stock allocation specified by the strategy; red upward solid triangles, stock purchases driven by minimum stock allocation; purple open circles, shift to "cash" from bonds; brown solid circles, shift to bonds from "cash".'}
+knitr::include_graphics("img_sbc/fig5_cumulative_detail.pdf")
+```
+
+```{r echo=FALSE, results='asis'}
+cat("\n\\newpage\n")
+```
+## The extended YBAR increased minimum returns for the 2003--2022 interval
+
+Figure 3 shows compound annual growth rate (CAGR) for 20-year intervals since 1911.
+Over intervals "B" and "C", as for the bond-only YBAR, the extended YBAR greatly increased the 20-year return relative to the static stock allocation strategies.
+The CAGR for the extended YBAR was 7% for the 20 years from January 2003 through December 2022 (interval "E"), in contrast to 6.2% for the bond-only YBAR.
+
+```{r echo=FALSE, out.width=480, fig.align='center', fig.cap='20-year real returns vs. starting date.  Dot-dashed line shows minimum 20-year return for the extended YBAR over 1911--2003.  Letters correspond to 20-year intervals indicated in Figures 1 and 2.'}
+knitr::include_graphics("img_sbc/fig1_cf20yr_mos.pdf")
+```
+
+Figure 4 shows the minimum real CAGR for investment intervals of length five to 50 years starting 1911 or later.
+As for the bond-only YBAR, the extended YBAR would have been beneficial to minimum returns for intervals eleven or more years.
+However, both YBAR strategies would only have exceeded a 1% minimum real CAGR for intervals of length eighteen years or more.
+
+```{r echo=FALSE, out.width=480, fig.align='center', fig.cap='Minimum real returns vs. interval length.'}
+knitr::include_graphics("img_sbc/fig5b_min_by_year_margin.pdf")
+```
+
+```{r echo=FALSE, results='asis'}
+cat("\n\\newpage\n")
+```
+
+## YBARs generally offered better risk-adjusted return than static allocations
+
+One can compute the "risk premium" for an allocation as the mean difference between the returns of the allocation and those of a "risk-free" asset.
+"For long-term investors, an inflation-indexed long-term bond is actually less risky than cash."^[Campbell, John Y. (2000). "Strategic Asset Allocation: Portfolio Choice for Long-Term Investors". *https://www.nber.org/reporter/fall-2000/strategic-asset-allocation-portfolio-choice-long-term-investors*, retrieved May 2024.]
+Taking the real return of GS10 to approximate the return of an inflation-indexed long-term bond,
+Figure 5 presents the risk premium (relative to GS10) for each allocation (other than GS10 and 30-day US T-bills).
+The risk premium varied substantially as the investing climate changed.
+
+```{r echo=FALSE, out.width=480, fig.align='center', fig.cap='Real risk premium for 20-year intervals versus starting year, 1911--2003. The premium was computed (relative to GS10) for each starting month.'}
+knitr::include_graphics("img_sbc/premium_cf20yr.pdf")
+```
+
+A commonly used measure of "risk-adjusted return" is the Sharpe ratio,^[*https://en.wikipedia.org/wiki/Sharpe_ratio#History*, retrieved May 2024.] which is the mean difference between return of an asset and return of a "risk-free" asset divided by the standard deviation of that difference.
+Table 1 shows the Sharpe ratios for the allocations shown in Figure 5.
+The standard deviation was computed with monthly sampling, using GS10 as the "risk-free" asset.
+Shiller's data for the real yield of GS10 before 1934 are highly interpolated (which would elevate the Sharpe ratios for all assets).
+Over the intervals presented, the Sharpe ratios of both YBARs were higher than those of the three static stock allocations.
+The risk-adjusted return of static stock allocations decreased slightly as the stock percentage decreased.
+```{r echo=FALSE, results='asis'}
+shrpfmt <- "%0.3f"
+sharpe_ratios$extended_YBAR <- sprintf(shrpfmt, sharpe_ratios$extended_YBAR)
+sharpe_ratios$old_YBAR <- sprintf(shrpfmt, sharpe_ratios$old_YBAR)
+sharpe_ratios$SP500 <- sprintf(shrpfmt, sharpe_ratios$SP500)
+sharpe_ratios$stock_max <- sprintf(shrpfmt, sharpe_ratios$stock_max)
+sharpe_ratios$stock_min <- sprintf(shrpfmt, sharpe_ratios$stock_min)
+sharpe_ratios$money_mkt <- sprintf(shrpfmt, sharpe_ratios$money_mkt)
+colnames(sharpe_ratios) <-
+  c(
+    "from Jan",
+    "thru Dec",
+    "years",
+    "extended YBAR",
+    "bond-only YBAR",
+    "SP500",
+    "60:40 SP500:GS10",
+    "30:70 SP500:GS10",
+    "money market"
+  )
+sharpe_ratios <- sharpe_ratios[1:5, 1:8]
+kableExtra::kbl(
+  x = sharpe_ratios,
+  format = "latex",
+  align = rep.int("c", 9),
+  escape = TRUE,
+  booktabs = T,
+  caption = "Sharpe ratios of allocations for real returns over various intervals, relative to real GS10 returns"
+  ) |>
+  kableExtra::kable_styling(
+    latex_options = c("striped", "scale_down", "hold_position"),
+    font_size = 7,
+    stripe_color = "gray!20"
+    ) |>
+  kableExtra::group_rows(group_label = "full history", start_row = 1, end_row = 1) |>
+  kableExtra::group_rows(group_label = "four intervals", start_row = 2, end_row = 5)
+```
+
+```{r echo=FALSE, results='asis'}
+cat("\n\\newpage\n")
+```
+The Sharpe ratio over 20-year intervals is quite sensitive to the starting date, as shown in Figure 6. Both the bond-only YBAR and the extended YBAR had higher Sharpe ratios than static stock allocations over most of the intervals examined, with two notable exceptions:
+For the 20-year intervals beginning in 1978--1980 (when interest rates were declining from historical highs), the YBARs had somewhat lower Sharpe ratios than SP500.
+For the interval beginning in January 1989 (through December 2008), the Sharpe ratios of the bond-only YBAR and the extended YBAR were considerably reduced; nevertheless, Figure 2 shows that the YBARs were no worse affected by 2008 than the 60:40 SP500:GS10 portfolio and recovered more quickly. 
+
+```{r echo=FALSE, out.width=480, fig.align='center', fig.cap='Sharpe ratios for 20-year intervals versus starting year, 1911--2003. A ratio was computed (relative to GS10) for each starting month.'}
+knitr::include_graphics("img_sbc/sharpe_20yr.pdf")
+```
+
+```{r echo=FALSE, results='asis'}
+#cat("\n\\newpage\n")
+```
+
+# Discussion
+
+The extended YBAR is a risk-reduction strategy that has a sound valuation basis, that is simple to articulate, and that appears to have been effective from 1911 through 2023.
+Shifting exposure toward money market funds from longer term bonds when bond yields were low would have been effective only in 2022.  No other instance since 1911 was greatly enhanced or degraded by this extension of the YBAR strategy.
+Neither the extended YBAR presented here nor the "bond-only" YBAR strategy described preceding paper^[Eschenlauer (2024), *op. cit.*] was very sensitive to the definition of the earnings yield for stock; results are only slightly less favorable when $\frac{E}{P}$ is used for earnings yield in lieu of $\frac{E10}{P}$, as shown in the last section of the Appendix. 
+
+As with the bond-only YBAR, the extended YBAR strategy does not dictate frequent trading among asset classes.
+On average, the extended YBAR triggered a stock trade less than 0.8 times per year; since 1911, there was only one pair of successive months where a sale was required in one and a purchase in the other.^[Specifically, about 12% of the stock portion was sold in February 2020, and this was followed by an increase of 3% of the stock portion in March 2020.]
+Exchanges of bonds and "cash" also occurred infrequently (less than 1.4 times per year, on average), with the most exceptions occurring in the early 20th century when overall fixed-income allocation was low.
+Thus, generally, the frequency of both reallocation between stocks and fixed-income assets and reallocation between bonds and "cash" would have been similar to the frequency for statically allocated portfolios that are rebalanced yearly.
+
+For all of the tested allocations, the "risk premium" over 20-year intervals fluctuated widely.
+Both YBAR strategies presented here generally offered better risk-adjusted returns than aggressive static stock allocations; however, the degree of advantage varied considerably and was only slight over the interval 1936--1960.
+Among the static percentage stock allocations, the lower percentage allocations were somewhat less volatile than higher-percentage allocations, yet the latter generally offered slightly higher risk-adjusted returns.
+
+## Previous work
+
+The results presented in Figure 1 are largely consistent with those seen with the "Dynamic Asset Allocation" strategy of White and Haghani.^[White and Haghani (2022), *op. cit.*]  Their approach is formally based on risk assessment and aversion, in contrast to the heuristically tuned, Graham-inspired "Margin of Safety" formulas investigated here. In later years, Graham proposed the possible approach of moderately varying stock allocation.^["The program I propose with 25 percent of the portfolio in stocks and 25 percent in bonds, allowing the other 50 percent to fluctuate in accordance with the market, could be operated pretty well over the future." &mdash; "Benjamin Graham: Thoughts on Security Analysis" [transcript of lecture at the Northeast Missouri State University business school, March, 1972], Friends of Financial History, no. 42, March, 1991, pp. 8--10 and 28--29. *https://archive.org/details/friendsoffinanci00rmsm_38/page/8/mode/2up*.]
+Lucile Tomlinson explored this idea extensively.^[Lucile Tomlinson (1953) *Practical Formulas for Successful Investing.* New York, Wilfred Funk, Inc., *https://lccn.loc.gov/53005696*, chapters 13--17.]
+
+Zhu *et al.* present^[Zhu, Victor *et al.* (October, 2023) "Constructing return-target portfolios: A time-varying, valuation-aware approach to asset allocation". Valley Forge, Pa.: The Vanguard Group. *https://web.archive.org/web/20240506115343if_/https://corporate.vanguard.com/content/dam/corp/research/pdf/constructing_return_target_portfolios.pdf* (accessed May 2024)] the Vanguard "Time-varying Valuation-aware Asset Allocation model" (TVAA), which removes the static allocation constraint, adjusting recommended asset allocations *both within and between asset classes* in response to changes in assets' projected returns.
+These projected returns are based on the Vanguard Capital Markets Model,^["The VCMM can be technically characterized as a factor-augmented vector autoregression (FAVAR) model. ... However, the actual implementation of the VCMM supplements the basic statistical framework with various proprietary, long-run restrictions and different distributional assumptions." &mdash; Davis, Joseph, *et al.* (2014) "Vanguard Global Capital Markets Model". Valley Forge, Pa.: The Vanguard Group. *https://web.archive.org/web/20150315211411if_/https://static.vgcontent.info/crp/intl/auw/docs/resources/Vanguard_VCMM.pdf* (accessed May 2024)] which relies on the presumptive central tendency of valuations over time-spans relevant to long-term investors.^[Cochrane, John H. (2021) "Return Forecasts and Time-Varying Risk Premiums", in *The Fama Portfolio*. University of Chicago Press. pp. 487--501. *https://doi.org/10.7208/9780226426983-020*]
+Using 10-year expected portfolio analytics (based on 10,000 randomized simulations per year for years 2017--2022), Zhu *et al.* demonstrate that the valuation-aware allocation approach is expected to improve both risk-adjusted return and overall return relative to a static allocation approach, with a higher probability of meeting a 4% annual return target.
+Although no role for money market funds is described for the TVAA, it does otherwise appear to lay the foundation for a much more complete risk-management formula than the simple expressions used in the simulation presented here.
+Zhu *et al.* present analysis of the TVAA over only the five recent years; because of the (understandably) proprietary nature of the TVAA and the effort required to assemble such historical data as exist for the rich variety of assets that they include in their report, it seems a daunting task for an independent analyst to attempt to test the TVAA's ten-year projections against many decades of historical data.
+
+```{r echo=FALSE, results='asis'}
+cat("\n\\newpage\n")
+```
+
+## Limitations
+
+### No distributions
+
+This analysis does not model distribution (to cover expenses, commissions, taxes, etc.), implicitly assuming that distributions from the portfolio would come from stocks when the earnings yield is lower or from bonds when the current yield is lower.^[Pfau (2025), *op. cit.*] 
+Practically, it would be possible to reduce depletion of principal during periods of minimal returns by employing other means (such as using ladders constructed from individual bonds, "fixed indexed annuities", or other insurance contracts^[See the "Annuities and Risk Pooling" chapter of Pfau (2025), *op. cit.*]) to fund short-term expenses (including taxes); however, the analysis here does not account for such prudent action.
+
+### Extrapolation
+
+The small 123 year sample explored here can at best be considered only modestly reliably predictive. Yet:
+
+> If you cannot base your investment policy on the past, I think you have no basis for it at all.^["Benjamin Graham: Thoughts on Security Analysis"
+  (transcript of lecture at the Northeast Missouri State University business school, March, 1972), Friends of Financial History, no. 42,
+  March, 1991, pp. 8–10 and 28–29. *https://archive.org/details/friendsoffinanci00rmsm_38/page/8/mode/2up.*]
+
+One aspect of this analysis applies unknowable future data to present decisions: both the factor $\frac{2 \times B}{T}$ used in the expression for the minimum stock-allocation and the factor $\frac{3 \times B}{T}$ used in the expression for the maximum were deduced by inspecting performance during the entire 1911--2022 period.
+
+### Unrealistic aspects of modeling
+
+This analysis makes no attempt to model allocation among several stock funds or several bond funds;
+a single market-weighted index represents each asset class.
+These indexes can only be represented imperfectly even among those real-world funds which aim to replicate them.
+
+Survivorship bias within the S&P 500 index is not part of this analysis.
+Furthermore, this analysis presumes that the US Government will not default on payments for US Treasuries (a scenario that seemed unthinkable prior to 2011^[https://en.wikipedia.org/wiki/United_States_federal_government_credit-rating_downgrades]).
+
+### Asset selection alternatives
+
+This analysis demonstrates the effect of a basic formula using broad indexes.
+Both stocks and fixed-income assets offer many alternatives from which an investor must choose.
+There are also many alternatives for investment in other instruments such as commodities, option or annuity contracts, real property, etc..
+There is nothing here to suggest that this analysis can be extended to a diverse selection of assets without modification or competent judgement.
+
+### Diversification risk
+
+Use of a broad index that is weighted by market capitalization (such as the SP500) introduces what might be termed "diversification risk".
+Forcing both "value" and "growth" stocks to be market-capitalization weighted may reslut in a lower earnings yield than which might be achieved by "tilting" the weights toward stocks that have a substantially higher earnings yield (and probably higher long-term returns^[Fama, Eugene F., and French, Kenneth R. (2007) "The Anatomy of Value and Growth Stock Returns". Financial Analysts Journal 63:44--54. *https://doi.org/10.2469/faj.v63.n6.4926*]).
+Thus, strict market-capitalization weighting can reduce the aggregate earnings yield for stocks in the portfolio; as a result, the YBAR would demand shifting of assets in favor of bonds.
+This allocation to bonds might be higher than would be advantageous if the weights of "value stocks" relative to "growth stocks" were permitted to fluctuate.
+
+The TVAA (described above) seems likely a systematic and elegant way to mitigate diversification risk.
+However, because Shiller's SP500 historical data do not decompose the SP500 by earnings yield, the data analyzed in this study cannot be used to investigate diversification risk. 
+
+### Financial policy
+
+One cannot foresee whether the Federal Open Market Committee policy's 2% inflation target will ever again push GS10 yield well below 4%, as was often seen for 2008--2021.
+If neither economic crises nor financial-policy misadventures push long term interest rates below the levels seen in recent decades, allocation between bonds and "cash" may lose relevance.
+
+## Implications for the retirement investor
+
+The retiree may address the possibility of depleting the principal of the investment portfolio in the near-term by moderating discretionary expenditures or by drawing from resources outside the portfolio; otherwise, the retiree must consider potential for both near-term and long-term returns.  When interest rates are higher, the portfolio generates considerable income, and the focus for asset allocation can be restricted to bonds and stocks.  However, when interest rates approach historic lows, the prospect of rising interest rates can have a dramatic effect on the near-term principal value of a portfolio that has been constructed to generate favorable results over the long term. This paper answers in the affirmative the question of whether adding money market assets to the YBAR strategy can mitigate the short-term effect of rising interest rates on portfolio value.
+
+
+```{r echo=FALSE, results='asis'}
+cat("\n\\newpage\n")
+```
+
+# Appendix
+
+The tables in this Appendix may be read as demonstrated by this example:
+
+- Look up the GS10 yield, e.g., at *https://www.multpl.com/10-year-treasury-rate*
+- Look up the P/E10 for SP500, e.g., at *https://www.multpl.com/shiller-pe*.
+- For this example:
+  - suppose that, initially, 80% of the portfolio is invested in stock;
+  - suppose that GS10 yield is 3.1%;
+  - suppose that SP500 P/E10 is 29.10 (i.e., the earnings yield, $\frac{E10}{P}$, is 3.44%).
+- Find the row in Table 2 that has the value in column 1 that is closest to the GS10 yield.
+  - For this example, it is the row having 3.11% in the first column.
+  - Thus, 35.9% of fixed-income assets would be in GS10; 64.1%, in money market funds.
+- Find the row in Table 3 that has the value in column 1 that is closest to the GS10 yield.
+  - For this example, it is 3.00%.
+  - Search that row for the last column having a value less than the P/E10.
+    - For this example, it is the fourth column that has the value 28.9.
+    - The top of that column means "when stock is >78%, sell stock to decrease to 72%".
+- Find the row in Table 4 that has the value in column 1 that is closest to the GS10 yield.
+  - For this example, it is 3.00%.
+  - Search that row for the last column having a value greater than the P/E10.
+    - For this example, it is the fourth column that has the value 29.7.
+    - The top of that column means "when stock is <12%, buy stock to increase to 18%".
+- Given the suppositions, the strategy would suggest that:
+  - stock be reduced to 72% of the portfolio, increasing fixed-income assets to 38%;
+  - 35.9% $\times$ 38% = 13.64% of the portfolio be invested in GS10;
+  - 64.1% $\times$ 38% = 24.36% of the portfolio be invested in a money market fund.
+
+```{r echo=FALSE, results='asis'}
+#cat("\n\\newpage\n")
+```
+
+## Allocation between GS10 and money market assets
+
+Table 2 relates percent of fixed income assets allocated to GS10 and to money market as a function of GS10 yield, computed using the "BondPercentageOfFixedIncomeAssets" expression presented in the section "Partitioning of fixed-income assets between GS10 and money market assets".
+
+```{r echo=FALSE, results='asis'}
+# ---
+# calculations for fixed-income sub-allocation table
+
+my_granularity <- 14
+my_rate <-
+  c(
+    (0.04075 - 0.02725) * (0:my_granularity) / my_granularity + 0.02725
+  )
+bond_table <-
+  data.frame(
+    LT_rate = my_rate,
+    VMFXX = 0,
+    GS10 = my_rate |> (function(.) pmin(1, pmax(0, 3.1 * (1 - 0.0275 / .))))()
+    )
+bond_table$VMFXX <- 1 - bond_table$GS10
+
+bond_table_print <-
+  with(
+    bond_table,
+    data.frame(
+      LT_rate = sprintf("%0.2f%s", 100 * (LT_rate), "%"),
+      VMFXX = sprintf("%0.1f%s", 100 * VMFXX, "%"),
+      GS10 = sprintf("%0.1f%s", 100 * GS10, "%")
+    )
+  )
+colnames(bond_table_print) <-
+  c("GS10 yield", "% money market", "% GS10")
+
+kableExtra::kbl(
+  x = bond_table_print,
+  format = "latex",
+  align = rep.int("c", 3),
+  escape = TRUE,
+  booktabs = T,
+  caption = "Allocation between fixed-income assets vs. minimum GS10 yield"
+  ) |>
+  kableExtra::kable_styling(
+    latex_options = c("striped", "scale_down", "hold_position"),
+    font_size = 7,
+    stripe_color = "gray!20"
+    )
+
+# Calculations for table stock vs. fixed income allocation
+
+# parameters for table showing maximum proportion of stocks
+max_cutoff_lut <-
+  data.frame(
+    proportion = c( 0.06,  0.12,   0.18,   0.24,   0.30,   0.36,   0.42,   0.48,   0.54,    0.60,   0.66,   0.72,   0.78,   0.85),
+    cap = c(  0.0090, 0.015, 0.0195, 0.0228, 0.0254, 0.0275, 0.0292, 0.0306, 0.0319,  0.0329, 0.0338, 0.0346, 0.0353, 0.0360)
+  )
+
+# parameters for table showing minimum proportion of stocks
+min_cutoff_lut <-
+  data.frame(
+    proportion = c(0, 0.06,  0.12,   0.18,   0.24,   0.30,   0.36,   0.42,   0.48,   0.54,   0.60,   0.66,   0.72,   0.78,   0.85),
+    cap = c(0, 0.0090, 0.015, 0.0195, 0.0228, 0.0254, 0.0275, 0.0292, 0.0306, 0.0319,  0.0329, 0.0338, 0.0346, 0.0353, 0.0360)
+  )
+
+# *_cutoff_lut$cap should be within 3 percent of *_cutoff_lut$proportion |> cap_f()
+# cap_f <- function(.) { 1 / (pmax(1, (1 / (. * ybar_X) - 1) / ybar_H)) }
+
+my_i <- (0:38) / 400
+
+pe10_i_max_f <-
+  function(b_i, cutoff_lut) {
+    rslt <-
+      with(cutoff_lut, b_i^2 * 3 / (b_i * 3 + (1 - proportion) * ybar_T))
+    rslt <- pmax(cutoff_lut$cap, rslt)
+    names(rslt) <- cutoff_lut$proportion
+    1 / rslt
+  }
+
+pe10_i_min_f <-
+  function(b_i, cutoff_lut) {
+    rslt <-
+      with(cutoff_lut, proportion * ybar_T / 2 + b_i)
+    rslt <- pmax(cutoff_lut$cap, rslt)
+    names(rslt) <- cutoff_lut$proportion
+    1 / rslt
+  }
+
+ROUND_MINMAX <- 1
+# pe10_b_max <- t(sapply(my_i, pe10_i, max_cutoff_lut))
+pe10_b_max <- t(sapply(my_i, pe10_i_max_f, max_cutoff_lut))
+rownames(pe10_b_max) <- my_i
+pe10_b_max[is.infinite(pe10_b_max)] <- 93
+pe10_b_max[pe10_b_max > 93] <- 93
+pe10_b_max <- round(pe10_b_max, ROUND_MINMAX)
+pe10_b_max <- pe10_b_max[, ncol(pe10_b_max):1]
+  
+# pe10_b_min <- t(sapply(my_i, pe10_i, min_cutoff_lut))
+pe10_b_min <- t(sapply(my_i, pe10_i_min_f, min_cutoff_lut))
+rownames(pe10_b_min) <- my_i
+pe10_b_min[is.infinite(pe10_b_min)] <- 93
+pe10_b_min[pe10_b_min > 93] <- 93
+pe10_b_min <- round(pe10_b_min, ROUND_MINMAX)
+
+when_above <- sprintf(">%0.0f%s", 100 * as.numeric(colnames(pe10_b_max)) + 6, "\\%")
+sell_to <- sprintf("$\\searrow$%0.0f%s", 100 * as.numeric(colnames(pe10_b_max)), "\\%")
+when_below <- sprintf("<%0.0f%s", 100 * as.numeric(colnames(pe10_b_min)) - 6, "\\%")
+when_below[2] <- "=0\\%"
+buy_to <- sprintf("$\\nearrow$%0.0f%s", 100 * as.numeric(colnames(pe10_b_min)), "\\%")
+colnames(pe10_b_max) <- paste0(when_above, "\n", sell_to)
+colnames(pe10_b_min) <- paste0(when_below, "\n", buy_to)
+pe10_b_min <- pe10_b_min[, 2:ncol(pe10_b_min)]
+pe10_b <-
+  cbind(
+    data.frame(
+      yield = sprintf("%0.2f%s", 100 * my_i, "\\%")
+      ),
+    pe10_b_max,
+    pe10_b_min
+    )
+colnames(pe10_b) <-
+  kableExtra::linebreak(
+    c(
+      "when stock is\ntrade to",
+      colnames(pe10_b)[2:ncol(pe10_b)]
+    )
+  )
+first_row <- t(c("GS10 yield", rep.int("", ncol(pe10_b) - 1)))
+colnames(first_row) <- colnames(pe10_b)
+pe10_b[, c(2, 15, 29)] <- "else"
+pe10_b <- rbind(first_row, pe10_b)
+```
+
+```{r echo=FALSE, results='asis'}
+#cat("\n\\clearpage\n")
+#cat("\n\\blandscape\n")
+```
+
+## Stock percentage limits
+
+Tables 3 and 4 respectively relate maximum and minimum percent of all assets allocated to SP500 as a function of both GS10 yield and SP500 earnings yield, respectively computed using the "MaxStockPercent" and "MinStockPercent" expressions presented in the section "Partitioning between stocks and fixed-income assets".
+The parameters used to compute the values presented in these tables were $\textbf{H}$ = 25%, $\textbf{T}$ = 4.14%, $\textbf{X}$ = `r sprintf("%0.2f", ybar_X)`, and $\textbf{D}$ = 6%.
+
+```{r echo=FALSE, results='asis'}
+kableExtra::kbl(
+  x = pe10_b[, 1:15],
+  format = "latex",
+  align = c("l", rep.int("l", ncol(pe10_b) - 1)),
+  row.names = FALSE,
+  escape = FALSE,
+  booktabs = T,
+  caption = "P/E10 vs. GS10 yield and maximum stock percentage"
+  ) |>
+  kableExtra::add_header_above(
+    c("(1) find yield",
+      "(2) find highest value < P/E10, then (3) read maximum stock percentage" = 14
+      )
+    ) |>
+  kableExtra::kable_styling(
+    latex_options = c("striped", "scale_down", "hold_position"),
+    font_size = 7,
+    stripe_color = "gray!20",
+    protect_latex = TRUE
+    )  |>
+  kableExtra::column_spec(1, width = "0.65in") |>
+  kableExtra::column_spec(2, width = "0.20in") |>
+  kableExtra::column_spec(3, width = "0.20in") |>
+  kableExtra::column_spec(4, width = "0.20in") |>
+  kableExtra::column_spec(5, width = "0.20in") |>
+  kableExtra::column_spec(6, width = "0.20in") |>
+  kableExtra::column_spec(7, width = "0.20in") |>
+  kableExtra::column_spec(8, width = "0.20in") |>
+  kableExtra::column_spec(9, width = "0.20in") |>
+  kableExtra::column_spec(10, width = "0.20in") |>
+  kableExtra::column_spec(11, width = "0.20in") |>
+  kableExtra::column_spec(12, width = "0.20in") |>
+  kableExtra::column_spec(13, width = "0.20in") |>
+  kableExtra::column_spec(14, width = "0.20in") |>
+  kableExtra::column_spec(15, width = "0.35in")
+cat("\n\\clearpage\n")
+```
+
+```{r echo=FALSE, results='asis'}
+kableExtra::kbl(
+  x = pe10_b[, c(1, 16:29)],
+  format = "latex",
+  align = c("l", rep.int("l", ncol(pe10_b) - 1)),
+  row.names = FALSE,
+  escape = FALSE,
+  booktabs = T,
+  caption = "P/E10 vs. GS10 yield and minimum stock percentage"
+  ) |>
+  kableExtra::add_header_above(
+    c("(1) find yield",
+      "(2) find lowest value > P/E10, then (3) read minimum stock percentage" = 14
+      )
+    ) |>
+  kableExtra::kable_styling(
+    latex_options = c("striped", "scale_down", "hold_position"),
+    font_size = 7,
+    stripe_color = "gray!20",
+    protect_latex = TRUE
+    )  |>
+  kableExtra::column_spec(1, width = "0.65in") |>
+  kableExtra::column_spec(2, width = "0.20in") |>
+  kableExtra::column_spec(3, width = "0.20in") |>
+  kableExtra::column_spec(4, width = "0.20in") |>
+  kableExtra::column_spec(5, width = "0.20in") |>
+  kableExtra::column_spec(6, width = "0.20in") |>
+  kableExtra::column_spec(7, width = "0.20in") |>
+  kableExtra::column_spec(8, width = "0.20in") |>
+  kableExtra::column_spec(9, width = "0.20in") |>
+  kableExtra::column_spec(10, width = "0.20in") |>
+  kableExtra::column_spec(11, width = "0.20in") |>
+  kableExtra::column_spec(12, width = "0.20in") |>
+  kableExtra::column_spec(13, width = "0.20in") |>
+  kableExtra::column_spec(14, width = "0.20in") |>
+  kableExtra::column_spec(15, width = "0.35in")
+
+```
+
+## Cumulative results when earnings yield is defined as $\frac{E}{P}$
+
+When earnings yield is defined as $\frac{E}{P}$ (SP500 earnings for the preceding four quarters divided by SP500 price), both YBARs performed only slightly less well than $\frac{E10}{P}$ in simulations, as may be seen by contrasting Figure 7 below with Figure 1 above.
+
+```{r echo=FALSE, out.width=480, fig.align='center', fig.cap='Cumulative results when earnings yield is defined as E/P. Top panel, comparative cumulative performance of allocations relative to January, 1911; lettered bars indicate 20-year time intervals labeled in Figure 8. Middle panel, GS10 yield and risk premium (or shortfall) for SP500 relative to GS10. Bottom panel, resulting percent "cash" and stock allocations for the extended YBAR; blue downward open triangles reflect stock sales driven by the maximum stock allocation specified by the strategy; red upward solid triangles, stock purchases driven by minimum stock allocation; purple open circles, shift to "cash" from bonds; brown solid circles, shift to bonds from "cash".'}
+knitr::include_graphics("img_sbc/fig4_cumulative_all_ep_mos.pdf")
+```
+
+```{r echo=FALSE, results='asis'}
+cat("\n\\newpage\n")
+```
+
+Figure 8 below shows 20-year returns when earnings yield is defined as $\frac{E}{P}$, showing that $\frac{E}{P}$ performed respectably at raising the minimum 20-year returns (but less effectively than $\frac{E10}{P}$; compare with Figure 3). For intervals beginning in 1989 and thereafter, the "cash" allocation in the extended YBAR consistently improved returns relative to the bond-only YBAR when earnings yield is defined as $\frac{E}{P}$.
+
+```{r echo=FALSE, out.width=480, fig.align='center', fig.cap='20-year real returns vs. starting date when earnings yield is defined as E/P.  Dot-dashed line shows the minimum 20-year return for the extended YBAR over 1911--2003.  Letters correspond to 20-year intervals indicated in Figure 7'}
+knitr::include_graphics("img_sbc/fig1_cf20yr_ep_mos.pdf")
+```
+
+The similar performance of $\frac{E}{P}$ and $\frac{E10}{P}$ may (in large part) be because variation in price accounts for much of the variation of both ratios.
+Although the months when stock trading was triggered differed slightly, the sequence of changes in stock allocation showed substantial similarity because of the incremental nature of the changes.
+
+The success of $\frac{E}{P}$ as a formulation for earnings-yield is not surprising given that Cardinale *et al.* showed a highly significant correlation of 0.6 between $\frac{E}{P}$ and 10-year subsequent return for 1926--2000.^[Cardinale, Mirko; Navone, Marko; and Pioch, Andrzei. (April 2014) "The Power of Dynamic Asset Allocation". Journal of Portfolio Management 40(3). *https://www.researchgate.net/publication/258422729_The_Power_of_Dynamic_Asset_Allocation*, retrieved May 2024.]
+
+```{r echo=FALSE, results='asis'}
+#cat("\n\\newpage\n")
+```
+
+# Acknowledgements
+
+Robert Shiller's data serves all of us who wish to learn how investments performed in the USA since 1871.
+
+I am grateful to Arthur Eschenlauer, formerly of the Morgan Guaranty Trust Company, (generally) for the instruction in investing that I receive from him and (particularly) for introducing me to the idea of reducing exposure to long-term bonds when interest rates reach very low levels.
+
+# Software availability
+
+The results and figures presented in this paper were generated using the software available in the GitHub repository at  [*https://github.com/eschen42/YieldBasedAssetRatio*](https://github.com/eschen42/YieldBasedAssetRatio) (DOI [*10.5281/zenodo.10764741*](https://zenodo.org/doi/10.5281/zenodo.10764741)).
+This is made available to facilitate experimentation and testing with alternative parameters or criteria.
+
+# Disclaimer -- This is *not* financial advice
+
+All illustrations, formulas, and tables are presented for their historical value and should not be construed as predictive of future results.
+This perspective is provided only for purposes of academic investigation, and it has been neither reviewed nor endorsed by financial professionals.
+Arthur Eschenlauer is not a financial advisor.
+This material is not investment advice, a solicitation, or a recommendation to buy or sell any security or investment product.
+
+# License - CC-BY-SA 4.0
+
+Copyright &copy; 2024 by Arthur Copeland Eschenlauer (ORCiD 0000-0002-2882-0508).
+
+This presentation is made available to you under the Creative Commons
+Attribution-ShareAlike 4.0 International license (CC-BY-SA 4.0) [*https://creativecommons.org/licenses/by-sa/4.0/*](https://creativecommons.org/licenses/by-sa/4.0/),
+The hyperlink may be consulted for details, but in summary:
+
+- You are free to:
+  - *Share* - copy and redistribute the material in any medium or format for any purpose, even commercially.
+  - *Adapt* - remix, transform, and build upon the material for any purpose, even commercially.
+  - The licensor cannot revoke these freedoms as long as you follow the license terms.
+- Under the following terms:
+  - *Attribution* - You must give appropriate credit^[You must provide the name of the creator and attribution parties, a copyright notice, a license notice, a disclaimer notice, and a link to the material.], provide a
+  link to the license, and indicate^[See *https://wiki.creativecommons.org/wiki/Recommended_practices_for_attribution#This_is_a_great_attribution*] if changes were made. You may do so in
+  any reasonable manner, but not in any way that suggests the licensor
+  endorses you or your use.
+  - *ShareAlike* - If you remix, transform, or build upon the
+  material, you must distribute your contributions under the same
+  license^[You may also use a license listed as compatible at *https://creativecommons.org/compatiblelicenses*.]
+  as the original.
+  - *No additional restrictions* - You may not apply legal terms
+  or technological measures^[The license prohibits application of effective technological measures, defined with reference to Article 11 of the WIPO Copyright Treaty.] that legally restrict others from doing
+  anything the license permits.
+- Notices:
+  - You do not have to comply with the license for elements of the
+    material in the public domain or where your use is permitted by an
+    applicable exception or limitation.^[The rights of users under exceptions and limitations, such as fair use and fair dealing, are not affected by the CC licenses.]
+  - No warranties are given. The license may not give you all of the
+    permissions necessary for your intended use. For example, other rights
+    such as publicity, privacy, or moral rights may limit how you use the
+    material.

@@ -4,7 +4,7 @@ author:
   - "Arthur C. Eschenlauer"
   - "ybar@eschenlauer.com"
   - "*https://orcid.org/0000-0002-2882-0508*"
-  #- DOI 10.2139/ssrn.4746302
+  - DOI 10.2139/ssrn.4746302
 date: "`r Sys.Date()`"
 output:
   pdf_document:
