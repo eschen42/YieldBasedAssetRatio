@@ -71,7 +71,7 @@ To minimize unfavorable asset sales, one does well to balance the volatility of 
 
 <!-- Gross return on an investment varies inversely with the purchase price; how might this impact volatility in the value of an investment portfolio at the midpoint of a 40-year retirement? -->
 How might volatility impact the value of an investment portfolio at the midpoint of a 40-year retirement?
-Historical simulations have shown that judiciously applying valuation as the basis of risk-adjustment for dynamic asset allocation would often have delivered risk-adjusted returns superior to those of static asset allocation without substantial sacrifice of overall returns.^[ Pfau, Wade D. (2011). "Long-Term Investors and Valuation-Based Asset Allocation". *https://dx.doi.org/10.2139/ssrn.2544636*] ^[White, James and Haghani, Victor (2022). "Man Doth Not Invest by Earnings Yield Alone". *https://dx.doi.org/10.2139/ssrn.4025456*]
+Historical simulations have shown that judiciously applying valuation as the basis of risk-adjustment for dynamic asset allocation would often have delivered risk-adjusted returns superior to those of static asset allocation without substantial sacrifice of overall returns.^[Pfau, Wade D. (2011). "Long-Term Investors and Valuation-Based Asset Allocation". *https://dx.doi.org/10.2139/ssrn.2544636*] ^[White, James and Haghani, Victor (2022). "Man Doth Not Invest by Earnings Yield Alone". *https://dx.doi.org/10.2139/ssrn.4025456*]
 Since 1911, a "yield-based asset ratio" (YBAR) strategy allocating dynamically between the S&amp;P 500 stock index (SP500) and ten-year US Treasury bonds (GS10) on the basis of present yields would have boosted minimum returns over 20-year intervals relative to static stock allocation strategies.^[Eschenlauer (2024), *op. cit.*]
 The advantage of the YBAR was greatest from September 1961 through August 1981, when stock earnings yield and bond current yield alternately offered substantial advantage over one another while both rose slowly but extensively from very low levels.
 However, when sharp decreases in bond and stock prices coincided during 2022, neither the YBAR nor static allocations effectively reduced short-term decline of principal value.
@@ -80,11 +80,11 @@ Could inclusion of money market funds into an extended YBAR strategy better prot
 Many bonds pose considerable risk that a rise in interest rates will erode their prices, as was dramatically apparent in 2022.
 Although long-term interest rates reveal the market's expectation about future interest rates, one cannot meaningfully predict when they will reach given levels.
 Interest rates vary sporadically with economic activity and intervention of central banks.
-Given that the Federal Open Market Committee has pursued^[*https://www.federalreserve.gov/monetarypolicy/files/fomc_longerrungoals.pdf*, retrieved May 2024.] a target annual inflation rate of 2% since 2012 and that GS10 interest rates have trended roughly 1.5--3% above inflation since 2012, nominal rates for GS10 might be expected in the neighborhood of 3--6% over the next few decades.
+Given that the Federal Open Market Committee has pursued^[Federal Open Market Committee (2025). "Statement on Longer-Run Goals and Monetary Policy Strategy" *https://web.archive.org/web/20251219012715/https://www.federalreserve.gov/monetarypolicy/files/FOMC_LongerRunGoals.pdf*, retrieved December 2025.] a target annual inflation rate of 2% since 2012 and that GS10 interest rates have trended roughly 1.5--3% above inflation since 2012, nominal rates for GS10 might be expected in the neighborhood of 3--6% over the next few decades.
 Such a projection motivates
 examination of the historical record to deduce whether a formula exists that might have mitigated interest rate risk effectively in 2022.
 
-Robert Shiller maintains an historical record^[File `ie_data.xls` retrieved 2 April 2025 from *https://shillerdata.com/*; cached at *https://tinyurl.com/ie-data-20250402*.] of the price, earnings, dividends, and total returns of the spliced equivalent of SP500, the interest rate and total returns of GS10, and the spliced equivalent of the Consumer Price Index^[Annual inflation reports seen in the press are computed from the Consumer Price Index.] since 1871.
+Robert Shiller maintains an historical record^[File `ie_data.xls`, retrieved 2 April 2025 from *https://shillerdata.com/*; cached at *https://tinyurl.com/ie-data-20250402*.] of the price, earnings, dividends, and total returns of the spliced equivalent of SP500, the interest rate and total returns of GS10, and the spliced equivalent of the Consumer Price Index^[Annual inflation reports seen in the press are computed from the Consumer Price Index.] since 1871.
 Although "retrospectively testing" any allocation strategy against this historical record is not sufficient to establish its reliability for the future, a strategy would seem unreliable if it would not have fared well in the past.
 Using parameters fitted to Shiller's historical record, this study examines what might have been the effect of responding to falling interest rates by incrementally shifting some of the fixed-income portion of the YBAR allocation from bonds toward lower-volatility assets (e.g., money market funds or perhaps ultra-short-term bond funds), demonstrating that such a strategy would have protected principal value in 2022 without disrupting favorable returns over 20-year intervals since 1911.
 
@@ -93,14 +93,16 @@ Using parameters fitted to Shiller's historical record, this study examines what
 The previous paper^[Eschenlauer (2024), *op. cit.*] applied Shiller's data to simulate trading since 1911 for a YBAR strategy that is based on the relative relationship of the GS10's nominal yield to the SP500's earnings yield, computed as $\frac{E10}{P}$ (i.e., the price of SP500 divided into the average earnings over the preceding decade^[Alternatively, computing earnings yield as $\frac{E}{P}$ performs almost as well (results shown in the Appendix).]). Trading proceeded incrementally and only when the yields differed greatly.
 That paper presented an interpretation of Benjamin Graham's "Margin of Safety" concept, reflecting opportunity in SP500 valuation relative to GS10; a complementary "Margin of Folly", reflecting diminishing returns of SP500 relative to GS10; and a "Margin of Reversion", reflecting the SP500's price relative to its earning potential. Three expressions incorporating these margins specified gradual allocation changes between SP500 and GS10 as their nominal yields fluctuated, considerably protecting principal value of the investments and boosting minimum returns over interval lengths of 11 years or more.
 
-To complement and extend the three expressions presented previously, an expression is introduced here to shift the fixed-income allocation toward money market funds as bond yields diminish. Tables in the Appendix, based on these four expressions, provide an alternative to performing the arithmetic directly.
+To complement and extend the three expressions presented previously, an expression for the "Margin of Bond Opportunity" is introduced here to shift the fixed-income allocation toward bonds from "cash" as bond yields increase. Tables in the Appendix, based on these four expressions, provide an alternative to performing the arithmetic directly.
 
 ```{r echo=FALSE, results='asis'}
 cat("\n\\newpage\n")
 ```
-## Partitioning of fixed-income assets between GS10 and money market assets
+## Partitioning of fixed-income assets
 
-To address declines in fixed-income asset price such as were seen when interest rates rose sharply in 2022, the following formula gradually reduces the percentage of fixed-income assets allocated to bonds as interest rates decrease. Parameters for the formula were fitted heuristically to the historical record since 1911.
+### GS10 allocation -- applying "Margin of Bond Opportunity"
+
+To address declines in fixed-income asset price such as were seen when interest rates rose sharply in 2022, the following formula gradually increases the percentage of fixed-income assets allocated to bonds as interest rates increase. Parameters for the formula were fitted heuristically to the historical record since 1911.
 
 $$
 \boxed{
@@ -137,6 +139,8 @@ Table 2 in the Appendix presents these percentages.
 
 The previous paper^[Eschenlauer (2024), *op. cit.*] presented and explained expressions for the minimum and maximum stock percentage limits that trigger trading on the basis of present stock and bond yields. They are summarized in this section.
 
+### Cap for stock allocation -- applying "Margin of Reversion"
+
 To control the risk posed by extremely low earnings yield for stocks, both limits depend upon the "reversion cap" on stock percentage that is given by:
 
 $$
@@ -160,6 +164,8 @@ $$
 $$
 
 $\frac{1}{\textbf{S} \times \textbf{X}} - 1$ is the "Margin of Reversion" (for SP500 relative to historical trend).
+
+### Lower limit for stock allocation -- applying "Margin of Safety"
 
 The minimum stock percentage limit is given by:
 
@@ -185,6 +191,8 @@ where:
   - \(\textbf{T}\) = 4.14%, the average nominal yield for GS10 since 1911.
 
 $\frac{\textbf{S}}{\textbf{B}} - 1$ is the "Margin of Safety" (for SP500 relative to GS10).
+
+### Upper limit for stock allocation -- applying "Margin of Folly"
 
 The maximum stock percentage limit is given by:
 
@@ -382,7 +390,7 @@ Among the static percentage stock allocations, the lower percentage allocations 
 ## Previous work
 
 Graham proposed the possible approach of moderately varying stock allocation to reflect market conditions.^["The program I propose with 25 percent of the portfolio in stocks and 25 percent in bonds, allowing the other 50 percent to fluctuate in accordance with the market, could be operated pretty well over the future." &mdash; "Benjamin Graham: Thoughts on Security Analysis" [transcript of lecture at the Northeast Missouri State University business school, March, 1972], Friends of Financial History, no. 42, March, 1991, pp. 8--10 and 28--29. *https://archive.org/details/friendsoffinanci00rmsm_38/page/8/mode/2up*.]
-Lucile Tomlinson explored this idea extensively^[Lucile Tomlinson (1953) *Practical Formulas for Successful Investing.* New York, Wilfred Funk, Inc., *https://lccn.loc.gov/53005696*, chapters 13--17.]
+Lucile Tomlinson explored this idea extensively,^[Lucile Tomlinson (1953) *Practical Formulas for Successful Investing.* New York, Wilfred Funk, Inc., *https://lccn.loc.gov/53005696*, chapters 13--17.]
 and Wade Pfau tested it with modern data.^[Pfau (2011), *op. cit.*]
 
 The results seen with the "Dynamic Asset Allocation" strategy of White and Haghani^[White and Haghani (2022), *op. cit.*] are largely consistent with those presented in Figure 1.  Their approach is formally based on risk assessment and aversion, in contrast to the heuristically tuned, Graham-inspired "Margin of Safety" formulas investigated here.
@@ -391,7 +399,7 @@ Zhu *et al.* presented the Vanguard "Time-varying Valuation-aware Asset Allocati
 The TVAA specifies an allocation at a given point in time by applying the Vanguard Asset Allocation Model^[Aliaga-Díaz *et al.* (October 2024) "The Vanguard Asset Allocation Model: An investment solution for active-passive-factor portfolios". Valley Forge, Pa.: The Vanguard Group. *https://web.archive.org/web/20241001052441/https://corporate.vanguard.com/content/dam/corp/research/pdf/the_vanguard_asset_allocation_model_an_investment_solution_for_active_passive_factor_portfolios.pdf* (accessed October 2024)] (a framework that optimizes multiple dimensions of risk) to returns projected by the Vanguard Capital Markets Model^["The VCMM can be technically characterized as a factor-augmented vector autoregression (FAVAR) model. ... However, the actual implementation of the VCMM supplements the basic statistical framework with various proprietary, long-run restrictions and different distributional assumptions." &mdash; Davis, Joseph, *et al.* (2014) "Vanguard Global Capital Markets Model". Valley Forge, Pa.: The Vanguard Group. *https://web.archive.org/web/20150315211411if_/https://static.vgcontent.info/crp/intl/auw/docs/resources/Vanguard_VCMM.pdf* (accessed May 2024)] (which relies on the presumptive central tendency of valuations over time-spans relevant to long-term investors)^[Cochrane, John H. (2021) "Return Forecasts and Time-Varying Risk Premiums", in *The Fama Portfolio*. University of Chicago Press. pp. 487--501. *https://doi.org/10.7208/9780226426983-020*].
 Using 10-year expected portfolio analytics (based on 10,000 randomized simulations per year for years 2017--2022), Zhu *et al.* demonstrate that the valuation-aware allocation approach is expected to improve both risk-adjusted return and overall return relative to a static allocation approach, with a higher probability of meeting a 4% annual return target.
 Although no role for money market funds is described for the TVAA, it does otherwise appear to lay the foundation for a much more complete risk-management formula than the simple expressions used in the simulation presented here.
-Zhu *et al.* present analysis of the TVAA over only the five recent years; because of the (understandably) proprietary nature of the TVAA and the effort required to assemble such historical data as exist for the rich variety of assets that they include in their report, it seems a daunting task for an independent analyst to attempt to test the TVAA's ten-year projections against many decades of historical data.
+Zhu *et al.* present analysis of the TVAA over an interval of five recent years; because of the (understandably) proprietary nature of the TVAA and the effort required to assemble such historical data as exist for the rich variety of assets that they include in their report, it seems a daunting task for an independent analyst to attempt to test the TVAA's ten-year projections against many decades of historical data.
 
 ```{r echo=FALSE, results='asis'}
 cat("\n\\newpage\n")
@@ -401,7 +409,7 @@ cat("\n\\newpage\n")
 
 ### No distributions
 
-This analysis does not model distribution (to cover expenses, commissions, taxes, etc.), implicitly assuming that distributions from the portfolio would come from stocks when the earnings yield is lower or from bonds when the current yield is lower.^[Pfau (2025), *op. cit.*]
+This analysis does not model distribution (to cover expenses, commissions, taxes, etc.), implicitly assuming that distributions from the portfolio would come from stocks when their earnings yield is lower or from bonds when their current yield is lower.^[Pfau (2025), *op. cit.*]
 Practically, it would be possible to reduce depletion of principal during periods of minimal returns by employing other means (such as using ladders constructed from individual bonds, "fixed indexed annuities", or other insurance contracts^[See the "Annuities and Risk Pooling" chapter of Pfau (2025), *op. cit.*]) to fund short-term expenses (including taxes); however, the analysis here does not account for such prudent action.
 
 ### Extrapolation
@@ -433,7 +441,7 @@ There is nothing here to suggest that this analysis can be extended to a diverse
 ### Diversification risk
 
 Use of a broad index that is weighted by market capitalization (such as the SP500) introduces what might be termed "diversification risk".
-Forcing both "value" and "growth" stocks to be market-capitalization weighted may reslut in a lower earnings yield than which might be achieved by "tilting" the weights toward stocks that have a substantially higher earnings yield (and probably higher long-term returns^[Fama, Eugene F., and French, Kenneth R. (2007) "The Anatomy of Value and Growth Stock Returns". Financial Analysts Journal 63:44--54. *https://doi.org/10.2469/faj.v63.n6.4926*]).
+Forcing both "value" and "growth" stocks to be market-capitalization weighted may reslut in a lower earnings yield than which might be achieved by "tilting" the weights toward stocks that have a substantially higher earnings yield (and probably higher returns^[Abraham, R. and Harrington, C. (2018) "Is Earnings Yield a Security Return Model Anomaly?". Theoretical Economics Letters, 8, 2116--2134. *https://doi.org/10.4236/tel.2018.811139*]).
 Thus, strict market-capitalization weighting can reduce the aggregate earnings yield for stocks in the portfolio; as a result, the YBAR would demand shifting of assets in favor of bonds.
 This allocation to bonds might be higher than would be advantageous if the weights of "value stocks" relative to "growth stocks" were permitted to fluctuate.
 
