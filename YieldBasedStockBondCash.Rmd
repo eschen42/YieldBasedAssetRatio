@@ -4,8 +4,8 @@ author:
   - "Arthur C. Eschenlauer"
   - "ybar@eschenlauer.com"
   - "*https://orcid.org/0000-0002-2882-0508*"
-#date: "`r Sys.Date()`"
-date: "`r Sys.time()`"
+date: "`r Sys.Date()`"
+#date: "`r Sys.time()`"
 output:
   pdf_document:
     toc: yes
@@ -31,7 +31,8 @@ img_dir <- "img_sbc"
 ```
 ```{r echo=FALSE, results='asis'}
 cat("\n\\newpage\n")
-sharpe_ratios <- as.data.frame(readODS::read_ods("sharpe_ratios.ods"))
+#sharpe_ratios <- as.data.frame(readODS::read_ods("sharpe_ratios.ods"))
+sharpe_ratios <- as.data.frame(read.csv("sharpe_ratios.csv"))
 date_sys <- Sys.Date()
 date_display <-
   sprintf("%d %s", as.integer(format(date_sys,"%d")), format(date_sys,"%b %Y"))

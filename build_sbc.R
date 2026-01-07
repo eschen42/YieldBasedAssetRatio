@@ -9,7 +9,7 @@ rmarkdown::render(
     rmarkdown::pdf_document(
       dev = "pdf"
     , toc = TRUE
-    , toc_depth = 3
+    , toc_depth = 2
     , number_sections = FALSE
     )
 )
