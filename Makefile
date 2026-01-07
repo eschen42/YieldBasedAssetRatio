@@ -28,11 +28,11 @@ YieldBasedAssetRatio.pdf: \
 	R --vanilla --no-echo -f render_figures.R
 	R --vanilla --no-echo -f build.R
 
-ybar_intro: \
-    graham.sqlite \
-    old_paper_figures.R \
-    render_figures.R
-	R --vanilla --no-echo -f old_paper_figures.R
+# ybar_intro: \
+#     graham.sqlite \
+#     old_paper_figures.R \
+#     render_figures.R
+# 	R --vanilla --no-echo -f old_paper_figures.R
 
 graham_sbc.sqlite: seed_graham_gs10_sbc.R fetch_shiller_sbc.R graham_parm_gs10_sbc.sql
 	touch graham_sbc.sqlite

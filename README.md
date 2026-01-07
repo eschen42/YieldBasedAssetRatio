@@ -4,16 +4,9 @@
 
 ### Software for "A Yield-Based Asset Ratio to Boost Minimum Investment Returns"
 
-This software generates results consumed by the `YieldBasedAssetRatio.Rmd` script to produce `YieldBasedAssetRatio.pdf` (Available at SSRN: [https://ssrn.com/abstract=4746302](https://ssrn.com/abstract=4746302) or [https://dx.doi.org/10.2139/ssrn.4746302](https://dx.doi.org/10.2139/ssrn.4746302)), for which the abstract reads:
+This software generates results consumed by the `YieldBasedAssetStockBondCash.Rmd` script to produce `YieldBasedAssetStockBondCash.pdf` (manuscript in preparation).
 
-> Minimum investment returns are of primary importance to funding retirement expenses from a portfolio of volatile assets. Prolonged periods of low yields have at times had severe effects on minimum 20-year returns. Is there a strategy that can mitigate weak medium-term returns more effectively than fixed-percentage stock allocations?
->
-> Benjamin Graham allowed for fluctuation in the proportion of a portfolio invested in common stock.
-> Considering his "Margin of Safety" principle for stock purchases and its complement for stock sales, one might adjust the stock percentage of the portfolio based on both the earnings yield of stock and the current yield of bonds, facilitating capital appreciation by avoiding trading until the *present* yield of the purchased security is substantially greater than that of the sold security.
-> Precautions may be required when stock prices exceed historically sustainable levels.
->
-> A simple formula implementing such a "Yield-Based Asset Ratio" hypothetically would have had a *minimum* real compound annual growth rate (CAGR) of 1.92% for 20-year intervals since 1911 when allocating between 10-year US Treasury bonds and the S&P 500 index, considerably higher than would have been observed for 6%, 60%, and 85% stock allocations (CAGR -2.33%, -0.41%, and 0.09%, respectively). Results suggest that a fixed-percentage stock allocation may not offer the best protection of returns and principal for interval lengths of 11 or more years.
-> Volatile assets pose undue risk to their principal value over the short term. 
+This software generates results consumed by the `YieldBasedAssetRatio.Rmd` script to produce `YieldBasedAssetRatio.pdf` (Available at SSRN: [https://ssrn.com/abstract=4746302](https://ssrn.com/abstract=4746302) or [https://dx.doi.org/10.2139/ssrn.4746302](https://dx.doi.org/10.2139/ssrn.4746302)), for which the abstract reads:
 
 ## How to generate `YieldBasedAssetRatio.pdf` and `YieldBasedStockBondCash.pdf`
 
@@ -39,7 +32,7 @@ mamba create -n graham -c conda-forge r-base=4.3.3 r-renv=1.1.5 \
 . ~/conda/bin/activate graham
 ```
 
-### Ensure that `sq1ite3` is on your PATH
+### Ensure that `sqlite3` is on your PATH
 
 This build depends upon the `sqlite3` command line utility, which is not available (as far as I know) from the conda-forge conda channel.  This utility is documented at [https://sqlite.org/cli.html](https://sqlite.org/cli.html) and may be obtained by downloading the `sqlite-tools-...` bundles from [https://sqlite.org/download.html](https://sqlite.org/download.html) if `sqlite3` is not already installed on your system.
 
@@ -62,13 +55,23 @@ R --vanilla --no-echo -f fetch_shiller.R
 sqlite3 graham.sqlite < graham_parm.sql
 # create the figures for the PDF
 R --vanilla --no-echo -f render_figures.R
-# create the PDF
+# create YieldBasedAssetRatio.pdf
 R --vanilla --no-echo -f build.R
 ```
 
+The `Makefile` directs similar steps to build `YieldBasedStockBondCash.pdf`
+
 ### To modify parameters
 
-Edit line 46-140 of `render_figures.R` and run `make -f Makefile`.  For documentation of the parameters, see endnotes 7 and 8 of [https://eschenlauer.com/investing/risk_based_allocation/YBAR_intro.html](https://eschenlauer.com/investing/risk_based_allocation/YBAR_intro.html) (and elsewhere in that document for the theoretical bases for these parameters).
+Edit:
+
+  - lines 46-140 of `render_figures.R` to change parameters for YieldBasedAssetRatio.pdf
+  - lines 87-109 and lines 167-183  of `render_figures_sbc.R` to change parameters for `YieldBasedStockBondCash.pdf`
+
+Run `make -f Makefile`
+
+<!--
+For documentation of the parameters, see endnotes 7 and 8 of [https://eschenlauer.com/investing/risk_based_allocation/YBAR_intro.html](https://eschenlauer.com/investing/risk_based_allocation/YBAR_intro.html) (and elsewhere in that document for the theoretical bases for these parameters).
 
 ## How to generate figures for `YBAR_intro.html`
 
@@ -77,6 +80,7 @@ To generate the figures referenced by `YBAR_intro.html`:
 ```bash
 make -f Makefile ybar_intro
 ```
+-->
 
 # Disclaimer
 
