@@ -31,8 +31,7 @@ img_dir <- "img_sbc"
 ```
 ```{r echo=FALSE, results='asis'}
 cat("\n\\newpage\n")
-#sharpe_ratios <- as.data.frame(readODS::read_ods("sharpe_ratios.ods"))
-sharpe_ratios <- as.data.frame(read.csv("sharpe_ratios.csv"))
+sharpe_ratios <- as.data.frame(readODS::read_ods("sharpe_ratios.ods"))
 date_sys <- Sys.Date()
 date_display <-
   sprintf("%d %s", as.integer(format(date_sys,"%d")), format(date_sys,"%b %Y"))
