@@ -50,7 +50,7 @@ ybar_H <- params$ybar_H
 **Abbreviations**
 
 - *YBAR*: a "yield-based asset ratio" allocation strategy
-- *bond-only YBAR*: the previously reported^[Arthur Eschenlauer (2024). "A Yield-Based Asset Ratio to Boost Minimum Investment Returns". *https://dx.doi.org/10.2139/ssrn.4746302*] YBAR strategy that included *only* GS10 and SP500
+- *bond-only YBAR*: the previously reported^[Arthur Eschenlauer (2024). *A Yield-Based Asset Ratio to Boost Minimum Investment Returns*. *https://dx.doi.org/10.2139/ssrn.4746302*] YBAR strategy that included *only* GS10 and SP500
 - *extended YBAR*: a YBAR strategy extended to include *"cash"*, GS10, and SP500
 - *CAGR*: compound annual growth rate
 - *"cash"* (in this paper): a money market fund whose return approximates 30-day US Treasury bills
@@ -71,7 +71,7 @@ To minimize unfavorable asset sales, one does well to balance the volatility of 
 
 <!-- Gross return on an investment varies inversely with the purchase price; how might this impact volatility in the value of an investment portfolio at the midpoint of a 40-year retirement? -->
 How might volatility impact the value of an investment portfolio at the midpoint of a 40-year retirement?
-Historical simulations have shown that judiciously applying valuation as the basis of risk-adjustment for dynamic asset allocation would often have delivered risk-adjusted returns superior to those of static asset allocation without substantial sacrifice of overall returns.^[Pfau, Wade D. (2011). "Long-Term Investors and Valuation-Based Asset Allocation". *https://dx.doi.org/10.2139/ssrn.2544636*] ^[White, James and Haghani, Victor (2022). "Man Doth Not Invest by Earnings Yield Alone". *https://dx.doi.org/10.2139/ssrn.4025456*]
+Historical simulations have shown that judiciously applying valuation as the basis of risk-adjustment for dynamic asset allocation would often have delivered risk-adjusted returns superior to those of static asset allocation without substantial sacrifice of overall returns.^[Pfau, Wade D. (2011). *Long-Term Investors and Valuation-Based Asset Allocation*. *https://dx.doi.org/10.2139/ssrn.2544636*] ^[White, James and Haghani, Victor (2022). *Man Doth Not Invest by Earnings Yield Alone*. *https://dx.doi.org/10.2139/ssrn.4025456*]
 Since 1911, a "yield-based asset ratio" (YBAR) strategy allocating dynamically between the S&amp;P 500 stock index (SP500) and ten-year US Treasury bonds (GS10) on the basis of present yields would have boosted minimum returns over 20-year intervals relative to static stock allocation strategies.^[Eschenlauer (2024), *op. cit.*]
 The advantage of the YBAR was greatest from September 1961 through August 1981, when stock earnings yield and bond current yield alternately offered substantial advantage over one another while both rose slowly but extensively from very low levels.
 However, when sharp decreases in bond and stock prices coincided during 2022, neither the YBAR nor static allocations effectively reduced short-term decline of principal value.
@@ -80,7 +80,7 @@ Could inclusion of money market funds into an extended YBAR strategy better prot
 Many bonds pose considerable risk that a rise in interest rates will erode their prices, as was dramatically apparent in 2022.
 Although long-term interest rates reveal the market's expectation about future interest rates, one cannot meaningfully predict when they will reach given levels.
 Interest rates vary sporadically with economic activity and intervention of central banks.
-Given that the Federal Open Market Committee has pursued^[Federal Open Market Committee (2025). "Statement on Longer-Run Goals and Monetary Policy Strategy" *https://web.archive.org/web/20251219012715/https://www.federalreserve.gov/monetarypolicy/files/FOMC_LongerRunGoals.pdf*, retrieved December 2025.] a target annual inflation rate of 2% since 2012 and that GS10 interest rates have trended roughly 1.5--3% above inflation since 2012, nominal rates for GS10 might be expected in the neighborhood of 3--6% over the next few decades.
+Given that the Federal Open Market Committee has pursued^[Federal Open Market Committee (2025). *Statement on Longer-Run Goals and Monetary Policy Strategy* *https://web.archive.org/web/20251219012715/https://www.federalreserve.gov/monetarypolicy/files/FOMC_LongerRunGoals.pdf*, retrieved December 2025.] a target annual inflation rate of 2% since 2012 and that GS10 interest rates have trended roughly 1.5--3% above inflation since 2012, nominal rates for GS10 might be expected in the neighborhood of 3--6% over the next few decades.
 Such a projection motivates
 examination of the historical record to deduce whether a formula exists that might have mitigated interest rate risk effectively in 2022.
 
@@ -304,7 +304,7 @@ cat("\n\\newpage\n")
 ## YBARs generally offered better risk-adjusted return than static allocations
 
 One can compute the "risk premium" for an allocation as the mean difference between the returns of the allocation and those of a "risk-free" asset.
-"For long-term investors, an inflation-indexed long-term bond is actually less risky than cash."^[Campbell, John Y. (2000). "Strategic Asset Allocation: Portfolio Choice for Long-Term Investors". *https://www.nber.org/reporter/fall-2000/strategic-asset-allocation-portfolio-choice-long-term-investors*, retrieved May 2024.]
+"For long-term investors, an inflation-indexed long-term bond is actually less risky than cash."^[Campbell, John Y. (2000). *Strategic Asset Allocation: Portfolio Choice for Long-Term Investors*. *https://www.nber.org/reporter/fall-2000/strategic-asset-allocation-portfolio-choice-long-term-investors*, retrieved May 2024.]
 Taking the real return of GS10 to approximate the return of an inflation-indexed long-term bond,
 Figure 5 presents the risk premium (relative to GS10) for each allocation (other than GS10 and 30-day US T-bills).
 The risk premium varied substantially as the investing climate changed.
@@ -389,14 +389,14 @@ Among the static percentage stock allocations, the lower percentage allocations 
 
 ## Previous work
 
-Graham proposed the possible approach of moderately varying stock allocation to reflect market conditions.^["The program I propose with 25 percent of the portfolio in stocks and 25 percent in bonds, allowing the other 50 percent to fluctuate in accordance with the market, could be operated pretty well over the future." &mdash; "Benjamin Graham: Thoughts on Security Analysis" [transcript of lecture at the Northeast Missouri State University business school, March, 1972], Friends of Financial History, no. 42, March, 1991, pp. 8--10 and 28--29. *https://archive.org/details/friendsoffinanci00rmsm_38/page/8/mode/2up*.]
+Graham proposed the possible approach of moderately varying stock allocation to reflect market conditions.^["The program I propose with 25 percent of the portfolio in stocks and 25 percent in bonds, allowing the other 50 percent to fluctuate in accordance with the market, could be operated pretty well over the future." &mdash; *Benjamin Graham: Thoughts on Security Analysis [transcript of lecture at the Northeast Missouri State University business school, March, 1972]*, Friends of Financial History, no. 42, March, 1991, pp. 8--10 and 28--29. *https://archive.org/details/friendsoffinanci00rmsm_38/page/8/mode/2up*.]
 Lucile Tomlinson explored this idea extensively,^[Lucile Tomlinson (1953) *Practical Formulas for Successful Investing.* New York, Wilfred Funk, Inc., *https://lccn.loc.gov/53005696*, chapters 13--17.]
 and Wade Pfau tested it with modern data.^[Pfau (2011), *op. cit.*]
 
 The results seen with the "Dynamic Asset Allocation" strategy of White and Haghani^[White and Haghani (2022), *op. cit.*] are largely consistent with those presented in Figure 1.  Their approach is formally based on risk assessment and aversion, in contrast to the heuristically tuned, Graham-inspired "Margin of Safety" formulas investigated here.
 
-Zhu *et al.* presented the Vanguard "Time-varying Valuation-aware Asset Allocation model" (TVAA), which removes the static allocation constraint, adjusting recommended asset allocations *both within and between asset classes* in response to changes in assets' projected returns.^[Zhu, Victor *et al.* (October 2023) "Constructing return-target portfolios: A time-varying, valuation-aware approach to asset allocation". Valley Forge, Pa.: The Vanguard Group. *https://web.archive.org/web/20240506115343if_/https://corporate.vanguard.com/content/dam/corp/research/pdf/constructing_return_target_portfolios.pdf* (accessed May 2024)]
-The TVAA specifies an allocation at a given point in time by applying the Vanguard Asset Allocation Model^[Aliaga-Díaz *et al.* (October 2024) "The Vanguard Asset Allocation Model: An investment solution for active-passive-factor portfolios". Valley Forge, Pa.: The Vanguard Group. *https://web.archive.org/web/20241001052441/https://corporate.vanguard.com/content/dam/corp/research/pdf/the_vanguard_asset_allocation_model_an_investment_solution_for_active_passive_factor_portfolios.pdf* (accessed October 2024)] (a framework that optimizes multiple dimensions of risk) to returns projected by the Vanguard Capital Markets Model^["The VCMM can be technically characterized as a factor-augmented vector autoregression (FAVAR) model. ... However, the actual implementation of the VCMM supplements the basic statistical framework with various proprietary, long-run restrictions and different distributional assumptions." &mdash; Davis, Joseph, *et al.* (2014) "Vanguard Global Capital Markets Model". Valley Forge, Pa.: The Vanguard Group. *https://web.archive.org/web/20150315211411if_/https://static.vgcontent.info/crp/intl/auw/docs/resources/Vanguard_VCMM.pdf* (accessed May 2024)] (which relies on the presumptive central tendency of valuations over time-spans relevant to long-term investors)^[Cochrane, John H. (2021) "Return Forecasts and Time-Varying Risk Premiums", in *The Fama Portfolio*. University of Chicago Press. pp. 487--501. *https://doi.org/10.7208/9780226426983-020*].
+Zhu *et al.* presented the Vanguard "Time-varying Valuation-aware Asset Allocation model" (TVAA), which removes the static allocation constraint, adjusting recommended asset allocations *both within and between asset classes* in response to changes in assets' projected returns.^[Zhu, Victor *et al.* (October 2023) *Constructing return-target portfolios: A time-varying, valuation-aware approach to asset allocation*. Valley Forge, Pa.: The Vanguard Group. *https://web.archive.org/web/20240506115343if_/https://corporate.vanguard.com/content/dam/corp/research/pdf/constructing_return_target_portfolios.pdf* (accessed May 2024)]
+The TVAA specifies an allocation at a given point in time by applying the Vanguard Asset Allocation Model^[Aliaga-Díaz *et al.* (October 2024) *The Vanguard Asset Allocation Model: An investment solution for active-passive-factor portfolios*. Valley Forge, Pa.: The Vanguard Group. *https://web.archive.org/web/20241001052441/https://corporate.vanguard.com/content/dam/corp/research/pdf/the_vanguard_asset_allocation_model_an_investment_solution_for_active_passive_factor_portfolios.pdf* (accessed October 2024)] (a framework that optimizes multiple dimensions of risk) to returns projected by the Vanguard Capital Markets Model^["The VCMM can be technically characterized as a factor-augmented vector autoregression (FAVAR) model. ... However, the actual implementation of the VCMM supplements the basic statistical framework with various proprietary, long-run restrictions and different distributional assumptions." &mdash; Davis, Joseph, *et al.* (2014) *Vanguard Global Capital Markets Model*. Valley Forge, Pa.: The Vanguard Group. *https://web.archive.org/web/20150315211411if_/https://static.vgcontent.info/crp/intl/auw/docs/resources/Vanguard_VCMM.pdf* (accessed May 2024)] (which relies on the presumptive central tendency of valuations over time-spans relevant to long-term investors)^[Cochrane, John H. (2021) "Return Forecasts and Time-Varying Risk Premiums", in *The Fama Portfolio*. University of Chicago Press. pp. 487--501. *https://doi.org/10.7208/9780226426983-020*].
 Using 10-year expected portfolio analytics (based on 10,000 randomized simulations per year for years 2017--2022), Zhu *et al.* demonstrate that the valuation-aware allocation approach is expected to improve both risk-adjusted return and overall return relative to a static allocation approach, with a higher probability of meeting a 4% annual return target.
 Although no role for money market funds is described for the TVAA, it does otherwise appear to lay the foundation for a much more complete risk-management formula than the simple expressions used in the simulation presented here.
 Zhu *et al.* present analysis of the TVAA over an interval of five recent years; because of the (understandably) proprietary nature of the TVAA and the effort required to assemble such historical data as exist for the rich variety of assets that they include in their report, it seems a daunting task for an independent analyst to attempt to test the TVAA's ten-year projections against many decades of historical data.
@@ -414,13 +414,15 @@ Practically, it would be possible to reduce depletion of principal during period
 
 ### Extrapolation
 
-The small 123 year sample explored here can at best be considered only modestly reliably predictive. Yet:
-
-> If you cannot base your investment policy on the past, I think you have no basis for it at all.^["Benjamin Graham: Thoughts on Security Analysis"
-  (transcript of lecture at the Northeast Missouri State University business school, March, 1972), Friends of Financial History, no. 42,
-  March, 1991, pp. 8–10 and 28–29. *https://archive.org/details/friendsoffinanci00rmsm_38/page/8/mode/2up.*]
+The small 123 year sample explored here can at best be considered only modestly reliably predictive. Yet,
+"If you cannot base your investment policy on the past, I think you have no basis for it at all"^[Benjamin Graham (1972), *op. cit.*.].
 
 One aspect of this analysis applies unknowable future data to present decisions: both the factor $\frac{2 \times B}{T}$ used in the expression for the minimum stock-allocation and the factor $\frac{3 \times B}{T}$ used in the expression for the maximum were deduced by inspecting performance during the entire 1911--2022 period.
+
+### Financial policy
+
+One cannot foresee whether the Federal Open Market Committee policy's 2% inflation target will ever again push GS10 yield well below 4%, as was often seen for 2008--2021.
+If neither economic crises nor financial-policy misadventures push long term interest rates below the levels seen in recent decades, allocation between bonds and "cash" may lose relevance.
 
 ### Unrealistic aspects of modeling
 
@@ -438,20 +440,21 @@ Both stocks and fixed-income assets offer many alternatives from which an invest
 There are also many alternatives for investment in other instruments such as commodities, option or annuity contracts, real property, etc..
 There is nothing here to suggest that this analysis can be extended to a diverse selection of assets without modification or competent judgement.
 
+```{r echo=FALSE, results='asis'}
+cat("\n\\newpage\n")
+```
+
 ### Diversification risk
 
 Use of a broad index that is weighted by market capitalization (such as the SP500) introduces what might be termed "diversification risk".
-Forcing both "value" and "growth" stocks to be market-capitalization weighted may reslut in a lower earnings yield than which might be achieved by "tilting" the weights toward stocks that have a substantially higher earnings yield (and probably higher returns^[Abraham, R. and Harrington, C. (2018) "Is Earnings Yield a Security Return Model Anomaly?". Theoretical Economics Letters, 8, 2116--2134. *https://doi.org/10.4236/tel.2018.811139*]).
+Forcing both "value" and "growth" stocks to be market-capitalization weighted may result in a lower earnings yield than which might be achieved by "tilting" the weights toward stocks that have a substantially higher earnings yield (and probably higher returns^[
+"Low P/E stocks outperform, but only before transaction costs." &mdash; Levy, Haim; Lerman, Zvi. (1985) *Testing P/E Ratios Filters With Stochastic Dominance*. The Journal of Portfolio Management 11:31-40, DOI: 10.3905/jpm.1985.31, retrieved Nov 2024 from *https://www.researchgate.net/publication/247905531_Testing_PE_Ratios_Filters_With_Stochastic_Dominance*.
+] ^[Cardinale, Mirko; Navone, Marko; and Pioch, Andrzei. (April 2014) *The Power of Dynamic Asset Allocation*. Journal of Portfolio Management 40:47-60. DOI:10.3905/jpm.2014.40.3.047, retrieved May 2024 from *https://www.researchgate.net/publication/258422729_The_Power_of_Dynamic_Asset_Allocation*.] ^[Abraham, R. and Harrington, C. (2018) *Is Earnings Yield a Security Return Model Anomaly?*. Theoretical Economics Letters, 8, 2116--2134. *https://doi.org/10.4236/tel.2018.811139*] ^["On average, value stocks have outperformed growth stocks by 4.4% annually in the US since 1927" &mdash; *https://web.archive.org/web/20251108013615/https://www.dimensional.com/ca-en/insights/when-its-value-versus-growth-history-is-on-values-side* (accessed November 2025)]).
 Thus, strict market-capitalization weighting can reduce the aggregate earnings yield for stocks in the portfolio; as a result, the YBAR would demand shifting of assets in favor of bonds.
 This allocation to bonds might be higher than would be advantageous if the weights of "value stocks" relative to "growth stocks" were permitted to fluctuate.
 
 The TVAA (described above) seems likely a systematic and elegant way to mitigate diversification risk.
 However, because Shiller's SP500 historical data do not decompose the SP500 by earnings yield, the data analyzed in this study cannot be used to investigate diversification risk.
-
-### Financial policy
-
-One cannot foresee whether the Federal Open Market Committee policy's 2% inflation target will ever again push GS10 yield well below 4%, as was often seen for 2008--2021.
-If neither economic crises nor financial-policy misadventures push long term interest rates below the levels seen in recent decades, allocation between bonds and "cash" may lose relevance.
 
 ## Implications for the retirement investor
 
@@ -737,7 +740,7 @@ knitr::include_graphics("img_sbc/fig1_cf20yr_ep_mos.pdf")
 The similar performance of $\frac{E}{P}$ and $\frac{E10}{P}$ may (in large part) be because variation in price accounts for much of the variation of both ratios.
 Although the months when stock trading was triggered differed slightly, the sequence of changes in stock allocation showed substantial similarity because of the incremental nature of the changes.
 
-The success of $\frac{E}{P}$ as a formulation for earnings-yield is not surprising given that Cardinale *et al.* showed a highly significant correlation of 0.6 between $\frac{E}{P}$ and 10-year subsequent return for 1926--2000.^[Cardinale, Mirko; Navone, Marko; and Pioch, Andrzei. (April 2014) "The Power of Dynamic Asset Allocation". Journal of Portfolio Management 40(3). *https://www.researchgate.net/publication/258422729_The_Power_of_Dynamic_Asset_Allocation*, retrieved May 2024.]
+The success of $\frac{E}{P}$ as a formulation for earnings-yield is not surprising given that Cardinale *et al.* showed a highly significant correlation of 0.6 between $\frac{E}{P}$ and 10-year subsequent return for 1926--2000.^[Cardinale (2014), *op. cit.*]
 
 ```{r echo=FALSE, results='asis'}
 #cat("\n\\newpage\n")
