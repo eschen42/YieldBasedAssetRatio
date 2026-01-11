@@ -45,24 +45,24 @@ ybar_H <- params$ybar_H
 ```
 # Abstract
 
-> Since 1911, a "yield-based asset ratio" strategy for dynamic allocation between the S&P 500 stock index and ten-year US Treasury bonds on the basis of their yields would have delivered an overall return comparable to that of a 100% stock portfolio. This strategy generally would have had greater risk-adjusted return than 30%, 60%, and 100% static stock allocations. However, when interest rates rose dramatically from near zero levels in 2022, limiting fixed-income assets to include only bonds proved unfavorable. This could have been mitigated by incrementally substituting money market funds for fixed-income assets as interest rates fell, halving portfolio decline during 2022.  Such an extension of the strategy would have had minimal impact on returns prior to 2008.
+> Since 1911, a "yield-based asset ratio" strategy for dynamic allocation between the S&P 500 stock index and ten-year US Treasury bonds on the basis of their yields would have delivered an overall return comparable to that of a 100% stock portfolio. Since 1955, this strategy generally would have had greater risk-adjusted return than 30%, 60%, and 100% static stock allocations. However, when interest rates rose dramatically from near zero levels in 2022, limiting fixed-income assets to include only bonds proved unfavorable. If this had been mitigated by incrementally substituting money market funds for fixed-income assets as interest rates fell, the decline in portfolio during 2022 would have been halved.  Such an extension of the strategy would have had minimal impact on returns prior to 2008.
 
-**Abbreviations**
+**Abbreviations and Terms**
 
-- *YBAR*: a "yield-based asset ratio" allocation strategy
-- *bond-only YBAR*: the previously reported^[Arthur Eschenlauer (2024). *A Yield-Based Asset Ratio to Boost Minimum Investment Returns*. *https://dx.doi.org/10.2139/ssrn.4746302*] YBAR strategy that included *only* GS10 and SP500
-- *extended YBAR*: a YBAR strategy extended to include *"cash"*, GS10, and SP500
 - *CAGR*: compound annual growth rate
 - *"cash"* (in this paper): a money market fund whose return approximates 30-day US Treasury bills
 - *GS10*: ten-year US Treasury bonds
 - *SP500*: the S&P 500 index of common stocks
-- *$\frac{E10}{P}$*: SP500 "earnings yield", i.e., the price divided into the ten-year average of annual earnings
 - *yield*: the rate of return on an investment
+- *$\frac{E10}{P}$*: SP500 "earnings yield", i.e., the price divided into the ten-year average of annual earnings
+- *YBAR*: a "yield-based asset ratio" allocation strategy
+- *bond-only YBAR*: the previously reported^[Arthur Eschenlauer (2024). *A Yield-Based Asset Ratio to Boost Minimum Investment Returns*.  SSRN 4746302. *https://dx.doi.org/10.2139/ssrn.4746302*] YBAR strategy that included *only* GS10 and SP500
+- *extended YBAR*: a YBAR strategy extended to include *"cash"*, GS10, and SP500
 
 # Introduction
 
 The primary purpose of a retirement portfolio is to provide a sustainable stream of withdrawals over a retirement of uncertain length.
-Tailoring a strategy for investment and spending to the needs and resources of the retiree has been discussed in great detail.^[
+The tailoring of a strategy for investment and spending to the needs and resources of the retiree has been discussed in great detail.^[
 Pfau, Wade (2025). *Retirement Planning Guidebook*, 2nd ed., rev. 2025. Retirement Researcher Media. ISBN 978-1-9445640 978-1-945640-15-5
 ]
 When interest, dividends, annuities, and reserves are insufficient to fund retirement expenses, assets must be sold.
@@ -71,7 +71,7 @@ To minimize unfavorable asset sales, one does well to balance the volatility of 
 
 <!-- Gross return on an investment varies inversely with the purchase price; how might this impact volatility in the value of an investment portfolio at the midpoint of a 40-year retirement? -->
 How might volatility impact the value of an investment portfolio at the midpoint of a 40-year retirement?
-Historical simulations have shown that judiciously applying valuation as the basis of risk-adjustment for dynamic asset allocation would often have delivered risk-adjusted returns superior to those of static asset allocation without substantial sacrifice of overall returns.^[Pfau, Wade D. (2011). *Long-Term Investors and Valuation-Based Asset Allocation*. *https://dx.doi.org/10.2139/ssrn.2544636*] ^[White, James and Haghani, Victor (2022). *Man Doth Not Invest by Earnings Yield Alone*. *https://dx.doi.org/10.2139/ssrn.4025456*]
+Historical simulations have shown that judiciously applying the relative valuations of stocks and bonds as the basis of risk-adjustment for dynamic asset allocation would often have delivered risk-adjusted returns superior to those of static asset allocation without substantial sacrifice of overall returns.^[Pfau, Wade D. (2011). *Long-Term Investors and Valuation-Based Asset Allocation*. SSRN 2544636. *https://dx.doi.org/10.2139/ssrn.2544636*] ^[White, James and Haghani, Victor (2022). *Man Doth Not Invest by Earnings Yield Alone*. SSRN 4025456.  *https://dx.doi.org/10.2139/ssrn.4025456*]
 Since 1911, a "yield-based asset ratio" (YBAR) strategy allocating dynamically between the S&amp;P 500 stock index (SP500) and ten-year US Treasury bonds (GS10) on the basis of present yields would have boosted minimum returns over 20-year intervals relative to static stock allocation strategies.^[Eschenlauer (2024), *op. cit.*]
 The advantage of the YBAR was greatest from September 1961 through August 1981, when stock earnings yield and bond current yield alternately offered substantial advantage over one another while both rose slowly but extensively from very low levels.
 However, when sharp decreases in bond and stock prices coincided during 2022, neither the YBAR nor static allocations effectively reduced short-term decline of principal value.
@@ -141,7 +141,7 @@ The previous paper^[Eschenlauer (2024), *op. cit.*] presented and explained expr
 
 ### Cap for stock allocation -- applying "Margin of Reversion"
 
-To control the risk posed by extremely low earnings yield for stocks, both limits depend upon the "reversion cap" on stock percentage that is given by:
+To control the risk posed by extremely low earnings yield for stocks, both minimum and maximum limits to stock allocation depend upon the "reversion cap" on stock percentage that is given by:
 
 $$
 \boxed{
@@ -247,6 +247,7 @@ For both YBARs (except when reallocating), dividends are reinvested in SP500, an
 The top panel of Figure 1 shows the hypothetical results for January 1911 through November 2023 (1355 months), during which the mean stock allocation for either YBAR was about 61%;
 all allocations are adjusted to have a \$1 value in January 1911.
 Both YBARs produced returns roughly as well as the 100% stock allocation, but variation for the latter often appears greater than for the former.
+Five 20-year intervals (labeled "A" through "E") are referenced in the discussion that follows the figure.
 
 The middle panel illustrates GS10 yield and the risk premium (or shortfall) for SP500 relative to GS10.
 
@@ -261,18 +262,15 @@ knitr::include_graphics("img_sbc/fig4_cumulative_all.pdf")
 cat("\n\\newpage\n")
 ```
 
-Inspection of Figure 1 reveals that, for both GS10 ans SP500, total returns were negative on a net basis over interval "C" (the 20 years from September, 1961 through August, 1981).
-This motivates examination of cumulative returns relative to September 1961.
-Figure 2 presents the same data as for Figure 1 but for the 747 months beginning September, 1961 and ending November 2023. For Figure 2, allocations were adjusted to have a \$1 value in September 1961. During this time frame, the mean stock allocation for either YBAR was about 41%.
+Figure 2 presents the same data as for Figure 1 but for the 50 months beginning October 2019 and ending November 2023. For Figure 2, allocations were adjusted to have a \$1 value in October 2019. During this time frame, the mean stock allocation for either YBAR was about 41%.
 
-For the extended YBAR, stock sales were triggered during 36 months; purchases, during 20 months. "Cash" was exchanged for bonds during 42 months; bonds for "cash", during 38 months.
+For the extended YBAR, stock sales were triggered during 11 months; purchases, during 3 months. "Cash" was exchanged for bonds during 13 months; bonds for "cash", during 6 months.
 
-As was previously reported^[Eschenlauer (2024), *op. cit.*] for the bond-only YBAR, the extended YBAR dramatically improved the cumulative return over interval "C", the 20 years from September 1961 through August 1981.
 The additional "cash" allocation of the extended YBAR generally mitigated the effect of the decline in bond value since June 2020 on the bond-only YBAR. Furthermore, the "cash" allocation specifically reduced twelve-month decline of returns in 2022 from about 21% for the bond-only YBAR to about 10% for the extended YBAR.
 
 The returns of the bond-only YBAR dipped considerably less circa March 2020 than the extended YBAR and recovered faster, but the decline in value of the former during 2022 eventually reversed the relative advantage.  Notably, although both YBARs recovered swiftly from a sharp dip in 2009, the 30:70 SP500:GS10 portfolio experienced only a very slight dip.
 
-```{r echo=FALSE, out.width=480, fig.align='center', fig.cap='Top panel, comparative cumulative performance of allocations relative to September, 1961; lettered bars indicate 20-year time intervals labeled in Figure 3. Middle panel, GS10 yield and risk premium (or shortfall) for SP500 relative to GS10. Bottom panel, "cash" and stock allocations (as percentage of portfolio value) for the extended YBAR; blue downward open triangles reflect stock sales driven by the maximum stock allocation specified by the strategy; red upward solid triangles, stock purchases driven by minimum stock allocation; purple open circles, shift to "cash" from bonds; brown solid circles, shift to bonds from "cash".'}
+```{r echo=FALSE, out.width=480, fig.align='center', fig.cap='Top panel, comparative cumulative performance of allocations relative to October, 2019. Middle panel, GS10 yield and risk premium (or shortfall) for SP500 relative to GS10. Bottom panel, "cash" and stock allocations (as percentage of portfolio value) for the extended YBAR; blue downward open triangles reflect stock sales driven by the maximum stock allocation specified by the strategy; red upward solid triangles, stock purchases driven by minimum stock allocation; purple open circles, shift to "cash" from bonds; brown solid circles, shift to bonds from "cash".'}
 knitr::include_graphics("img_sbc/fig5_cumulative_detail.pdf")
 ```
 
@@ -317,7 +315,7 @@ A commonly used measure of "risk-adjusted return" is the Sharpe ratio,^[*https:/
 Table 1 shows the Sharpe ratios for the allocations shown in Figure 5.
 The standard deviation was computed with monthly sampling, using GS10 as the "risk-free" asset.
 Shiller's data for the real yield of GS10 before 1934 are highly interpolated (which would elevate the Sharpe ratios for all assets).
-Over the intervals presented, the Sharpe ratios of both YBARs were higher than those of the three static stock allocations.
+Over the intervals presented, the Sharpe ratios of both YBARs were generally higher than those of the three static stock allocations.
 The risk-adjusted return of static stock allocations decreased slightly as the stock percentage decreased.
 ```{r echo=FALSE, results='asis'}
 shrpfmt <- "%0.3f"
@@ -384,7 +382,7 @@ Exchanges of bonds and "cash" also occurred infrequently (less than 1.4 times pe
 Thus, generally, the frequency of both reallocation between stocks and fixed-income assets and reallocation between bonds and "cash" would have been similar to the frequency for statically allocated portfolios that are rebalanced yearly.
 
 For all of the tested allocations, the "risk premium" over 20-year intervals fluctuated widely.
-Both YBAR strategies presented here generally offered better risk-adjusted returns than aggressive static stock allocations; however, the degree of advantage varied considerably and was only slight over the interval 1936--1960.
+Both YBAR strategies presented here generally offered better risk-adjusted returns than aggressive static stock allocations; however, the degree of advantage varied considerably and was negligible over the interval 1930--1954.
 Among the static percentage stock allocations, the lower percentage allocations were somewhat less volatile than higher-percentage allocations, yet the latter generally offered slightly higher risk-adjusted returns.
 
 ## Previous work
@@ -393,10 +391,10 @@ Graham proposed the possible approach of moderately varying stock allocation to 
 Lucile Tomlinson explored this idea extensively,^[Lucile Tomlinson (1953) *Practical Formulas for Successful Investing.* New York, Wilfred Funk, Inc., *https://lccn.loc.gov/53005696*, chapters 13--17.]
 and Wade Pfau tested it with modern data.^[Pfau (2011), *op. cit.*]
 
-The results seen with the "Dynamic Asset Allocation" strategy of White and Haghani^[White and Haghani (2022), *op. cit.*] are largely consistent with those presented in Figure 1.  Their approach is formally based on risk assessment and aversion, in contrast to the heuristically tuned, Graham-inspired "Margin of Safety" formulas investigated here.
+The results seen with the "Dynamic Asset Allocation" strategy of White and Haghani^[White and Haghani (2022), *op. cit.*] are largely consistent with those presented in Figure 1.  Their approach is formally based on risk assessment and aversion, in contrast to the heuristically tuned, Graham-inspired formulas investigated here.
 
-Zhu *et al.* presented the Vanguard "Time-varying Valuation-aware Asset Allocation model" (TVAA), which removes the static allocation constraint, adjusting recommended asset allocations *both within and between asset classes* in response to changes in assets' projected returns.^[Zhu, Victor *et al.* (October 2023) *Constructing return-target portfolios: A time-varying, valuation-aware approach to asset allocation*. Valley Forge, Pa.: The Vanguard Group. *https://web.archive.org/web/20240506115343if_/https://corporate.vanguard.com/content/dam/corp/research/pdf/constructing_return_target_portfolios.pdf* (accessed May 2024)]
-The TVAA specifies an allocation at a given point in time by applying the Vanguard Asset Allocation Model^[Aliaga-Díaz *et al.* (October 2024) *The Vanguard Asset Allocation Model: An investment solution for active-passive-factor portfolios*. Valley Forge, Pa.: The Vanguard Group. *https://web.archive.org/web/20241001052441/https://corporate.vanguard.com/content/dam/corp/research/pdf/the_vanguard_asset_allocation_model_an_investment_solution_for_active_passive_factor_portfolios.pdf* (accessed October 2024)] (a framework that optimizes multiple dimensions of risk) to returns projected by the Vanguard Capital Markets Model^["The VCMM can be technically characterized as a factor-augmented vector autoregression (FAVAR) model. ... However, the actual implementation of the VCMM supplements the basic statistical framework with various proprietary, long-run restrictions and different distributional assumptions." &mdash; Davis, Joseph, *et al.* (2014) *Vanguard Global Capital Markets Model*. Valley Forge, Pa.: The Vanguard Group. *https://web.archive.org/web/20150315211411if_/https://static.vgcontent.info/crp/intl/auw/docs/resources/Vanguard_VCMM.pdf* (accessed May 2024)] (which relies on the presumptive central tendency of valuations over time-spans relevant to long-term investors)^[Cochrane, John H. (2021) "Return Forecasts and Time-Varying Risk Premiums", in *The Fama Portfolio*. University of Chicago Press. pp. 487--501. *https://doi.org/10.7208/9780226426983-020*].
+Zhu *et al.* presented the Vanguard "Time-varying Valuation-aware Asset Allocation model" (TVAA), which also removes the static stock allocation constraint, adjusting recommended asset allocations *both within and between asset classes* in response to changes in assets' projected returns.^[Zhu, Victor *et al.* (October 2023) *Constructing return-target portfolios: A time-varying, valuation-aware approach to asset allocation*. Valley Forge, PA: The Vanguard Group. *https://web.archive.org/web/20240506115343if_/https://corporate.vanguard.com/content/dam/corp/research/pdf/constructing_return_target_portfolios.pdf* (accessed May 2024)]
+The TVAA specifies an allocation at a given point in time by applying the Vanguard Asset Allocation Model^[Aliaga-Díaz *et al.* (October 2024) *The Vanguard Asset Allocation Model: An investment solution for active-passive-factor portfolios*. Valley Forge, PA: The Vanguard Group. *https://web.archive.org/web/20241001052441/https://corporate.vanguard.com/content/dam/corp/research/pdf/the_vanguard_asset_allocation_model_an_investment_solution_for_active_passive_factor_portfolios.pdf* (accessed October 2024)] (a framework that optimizes multiple dimensions of risk) to returns projected by the Vanguard Capital Markets Model^["The VCMM can be technically characterized as a factor-augmented vector autoregression (FAVAR) model. ... However, the actual implementation of the VCMM supplements the basic statistical framework with various proprietary, long-run restrictions and different distributional assumptions." &mdash; Davis, Joseph, *et al.* (2014) *Vanguard Global Capital Markets Model*. Valley Forge, PA: The Vanguard Group. *https://web.archive.org/web/20150315211411if_/https://static.vgcontent.info/crp/intl/auw/docs/resources/Vanguard_VCMM.pdf* (accessed May 2024)] (which relies on the presumptive central tendency of valuations over time-spans relevant to long-term investors^[Cochrane, John H. (2021) "Return Forecasts and Time-Varying Risk Premiums", in *The Fama Portfolio*. University of Chicago Press. pp. 487--501. *https://doi.org/10.7208/9780226426983-020*]).
 Using 10-year expected portfolio analytics (based on 10,000 randomized simulations per year for years 2017--2022), Zhu *et al.* demonstrate that the valuation-aware allocation approach is expected to improve both risk-adjusted return and overall return relative to a static allocation approach, with a higher probability of meeting a 4% annual return target.
 Although no role for money market funds is described for the TVAA, it does otherwise appear to lay the foundation for a much more complete risk-management formula than the simple expressions used in the simulation presented here.
 Zhu *et al.* present analysis of the TVAA over an interval of five recent years; because of the (understandably) proprietary nature of the TVAA and the effort required to assemble such historical data as exist for the rich variety of assets that they include in their report, it seems a daunting task for an independent analyst to attempt to test the TVAA's ten-year projections against many decades of historical data.
@@ -444,12 +442,13 @@ There is nothing here to suggest that this analysis can be extended to a diverse
 cat("\n\\newpage\n")
 ```
 
-### Diversification risk
+## Diversification risk
 
 Use of a broad index that is weighted by market capitalization (such as the SP500) introduces what might be termed "diversification risk".
 Forcing both "value" and "growth" stocks to be market-capitalization weighted may result in a lower earnings yield than which might be achieved by "tilting" the weights toward stocks that have a substantially higher earnings yield (and probably higher returns^[
 "Low P/E stocks outperform, but only before transaction costs." &mdash; Levy, Haim; Lerman, Zvi. (1985) *Testing P/E Ratios Filters With Stochastic Dominance*. The Journal of Portfolio Management 11:31-40, DOI: 10.3905/jpm.1985.31, retrieved Nov 2024 from *https://www.researchgate.net/publication/247905531_Testing_PE_Ratios_Filters_With_Stochastic_Dominance*.
 ] ^[Cardinale, Mirko; Navone, Marko; and Pioch, Andrzei. (April 2014) *The Power of Dynamic Asset Allocation*. Journal of Portfolio Management 40:47-60. DOI:10.3905/jpm.2014.40.3.047, retrieved May 2024 from *https://www.researchgate.net/publication/258422729_The_Power_of_Dynamic_Asset_Allocation*.] ^[Abraham, R. and Harrington, C. (2018) *Is Earnings Yield a Security Return Model Anomaly?*. Theoretical Economics Letters, 8, 2116--2134. *https://doi.org/10.4236/tel.2018.811139*] ^["On average, value stocks have outperformed growth stocks by 4.4% annually in the US since 1927" &mdash; *https://web.archive.org/web/20251108013615/https://www.dimensional.com/ca-en/insights/when-its-value-versus-growth-history-is-on-values-side* (accessed November 2025)]).
+This problem is compounded by the facts that value indexes are more diversified across sectors and that substantial market capital is concentrated in stocks that have lower earnings yield.^["S&P 500 has been highly concentrated ... Value index is more broadly diversified across sectors" &mdash; Holt, Kevin; Fielder, Tracy (2024) *Think value and growth &mdash; not just value or growth*.  Atlanta GA: Invesco Ltd.. *https://web.archive.org/web/20241214081803/https://www.invesco.com/us/en/insights/value-growth-valuations-diversification-easing-cycle.html*, retrieved January 2025] 
 Thus, strict market-capitalization weighting can reduce the aggregate earnings yield for stocks in the portfolio; as a result, the YBAR would demand shifting of assets in favor of bonds.
 This allocation to bonds might be higher than would be advantageous if the weights of "value stocks" relative to "growth stocks" were permitted to fluctuate.
 
@@ -458,7 +457,7 @@ However, because Shiller's SP500 historical data do not decompose the SP500 by e
 
 ## Implications for the retirement investor
 
-The retiree may address the possibility of depleting the principal of the investment portfolio in the near-term by moderating discretionary expenditures or by drawing from resources outside the portfolio; otherwise, the retiree must consider potential for both near-term and long-term returns.  When interest rates are higher, the portfolio generates considerable income, and the focus for asset allocation can be restricted to bonds and stocks.  However, when interest rates approach historic lows, the prospect of rising interest rates can have a dramatic effect on the near-term principal value of a portfolio that has been constructed to generate favorable results over the long term. This paper answers in the affirmative the question of whether adding money market assets to the YBAR strategy can mitigate the short-term effect of rising interest rates on portfolio value.
+The retiree may address the possibility of depleting the principal of the investment portfolio in the near-term by moderating discretionary expenditures or by drawing from resources outside the portfolio; otherwise, the retiree must consider potential for both near-term and long-term returns.  When interest rates are higher, the portfolio generates considerable income, and the focus for asset allocation can be restricted to bonds and stocks.  However, when interest rates approach historic lows, the prospect of rising interest rates can have a dramatic effect on the near-term principal value of a portfolio that itself has been constructed to generate favorable results over the long term. This paper answers in the affirmative the question of whether adding money market assets to the YBAR strategy can mitigate the short-term effect of rising interest rates on portfolio value.
 
 This work simulated the application a simple, rational, and deterministic asset-allocation strategy among three asset-class indexes according to their relative yields.
 Zhu *et al.*'s work with the TVAA demonstrated through simulation that a sophisticated strategy that takes into account the relative yields between and within asset classes would have been moderated risk-adjusted returns effectively over a five year period.
