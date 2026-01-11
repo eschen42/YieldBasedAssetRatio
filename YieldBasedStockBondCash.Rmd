@@ -640,6 +640,10 @@ pe10_b <- rbind(first_row, pe10_b)
 Tables 3 and 4 respectively relate maximum and minimum percent of all assets allocated to SP500 as a function of both GS10 yield and SP500 earnings yield, respectively computed using the "MaxStockPercent" and "MinStockPercent" expressions presented in the section "Partitioning between stocks and fixed-income assets".
 The parameters used to compute the values presented in these tables were $\textbf{H}$ = 25%, $\textbf{T}$ = 4.14%, $\textbf{X}$ = `r sprintf("%0.2f", ybar_X)`, and $\textbf{D}$ = 6%.
 
+## Cumulative results when earnings yield is defined as $\frac{E}{P}$
+
+When earnings yield is defined as $\frac{E}{P}$ (SP500 earnings for the preceding four quarters divided by SP500 price), both YBARs performed only slightly less well than $\frac{E10}{P}$ in simulations, as may be seen by contrasting Figure 7 below with Figure 1 above.
+
 ```{r echo=FALSE, results='asis'}
 kableExtra::kbl(
   x = pe10_b[, 1:15],
@@ -717,10 +721,6 @@ kableExtra::kbl(
   kableExtra::column_spec(15, width = "0.35in")
 
 ```
-
-## Cumulative results when earnings yield is defined as $\frac{E}{P}$
-
-When earnings yield is defined as $\frac{E}{P}$ (SP500 earnings for the preceding four quarters divided by SP500 price), both YBARs performed only slightly less well than $\frac{E10}{P}$ in simulations, as may be seen by contrasting Figure 7 below with Figure 1 above.
 
 ```{r echo=FALSE, out.width=480, fig.align='center', fig.cap='Cumulative results when earnings yield is defined as E/P. Top panel, comparative cumulative performance of allocations relative to January, 1911; lettered bars indicate 20-year time intervals labeled in Figure 8. Middle panel, GS10 yield and risk premium (or shortfall) for SP500 relative to GS10. Bottom panel, resulting percent "cash" and stock allocations for the extended YBAR; blue downward open triangles reflect stock sales driven by the maximum stock allocation specified by the strategy; red upward solid triangles, stock purchases driven by minimum stock allocation; purple open circles, shift to "cash" from bonds; brown solid circles, shift to bonds from "cash".'}
 knitr::include_graphics("img_sbc/fig4_cumulative_all_ep_mos.pdf")
