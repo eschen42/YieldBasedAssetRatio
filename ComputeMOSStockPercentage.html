@@ -228,8 +228,10 @@ function fSubmit() {
 function fShillerPETrended() {
     var date_fraction = TodayInYears.inYears()
     // for magic numbers here, see 
-    //   https://eschenlauer.com/investing/risk_based_allocation/YBAR_intro.html
-    return fTwoDecimals((date_fraction * 0.057877 - 95.694931))
+    //   YieldBasedStockBondCash.pdf
+    // generated from https://github.com/eschen42/YieldBasedAssetRatio
+    // return fTwoDecimals((date_fraction * 0.057877 - 95.694931))
+    return fTwoDecimals((date_fraction * 0.06723632 - 113.8032))
 }
 
 var TodayInYears = {
@@ -262,6 +264,12 @@ iframe {
 </head>
 <body>
 (<a href="#disclaimer">Note the disclaimer below.</a> Please do not mistake this for financial advice; I am posting this seeking critical review of my observations.)
+
+<h2>This tool is a toy!</h2>
+
+<p>
+It is entirely unrealistic to construct a portfolio containing only the S&amp500 and 10 year Treasuries.  Furthermore, you cannot buy an index; you need to buy funds.  Please bear this in mind as you use this tool.
+</p>
 
 <h2>Compute Stock Percentages Based on "Margin of Safety"</h2>
 

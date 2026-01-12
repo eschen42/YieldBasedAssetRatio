@@ -747,11 +747,24 @@ for (my_variant in for_variants) {
   print(parm_df)
   sink(file = NULL)
 
+  # For display, compute and apply formulas for Margin of Safety, Margin of Folly,
+  #   Margin of Reversion, and Margin of Bond Opportunity
+  # For simulation, these are computed in SQL views
+  
+  # compute expected P/E10 from today's date
+  date_sys <- Sys.Date()
+  date_display <-
+    sprintf("%d %s", as.integer(format(date_sys,"%d")), format(date_sys,"%b %Y"))
+  date_fraction <-
+    as.numeric(format(date_sys,"%Y")) +
+    (as.numeric(format(date_sys,"%m")) - 1) / 12 +
+    (as.numeric(format(date_sys,"%d")) - 1) / 365
+  X <- date_fraction * 0.058784736 - 97.431912
+    
   min_factor <- parm_df$min_factor
   max_factor <- parm_df$max_factor
   H <- parm_df$H
   T <- parm_df$T
-  X <- 21.46 # TODO compute X from today's date
   cap <- function(s, h) h / pmax(h, 1 / (s * X) - 1)
 
   x <- (1:801)/4000
