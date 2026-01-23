@@ -4,6 +4,8 @@ author:
   - "Arthur C. Eschenlauer"
   - "ybar@eschenlauer.com"
   - "*https://orcid.org/0000-0002-2882-0508*"
+  - DOI 10.2139/ssrn.6074226
+#date: "2026-01-14"
 date: "`r Sys.Date()`"
 #date: "`r Sys.time()`"
 output:
@@ -167,7 +169,7 @@ Define the following:
 
 ## Partitioning within fixed-income assets
 
-### Allocation between GS10 and "cash" -- applying "Margin of Bond Opportunity"
+#### Allocation between GS10 and "cash" -- applying "Margin of Bond Opportunity":
 
 To mitigate decline in bond values when interest rates rise sharply, the following formula gradually decreases the percentage of fixed-income assets allocated to bonds as interest rates decrease.
 
@@ -186,17 +188,17 @@ $$
 
 For this investigation, the remaining fixed-income assets (i.e., $\textbf{100\%} - \textbf{BondPercentOfFixed}$) are invested in "cash" (money market funds or ultra-short term bonds), which are assumed to have the yield of 30-day US Treasury bills.
 
-### Decision to reallcate fixed-income assets
+#### Decision to reallocate fixed-income assets:
 
 *The balance between bonds and "cash" is adjusted only when the actual percentage of fixed-income assets invested in bonds
-is greater than* $\textbf{BondPercentOfFixed} + \textbf{D}$ *or less than* $\textbf{BondPercentOfFixed} - \textbf{D}$.
+is either greater than* $\textbf{BondPercentOfFixed} + \textbf{D}$ *or less than* $\textbf{BondPercentOfFixed} - \textbf{D}$.
 
 For example, when the GS10 yield is 3.03%, the target allocation for GS10 would be 29.0%; for "cash", 71.0%.
 Table 2 in the Appendix presents these percentages.
 
 ## Partitioning between stocks and fixed-income assets
 
-### Cap for stock allocation -- applying "Margin of Reversion"
+#### Cap for stock allocation -- applying "Margin of Reversion":
 
 To control the risk posed by extremely low earnings yield for stocks, both minimum and maximum limits to stock allocation depend upon the the expression for "reversion cap" on stock percentage:
 
@@ -211,7 +213,7 @@ where:
   - \(\textbf{H}\) = maximum "reversion ***H***azard", i.e., the maximum tolerable <i>unrealized</i> loss
 when the price of SP500 declines to the statistically expected level.^[One might reformulate the cap using the analogous "value at risk" metric (*https://en.wikipedia.org/wiki/Value_at_risk*).] Adjust according to risk appetite; this study uses 25%.  Such loss would be realized *only* when an investor chooses (or is forced) to sell at a loss.
 
-### Minimum stock allocation (subject to cap) -- applying "Margin of Safety"
+#### Minimum stock allocation (subject to cap) -- applying "Margin of Safety":
 
 The minimum stock percentage limit is given by:
 
@@ -236,7 +238,7 @@ where:
   - \(\textbf{Ma}\) = ***Ma***ximum acceptable percentage of stock in the portfolio; this study uses 85%.
   - \(\textbf{T}\) = 4.14%, the average nominal yield for GS10 since 1911.
 
-### Maximum stock allocation (subject to cap) -- applying "Margin of Folly"
+#### Maximum stock allocation (subject to cap) -- applying "Margin of Folly":
 
 The maximum stock percentage limit is given by:
 
@@ -260,7 +262,7 @@ where:
 
   - \(\textbf{Mi}\) = ***Mi***nimum acceptable percentage of stock in the portfolio; this study uses 6%.
 
-### Decision to change stock allocation
+#### Decision to change stock allocation:
 
 *Stocks are to be sold when stock percentage exceeds* $\textbf{MaxStockPercent} + \textbf{D}$ *and are to be purchased when stock percentage falls below* $\textbf{MinStockPercent} - \textbf{D}$.
 
@@ -422,7 +424,7 @@ knitr::include_graphics("img_sbc/sharpe_20yr.pdf")
 
 The extended YBAR is a risk-reduction strategy that has a sound valuation basis, that is simple to articulate, and that appears to have been effective from 1911 through 2023.
 Shifting exposure toward "cash" from GS10 when bond yields were low would have been effective only in 2022.  No other instance since 1911 was greatly enhanced or degraded by this extension of the YBAR strategy.
-Neither the extended YBAR presented here nor the "bond-only" YBAR strategy described preceding paper^[Eschenlauer (2024), *op. cit.*] was very sensitive to the definition of the earnings yield for stock. As shown in the last section of the Appendix of this paper, results are only slightly less favorable when $\frac{E}{P}$ is used for earnings yield in lieu of $\frac{\text{E10}}{\text{P}}$.
+Neither the extended YBAR presented here nor the "bond-only" YBAR strategy described preceding paper^[Eschenlauer (2024), *op. cit.*] was very sensitive to the definition of the earnings yield for stock; as shown in the last section of the Appendix of this paper, results are only slightly less favorable when $\frac{E}{P}$ is used for earnings yield in lieu of $\frac{\text{E10}}{\text{P}}$.
 
 As with the bond-only YBAR, the extended YBAR strategy does not dictate frequent trading among asset classes.
 On average since 1911, the extended YBAR triggered a stock trade less than 0.8 times per year; there was only one pair of successive months where a sale was required in one and a purchase in the other.^[Specifically, about 12% of the stock portion was sold in February 2020, and this was followed by an increase of 3% of the stock portion in March 2020.]
@@ -430,7 +432,6 @@ On average since 2019, a stock trade was required less than four times per year.
 Exchanges of bonds and "cash" also occurred infrequently (less than 1.4 times per year, on average since 1911), with the most exceptions occurring in the early 20th century when overall fixed-income allocation was low.
 On average since 2019, fixed-income reallocation was required less than five times per year.
 Thus, generally, the frequency of both reallocation between stocks and fixed-income assets and reallocation between bonds and "cash" would have been no greater than the frequency for statically allocated portfolios that are rebalanced quarterly.
-(However, note that fixed-income assets were reallocated monthly for this simulation.)
 
 For all of the tested allocations, the "risk premium" over 20-year intervals fluctuated widely.
 Both YBAR strategies presented here generally offered better risk-adjusted returns than aggressive static stock allocations; however, the degree of advantage varied considerably and was negligible over the interval 1930--1954.
