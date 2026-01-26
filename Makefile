@@ -3,11 +3,20 @@
 #   - requires sqlite3 on your path
 #   - requires an activated conda environment, e.g.:
 #     . ~/conda/bin/activate
-#     mamba create -n graham -c conda-forge r-base=4.3.3 r-renv=1.1.5 \
-#                                           r-tinytex r-bookdown r-sqldf \
-#                                           r-latex2exp r-readxl \
-#                                           r-readods \
-#                                           make ca-certificates openssl
+# 		mamba create -n graham -c conda-forge \
+# 		  ca-certificates \
+# 		  make \
+# 		  openssl \
+# 		  r-base=4.3.3 \
+# 		  r-bookdown \
+# 		  r-latex2exp \
+# 		  r-readods \
+# 		  r-readxl \
+# 		  r-renv=1.1.5 \
+# 		  r-sqldf \
+# 		  r-svglite \
+# 		  r-tinytex \
+# 		  r-kableextra
 
 all: YieldBasedStockBondCash.pdf YieldBasedAssetRatio.pdf
 
