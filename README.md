@@ -1,4 +1,4 @@
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.758778183.svg)](https://zenodo.org/doi/10.5281/zenodo.10764741)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18387394.svg)](https://zenodo.org/doi/10.5281/zenodo.10764741)
 
 # YieldBasedAssetRatio
 
